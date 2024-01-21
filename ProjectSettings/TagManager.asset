@@ -3,14 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ProjectilePlayer
+  - ProjectileEnemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - GameBorder
   - Water
   - UI
+  - Player
+  - Enemy
+  - ProjectilePlayer
+  - ProjectileEnemy
   - 
   - 
   - 
@@ -32,11 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ProjectileDestroyBox
   m_SortingLayers:
   - name: Default
     uniqueID: 0
