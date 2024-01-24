@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<ShipController>().TakeDamage(1f);
+            other.gameObject.GetComponent<PlayerController>().TakeDamage(1f);
         }
         else if (other.gameObject.CompareTag("WallLeft"))
         {

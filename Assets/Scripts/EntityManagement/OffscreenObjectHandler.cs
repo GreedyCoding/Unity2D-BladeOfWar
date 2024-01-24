@@ -13,11 +13,11 @@ public class OffscreenObjectHandler : MonoBehaviour
         {
             if(collisionObject.transform.parent != null)
             {
-                Destroy(collisionObject.transform.parent.gameObject);
+                collisionObject.transform.parent.gameObject.SetActive(false);
             }
             else
             {
-                Destroy(collisionObject);
+                collisionObject.SetActive(false);
             }
         } 
         else if (collisionObject.tag == "Enemy")

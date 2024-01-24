@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerProjectileController : MonoBehaviour
 {
-    ShipController shipController;
+    PlayerController shipController;
     Rigidbody2D rb;
 
     public float ProjectileDamage { get; private set; }
@@ -22,7 +22,7 @@ public class PlayerProjectileController : MonoBehaviour
 
     void GetComponents()
     {
-        shipController = GameObject.Find("Player").GetComponent<ShipController>();
+        shipController = GameObject.Find("Player").GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -31,7 +31,7 @@ public class PlayerProjectileController : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy"))
         {
             other.GetComponent<EnemyController>().TakeDamage(ProjectileDamage);
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 

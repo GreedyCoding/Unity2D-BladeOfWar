@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipController : MonoBehaviour, IHealable
+public class PlayerController : MonoBehaviour, IHealable
 {
     //Input Handling and Movement
     [SerializeField] PlayerInputHandler playerInputHandler;
@@ -102,7 +102,10 @@ public class ShipController : MonoBehaviour, IHealable
             switch (CurrentGunType)
             {
                 case GunTypeEnum.singleShot:
-                    Instantiate(singleShotPrefab, this.transform.position, this.transform.rotation);
+                    GameObject singleShot = ObjectPoolPlayerProjectiles.SharedInstance.GetPooledObject();
+                    singleShot.transform.position = this.transform.position;
+                    singleShot.transform.rotation = this.transform.rotation;
+                    singleShot.SetActive(true);
                     break;
                 case GunTypeEnum.doubleShot:
                     Instantiate(doubleShotPrefab, this.transform.position, this.transform.rotation);

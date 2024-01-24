@@ -31,7 +31,7 @@ public class EnemyProjectileController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<ShipController>().TakeDamage(ProjectileDamage);
+            other.GetComponent<PlayerController>().TakeDamage(ProjectileDamage);
             Destroy(this.gameObject);
         }
     }
