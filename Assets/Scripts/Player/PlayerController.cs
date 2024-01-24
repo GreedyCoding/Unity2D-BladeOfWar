@@ -13,14 +13,14 @@ public class PlayerController : MonoBehaviour, IHealable
     [SerializeField] ShipStats shipStats;
 
     //Prefabs
-    [SerializeField] GameObject singleShotPrefab;
-    [SerializeField] GameObject doubleShotPrefab;
-    [SerializeField] GameObject tripleShotPrefab;
-    [SerializeField] GameObject quadShotPrefab;
-    [SerializeField] GameObject superTripleShotPrefab;
-    [SerializeField] GameObject fireShotPrefab;
-    [SerializeField] GameObject plasmaShotPrefab;
-    [SerializeField] GameObject laserShotPrefab;
+    public GameObject singleShotPrefab;
+    public GameObject doubleShotPrefab;
+    public GameObject tripleShotPrefab;
+    public GameObject quadShotPrefab;
+    public GameObject superTripleShotPrefab;
+    public GameObject fireShotPrefab;
+    public GameObject plasmaShotPrefab;
+    public GameObject laserShotPrefab;
 
     //Properties
     public float MaxHitPoints { get; private set; }
@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour, IHealable
     public float ProjectileSpeed { get; private set; }
     public float ReloadRate { get; private set; }
     public GunTypeEnum CurrentGunType { get; private set; }
+
+    //Events
+    public event EventHandler OnGunTypeChange;
 
     //Timers
     private float nextTimeToReload = 0f;
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour, IHealable
     private void Start()
     {
         SetStats();
+        SetGunType(shipStats.gunType);
     }
 
     private void Update()
@@ -51,6 +55,7 @@ public class PlayerController : MonoBehaviour, IHealable
         HandleReload();
     }
 
+    //Stats
     private void SetStats()
     {
         MaxHitPoints = shipStats.hitPoints;
@@ -59,12 +64,18 @@ public class PlayerController : MonoBehaviour, IHealable
         FireRate = shipStats.fireRate;
         ProjectileSpeed = shipStats.projectileSpeed;
         ReloadRate = shipStats.reloadRate;
-        CurrentGunType = shipStats.gunType;
 
         currentBullets = MaxBullets;
         currentHitPoints = MaxHitPoints;
     }
 
+    public void SetGunType(GunTypeEnum gunType)
+    {
+        CurrentGunType = gunType;
+        OnGunTypeChange?.Invoke(this, EventArgs.Empty);
+    }
+
+    //Handlers
     private void HandleMovement()
     {
         float horizontalInput = playerInputHandler.movementInput.x;
@@ -102,31 +113,28 @@ public class PlayerController : MonoBehaviour, IHealable
             switch (CurrentGunType)
             {
                 case GunTypeEnum.singleShot:
-                    GameObject singleShot = ObjectPoolPlayerProjectiles.SharedInstance.GetPooledObject();
-                    singleShot.transform.position = this.transform.position;
-                    singleShot.transform.rotation = this.transform.rotation;
-                    singleShot.SetActive(true);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.doubleShot:
-                    Instantiate(doubleShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.tripleShot:
-                    Instantiate(tripleShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.quadShot:
-                    Instantiate(quadShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.superTripleShot:
-                    Instantiate(superTripleShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.fireShot:
-                    Instantiate(fireShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.plasmaShot:
-                    Instantiate(plasmaShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 case GunTypeEnum.laserShot:
-                    Instantiate(laserShotPrefab, this.transform.position, this.transform.rotation);
+                    InstantiatePlayerProjectile();
                     break;
                 default:
                     break;
@@ -134,11 +142,21 @@ public class PlayerController : MonoBehaviour, IHealable
         }
     }
 
+    private void InstantiatePlayerProjectile()
+    {
+        GameObject playerProjectile = ObjectPoolPlayerProjectiles.SharedInstance.GetPooledObject();
+        playerProjectile.transform.position = this.transform.position;
+        playerProjectile.transform.rotation = this.transform.rotation;
+        playerProjectile.SetActive(true);
+    }
+
+    //Game Over
     private void GameOver()
     {
         Debug.Log("Game Over");
     }
 
+    //Interface Implementation
     public void TakeDamage(float damageAmount)
     {
         currentHitPoints -= damageAmount;
@@ -156,5 +174,22 @@ public class PlayerController : MonoBehaviour, IHealable
         {
             currentHitPoints = MaxHitPoints;
         }
-    }   
+    }  
+
+    //Functions to increase stats from Drops or ShopUpgrades
+    public void IncreaseSpeed()
+    {
+        MoveSpeed += 0.5f;
+    }
+
+    public void IncreaseBullet()
+    {
+        MaxBullets += 1;
+    }
+
+    public void IncreaseHitpoints()
+    {
+        MaxHitPoints += 1;
+        currentHitPoints += 1;
+    }
 }

@@ -9,11 +9,13 @@ TagManager:
   - Enemy
   - WallLeft
   - WallRight
+  - Drop
+  - ItemDrop
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ItemDrop
   - Water
   - UI
   - Player

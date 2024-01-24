@@ -105,7 +105,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void Die()
     {
-        Destroy(gameObject);
+        this.gameObject.SetActive(false);
     }
 
     public void TakeDamage(float damageAmount)
@@ -116,5 +116,4 @@ public class EnemyController : MonoBehaviour, IDamageable
             Die();
         }
     }
-
 }
