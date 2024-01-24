@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5308458908267377052}
   - component: {fileID: 6296244366264991106}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ufo Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,9 +94,11 @@ GameObject:
   m_Component:
   - component: {fileID: 852494813475716573}
   - component: {fileID: 3392649558588248568}
-  m_Layer: 0
+  - component: {fileID: 7363709161402817976}
+  - component: {fileID: -5420395979542802230}
+  m_Layer: 7
   m_Name: UfoEnemyPrefab
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +148,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -179,3 +181,46 @@ PolygonCollider2D:
       - {x: 0.67512023, y: -0.0047186315}
       - {x: 1.3388534, y: 0.093574464}
   m_UseDelaunayMesh: 0
+--- !u!50 &7363709161402817976
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831260332830400582}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0.05
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &-5420395979542802230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831260332830400582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2959dadad24848e42b34b8fca56f410b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyStats: {fileID: 11400000, guid: 4f6985bca9e5d584897176be8495eae5, type: 2}
+  eyeShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
+  ufoShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
+  butterflyShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}

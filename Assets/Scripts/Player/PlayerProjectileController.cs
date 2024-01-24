@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour
+public class PlayerProjectileController : MonoBehaviour
 {
     ShipController shipController;
-    Rigidbody2D rigidBody;
+    Rigidbody2D rb;
 
     public float ProjectileDamage { get; private set; }
-
 
     void Start()
     {
@@ -18,13 +17,22 @@ public class ProjectileController : MonoBehaviour
 
     void Update()
     {
-        rigidBody.AddForce(transform.up * shipController.ProjectileSpeed, ForceMode2D.Force);
+        rb.AddForce(transform.up * shipController.ProjectileSpeed, ForceMode2D.Force);
     }
 
     void GetComponents()
     {
         shipController = GameObject.Find("Player").GetComponent<ShipController>();
-        rigidBody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyController>().TakeDamage(ProjectileDamage);
+            Destroy(this.gameObject);
+        }
     }
 
     void SetProjectileDamage()

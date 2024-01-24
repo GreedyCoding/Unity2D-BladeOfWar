@@ -37,11 +37,11 @@ public class ShipController : MonoBehaviour, IHealable
 
     //Current Player Stats
     private int currentBullets;
-    private float currentHitPoints;
+    public float currentHitPoints;
 
     private void Start()
     {
-        SetShipStats();
+        SetStats();
     }
 
     private void Update()
@@ -51,7 +51,7 @@ public class ShipController : MonoBehaviour, IHealable
         HandleReload();
     }
 
-    private void SetShipStats()
+    private void SetStats()
     {
         MaxHitPoints = shipStats.hitPoints;
         MoveSpeed = shipStats.moveSpeed;
@@ -125,6 +125,8 @@ public class ShipController : MonoBehaviour, IHealable
                 case GunTypeEnum.laserShot:
                     Instantiate(laserShotPrefab, this.transform.position, this.transform.rotation);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -137,7 +139,7 @@ public class ShipController : MonoBehaviour, IHealable
     public void TakeDamage(float damageAmount)
     {
         currentHitPoints -= damageAmount;
-        if (MaxHitPoints <= 0)
+        if (currentHitPoints <= 0)
         {
             Destroy(this.gameObject);
             GameOver();
@@ -151,7 +153,5 @@ public class ShipController : MonoBehaviour, IHealable
         {
             currentHitPoints = MaxHitPoints;
         }
-    }
-
-    
+    }   
 }

@@ -292,7 +292,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1357975572, guid: eead1b295ac51294597349d98567f6ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -581,6 +581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95dcef882de72b4482fa05bc10b20bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eyeEnemyPrefab: {fileID: 6506483136200042225, guid: 8a58c19438ef3694abbd7fe589708fcb, type: 3}
+  ufoEnemyPrefab: {fileID: 8831260332830400582, guid: 95821f88d0a7d6344bf81473f353df53, type: 3}
+  spawnBox: {fileID: 525309704}
 --- !u!1 &605273455
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +861,7 @@ MonoBehaviour:
   fireShotPrefab: {fileID: 0}
   plasmaShotPrefab: {fileID: 0}
   laserShotPrefab: {fileID: 0}
+  currentHitPoints: 0
 --- !u!50 &689630143
 Rigidbody2D:
   serializedVersion: 4
@@ -1107,8 +1111,7 @@ GameObject:
   - component: {fileID: 1164501492}
   - component: {fileID: 1164501494}
   - component: {fileID: 1164501493}
-  - component: {fileID: 1164501495}
-  m_Layer: 3
+  m_Layer: 29
   m_Name: BottomBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,18 +1230,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1164501495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164501491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4be50f2afbfdc348826170e684d576f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1336114678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,9 +1331,9 @@ GameObject:
   - component: {fileID: 1417970989}
   - component: {fileID: 1417970991}
   - component: {fileID: 1417970990}
-  m_Layer: 3
+  m_Layer: 30
   m_Name: LeftBorder
-  m_TagString: Untagged
+  m_TagString: WallLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1470,9 +1461,9 @@ GameObject:
   - component: {fileID: 1460793827}
   - component: {fileID: 1460793829}
   - component: {fileID: 1460793828}
-  m_Layer: 3
+  m_Layer: 30
   m_Name: RightBorder
-  m_TagString: Untagged
+  m_TagString: WallRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1688,8 +1679,7 @@ GameObject:
   - component: {fileID: 1647503785}
   - component: {fileID: 1647503787}
   - component: {fileID: 1647503786}
-  - component: {fileID: 1647503788}
-  m_Layer: 3
+  m_Layer: 29
   m_Name: TopBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1808,18 +1798,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1647503788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647503784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4be50f2afbfdc348826170e684d576f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1952763099
 GameObject:
   m_ObjectHideFlags: 0

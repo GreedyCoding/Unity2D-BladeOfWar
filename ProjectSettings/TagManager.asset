@@ -7,11 +7,13 @@ TagManager:
   - ProjectilePlayer
   - ProjectileEnemy
   - Enemy
+  - WallLeft
+  - WallRight
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - GameBorder
+  - 
   - Water
   - UI
   - Player
@@ -37,8 +39,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - HorizontalBorder
+  - VerticalBorder
   - ProjectileDestroyBox
   m_SortingLayers:
   - name: Default
