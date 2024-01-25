@@ -6,11 +6,9 @@ public class EnemyController : MonoBehaviour, IDamageable
 {
     [SerializeField] EnemyStats enemyStats;
 
-    [SerializeField] GameObject eyeShotPrefab;
-    [SerializeField] GameObject ufoShotPrefab;
-    [SerializeField] GameObject butterflyShotPrefab;
+    [SerializeField] GameObject bonusDropPrefab;
 
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     public float MaxHitPoints { get; private set; }
     public float MoveSpeed { get; private set; }
@@ -89,13 +87,19 @@ public class EnemyController : MonoBehaviour, IDamageable
             switch (CurrentEnemyType)
             {
                 case EnemyTypeEnum.eye:
-                    Instantiate(eyeShotPrefab, this.transform.position, this.transform.rotation);
+                    GameObject poolObject = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject.transform.position = this.transform.position;
+                    poolObject.SetActive(true);
                     break;
                 case EnemyTypeEnum.ufo:
-                    Instantiate(ufoShotPrefab, this.transform.position, this.transform.rotation);
+                    GameObject poolObject2 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject2.transform.position = this.transform.position;
+                    poolObject2.SetActive(true);
                     break;
                 case EnemyTypeEnum.butterfly:
-                    Instantiate(butterflyShotPrefab, this.transform.position, this.transform.rotation);
+                    GameObject poolObject3 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject3.transform.position = this.transform.position;
+                    poolObject3.SetActive(true);
                     break;
                 default:
                     break;
@@ -105,6 +109,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     void Die()
     {
+        float randomNumber = Random.Range(0f, 1f);
+        if (randomNumber <= 0.1f)
+        {
+            Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
+        }
         this.gameObject.SetActive(false);
     }
 

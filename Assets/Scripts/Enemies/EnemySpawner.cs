@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Enemy Prefabs")]
-    [SerializeField] GameObject eyeEnemyPrefab;
-    [SerializeField] GameObject ufoEnemyPrefab;
-
     [Header("Spawn Box")]
     [SerializeField] Collider2D spawnBox;
 
-    float nextTimeToSpawn = 0f;
+    private float nextTimeToSpawn = 0f;
 
-    float initialSpawnCooldown = 3f;
-    float spawnCooldown;
+    private float initialSpawnCooldown = 3f;
+    private float spawnCooldown;
 
-    float spawnCooldownReduction = 0.1f;
-    float spawnCooldownDecreaseInterval = 10f;
+    private float spawnCooldownReduction = 0.1f;
+    private float spawnCooldownDecreaseInterval = 10f;
 
     private void Start()
     {
@@ -30,27 +26,27 @@ public class EnemySpawner : MonoBehaviour
     }
 
     private void SpawnEnemy()
-    { 
-        GameObject enemyToSpawn;
-
+    {
         if (Time.time % spawnCooldownDecreaseInterval == 0)
         {
             spawnCooldown -= spawnCooldownReduction;
         }
 
-        if (Time.time < 60f)
-        {
-            enemyToSpawn = eyeEnemyPrefab;
-        }
-        else
-        {
-            enemyToSpawn = ufoEnemyPrefab;
-        }
-
         if(nextTimeToSpawn <= Time.time)
         {
             nextTimeToSpawn = Time.time + spawnCooldown;
-            Instantiate(enemyToSpawn, GetRandomSpawnPosition(), Quaternion.identity);
+            if (Time.time < 60f)
+            {
+                GameObject poolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                poolObject.transform.position = GetRandomSpawnPosition();
+                poolObject.SetActive(true);
+            }
+            else
+            {
+                GameObject poolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
+                poolObject.transform.position = GetRandomSpawnPosition();
+                poolObject.SetActive(true);
+            }
         }
     }
 
