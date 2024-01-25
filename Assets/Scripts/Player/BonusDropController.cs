@@ -10,7 +10,6 @@ public class BonusDropController : MonoBehaviour
     [SerializeField] Sprite extraSpeedSprite;
     [SerializeField] Sprite extraBulletSprite;
     [SerializeField] Sprite extraLifeSprite;
-    [SerializeField] Sprite singleShotSprite;
     [SerializeField] Sprite doubleShotSprite;
     [SerializeField] Sprite tripleShotSprite;
     [SerializeField] Sprite quadShotSprite;
@@ -39,9 +38,6 @@ public class BonusDropController : MonoBehaviour
                 case BonusDropEnum.extraLife:
                     playerController.IncreaseHitpoints();
                     break;
-                case BonusDropEnum.singleShot:
-                    playerController.SetGunType(GunTypeEnum.singleShot);
-                    break;
                 case BonusDropEnum.doubleShot:
                     playerController.SetGunType(GunTypeEnum.doubleShot);
                     break;
@@ -69,9 +65,6 @@ public class BonusDropController : MonoBehaviour
                 break;
             case BonusDropEnum.extraLife:
                 spriteRenderer.sprite = extraLifeSprite;
-                break;
-            case BonusDropEnum.singleShot:
-                spriteRenderer.sprite = singleShotSprite;
                 break;
             case BonusDropEnum.doubleShot:
                 spriteRenderer.sprite = doubleShotSprite;

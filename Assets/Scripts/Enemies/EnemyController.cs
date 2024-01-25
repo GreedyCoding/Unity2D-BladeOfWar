@@ -110,7 +110,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Die()
     {
         float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= 0.1f)
+        if (randomNumber <= 0.5f)
         {
             Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
         }

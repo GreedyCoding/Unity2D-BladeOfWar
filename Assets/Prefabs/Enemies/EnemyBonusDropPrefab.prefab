@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8865050731674608765}
   - component: {fileID: 5651197336903570779}
   m_Layer: 3
-  m_Name: EnemyBonusDrop
+  m_Name: EnemyBonusDropPrefab
   m_TagString: ItemDrop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

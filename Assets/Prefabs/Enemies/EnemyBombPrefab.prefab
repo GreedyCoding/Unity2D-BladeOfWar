@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7047860396492646050}
   - component: {fileID: 2001998567007913670}
   m_Layer: 9
-  m_Name: Enemy Projectile Prefab
+  m_Name: EnemyBombPrefab
   m_TagString: ProjectileEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

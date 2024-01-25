@@ -221,6 +221,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats: {fileID: 11400000, guid: 4f6985bca9e5d584897176be8495eae5, type: 2}
-  eyeShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
-  ufoShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
-  butterflyShotPrefab: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
+  bonusDropPrefab: {fileID: 2468590692470977521, guid: eea969b5189ba364ba18bad00d4cd7e1, type: 3}
