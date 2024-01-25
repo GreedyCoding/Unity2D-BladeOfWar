@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour, IHealable
     private float nextTimeToFire = 0f;
 
     //Current Player Stats
+    private bool mirrorControls = false;
     private int currentBullets;
     public float currentHitPoints;
 
@@ -81,8 +82,14 @@ public class PlayerController : MonoBehaviour, IHealable
         float horizontalInput = playerInputHandler.movementInput.x;
         float verticalInput = playerInputHandler.movementInput.y;
 
+        if (mirrorControls)
+        {
+            horizontalInput *= -1f;
+            verticalInput *= -1f;
+        }
+
         Vector2 movement = new Vector2(horizontalInput, verticalInput);
-        movement.Normalize(); 
+        movement.Normalize();
 
         rb.velocity = movement * MoveSpeed;
     }
@@ -179,7 +186,7 @@ public class PlayerController : MonoBehaviour, IHealable
         {
             currentHitPoints = MaxHitPoints;
         }
-    }  
+    }
 
     //Functions to increase stats from Drops or ShopUpgrades
     public void IncreaseSpeed()
@@ -196,5 +203,30 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         MaxHitPoints += 1;
         currentHitPoints += 1;
+    }
+
+    //Functions to debuff stats from MalusDrops
+    public void DebuffMovementSpeed()
+    {
+        MoveSpeed = shipStats.moveSpeed * 0.75f;
+        StartCoroutine(ResetMovementSpeed());
+    }
+
+    private IEnumerator ResetMovementSpeed()
+    {
+        yield return new WaitForSeconds(5f);
+        MoveSpeed = shipStats.moveSpeed;
+    }
+
+    public void DebuffMirrorControls()
+    {
+        mirrorControls = true;
+        StartCoroutine(ResetMirrorControls());
+    }
+
+    private IEnumerator ResetMirrorControls()
+    {
+        yield return new WaitForSeconds(5f);
+        mirrorControls = false;
     }
 }

@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] EnemyStats enemyStats;
 
     [SerializeField] GameObject bonusDropPrefab;
+    [SerializeField] GameObject malusDropPrefab;
 
     private Rigidbody2D rb;
 
@@ -110,9 +111,13 @@ public class EnemyController : MonoBehaviour, IDamageable
     void Die()
     {
         float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= 0.5f)
+        if (randomNumber <= 0.075f)
         {
             Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
+        }
+        else if (randomNumber >=0.975f)
+        {
+            Instantiate(malusDropPrefab, this.transform.position, Quaternion.identity);
         }
         this.gameObject.SetActive(false);
     }

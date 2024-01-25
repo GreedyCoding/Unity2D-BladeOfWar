@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BonusDropController : MonoBehaviour
 {
-    public BonusDropEnum bonusDropEnum;
 
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite extraSpeedSprite;
@@ -14,10 +13,13 @@ public class BonusDropController : MonoBehaviour
     [SerializeField] Sprite tripleShotSprite;
     [SerializeField] Sprite quadShotSprite;
 
+    private BonusDropEnum bonusDropEnum;
+
     private PlayerController playerController;
 
     private void Start()
     {
+        SetBonusDropEnum();
         SetBonusDropSprite();
     }
 
@@ -50,6 +52,35 @@ public class BonusDropController : MonoBehaviour
             }
 
             Destroy(gameObject);
+        }
+    }
+
+    private void SetBonusDropEnum()
+    {
+        float randomNumber = Random.Range(0f, 6f);
+        if (randomNumber <= 1f)
+        {
+            bonusDropEnum = BonusDropEnum.extraSpeed;
+        }
+        else if (randomNumber <= 2f)
+        {
+            bonusDropEnum = BonusDropEnum.extraBullet;
+        }
+        else if (randomNumber <= 3f)
+        {
+            bonusDropEnum = BonusDropEnum.extraLife;
+        }
+        else if (randomNumber <= 4.5f)
+        {
+            bonusDropEnum = BonusDropEnum.doubleShot;
+        }
+        else if (randomNumber <= 5.5f)
+        {
+            bonusDropEnum = BonusDropEnum.tripleShot;
+        }
+        else if (randomNumber <= 6f)
+        {
+            bonusDropEnum = BonusDropEnum.quadShot;
         }
     }
 

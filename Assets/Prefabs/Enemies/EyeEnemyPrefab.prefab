@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStats: {fileID: 11400000, guid: c0e1ecc898a09fc4bb08bf33fef62012, type: 2}
   bonusDropPrefab: {fileID: 2468590692470977521, guid: eea969b5189ba364ba18bad00d4cd7e1, type: 3}
+  malusDropPrefab: {fileID: 2468590692470977521, guid: f74453c9bedc80a4ea125550f8978557, type: 3}
 --- !u!50 &7057804421959074987
 Rigidbody2D:
   serializedVersion: 4
