@@ -148,6 +148,11 @@ public class PlayerController : MonoBehaviour, IHealable
         playerProjectile.transform.position = this.transform.position;
         playerProjectile.transform.rotation = this.transform.rotation;
         playerProjectile.SetActive(true);
+        foreach (Transform child in playerProjectile.transform)
+        {
+            child.gameObject.SetActive(true);
+            child.gameObject.transform.position = new Vector2(child.gameObject.transform.position.x, this.transform.position.y);
+        }
     }
 
     //Game Over

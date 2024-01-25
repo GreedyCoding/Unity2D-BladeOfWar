@@ -11,14 +11,7 @@ public class OffscreenObjectHandler : MonoBehaviour
 
         if(collisionObject.tag == "ProjectilePlayer" || collisionObject.tag == "ProjectileEnemy")
         {
-            if(collisionObject.transform.parent != null)
-            {
-                collisionObject.transform.parent.gameObject.SetActive(false);
-            }
-            else
-            {
-                collisionObject.SetActive(false);
-            }
+            collisionObject.SetActive(false);
         } 
         else if (collisionObject.tag == "Enemy")
         {
