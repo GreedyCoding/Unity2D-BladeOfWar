@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IHealable
 {
@@ -33,15 +34,17 @@ public class PlayerController : MonoBehaviour, IHealable
 
     //Events
     public event EventHandler OnGunTypeChange;
-
+ 
     //Timers
     private float nextTimeToReload = 0f;
     private float nextTimeToFire = 0f;
 
-    //Current Player Stats
+    //Debuffs
     private bool mirrorControls = false;
-    private int currentBullets;
-    public float currentHitPoints;
+
+    [Header("Current Stats")]
+    [SerializeField] private int currentBullets;
+    [SerializeField] private float currentHitPoints;
 
     private void Start()
     {
@@ -72,6 +75,11 @@ public class PlayerController : MonoBehaviour, IHealable
 
     public void SetGunType(GunTypeEnum gunType)
     {
+        if(CurrentGunType == gunType)
+        {
+            MaxBullets += 1;
+            return;
+        }
         CurrentGunType = gunType;
         OnGunTypeChange?.Invoke(this, EventArgs.Empty);
     }
@@ -97,24 +105,24 @@ public class PlayerController : MonoBehaviour, IHealable
     private void HandleReload()
     {
         //If the magazine is not full and its time to reload, perform reload and reset the reload timer
-        if (currentBullets < MaxBullets && nextTimeToReload <= Time.time)
+        if (currentBullets < MaxBullets && nextTimeToReload <= Time.timeSinceLevelLoad)
         {
-            nextTimeToReload = Time.time + (1f / ReloadRate);
+            nextTimeToReload = Time.timeSinceLevelLoad + (1f / ReloadRate);
             currentBullets++;
         }
 
         //If the magazine is full also reset the reload timer, so the player cant instatly reload after shooting one bullet
         if (currentBullets == MaxBullets)
         {
-            nextTimeToReload = Time.time + (1f / ReloadRate);
+            nextTimeToReload = Time.timeSinceLevelLoad + (1f / ReloadRate);
         }
     }
 
     private void HandleShoot()
     {
-        if (playerInputHandler.shootInput && nextTimeToFire <= Time.time && currentBullets > 0)
+        if (playerInputHandler.shootInput && nextTimeToFire <= Time.timeSinceLevelLoad && currentBullets > 0)
         {
-            nextTimeToFire = Time.time + (1f / FireRate);
+            nextTimeToFire = Time.timeSinceLevelLoad + (1f / FireRate);
             currentBullets--;
 
             switch (CurrentGunType)
@@ -155,17 +163,31 @@ public class PlayerController : MonoBehaviour, IHealable
         playerProjectile.transform.position = this.transform.position;
         playerProjectile.transform.rotation = this.transform.rotation;
         playerProjectile.SetActive(true);
-        foreach (Transform child in playerProjectile.transform)
+
+        //Handle children of the different projectiles
+        if(CurrentGunType == GunTypeEnum.doubleShot || CurrentGunType == GunTypeEnum.quadShot)
         {
-            child.gameObject.SetActive(true);
-            child.gameObject.transform.position = new Vector2(child.gameObject.transform.position.x, this.transform.position.y);
+            foreach (Transform child in playerProjectile.transform)
+            {
+                child.gameObject.SetActive(true);
+                child.gameObject.transform.position = new Vector2(child.gameObject.transform.position.x, this.transform.position.y);
+            }
         }
+        else if (CurrentGunType == GunTypeEnum.tripleShot)
+        {
+            foreach (Transform child in playerProjectile.transform)
+            {
+                child.gameObject.SetActive(true);
+                child.gameObject.transform.position = this.transform.position;
+            }
+        }
+
     }
 
     //Game Over
     private void GameOver()
     {
-        Debug.Log("Game Over");
+        SceneManager.LoadScene("Game Scene");
     }
 
     //Interface Implementation

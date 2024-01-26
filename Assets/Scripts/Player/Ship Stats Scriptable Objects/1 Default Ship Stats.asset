@@ -18,4 +18,4 @@ MonoBehaviour:
   fireRate: 7
   reloadRate: 1
   projectileSpeed: 10
-  gunType: 0
+  gunType: 1

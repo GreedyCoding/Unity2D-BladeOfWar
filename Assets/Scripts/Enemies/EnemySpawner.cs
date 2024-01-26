@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("Spawn Box")]
     [SerializeField] Collider2D spawnBox;
 
+    [SerializeField] GameObject bossPrefab;
+
     private float nextTimeToSpawn = 0f;
 
     private float initialSpawnCooldown = 3f;
@@ -27,25 +29,45 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (Time.time % spawnCooldownDecreaseInterval == 0)
+        if (Time.timeSinceLevelLoad % spawnCooldownDecreaseInterval == 0)
         {
             spawnCooldown -= spawnCooldownReduction;
         }
 
-        if(nextTimeToSpawn <= Time.time)
+        if(nextTimeToSpawn <= Time.timeSinceLevelLoad)
         {
-            nextTimeToSpawn = Time.time + spawnCooldown;
-            if (Time.time < 60f)
+            nextTimeToSpawn = Time.timeSinceLevelLoad + spawnCooldown;
+
+            if (Time.timeSinceLevelLoad < 60f)
             {
-                GameObject poolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
-                poolObject.transform.position = GetRandomSpawnPosition();
-                poolObject.SetActive(true);
+                GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                eyePoolObject.transform.position = GetRandomSpawnPosition();
+                eyePoolObject.SetActive(true);
             }
-            else
+            else if(Time.timeSinceLevelLoad < 120f)
             {
-                GameObject poolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
-                poolObject.transform.position = GetRandomSpawnPosition();
-                poolObject.SetActive(true);
+                GameObject ufoPoolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
+                ufoPoolObject.transform.position = GetRandomSpawnPosition();
+                ufoPoolObject.SetActive(true);
+                if(Random.Range(0f, 1f) <= 0.5f)
+                {
+                    GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                    eyePoolObject.transform.position = GetRandomSpawnPosition();
+                    eyePoolObject.SetActive(true);
+                }
+            }
+            else if(Time.timeSinceLevelLoad < 180f)
+            {
+                GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                eyePoolObject.transform.position = GetRandomSpawnPosition();
+                eyePoolObject.SetActive(true);
+                GameObject ufoPoolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
+                ufoPoolObject.transform.position = GetRandomSpawnPosition();
+                ufoPoolObject.SetActive(true);
+            }
+            else if(Time.timeSinceLevelLoad > 180f)
+            {
+                Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
             }
         }
     }

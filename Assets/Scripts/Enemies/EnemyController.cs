@@ -26,19 +26,19 @@ public class EnemyController : MonoBehaviour, IDamageable
     //Wall Bounce
     private float wallBounceForce = 40f;
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         SetStats();
     }
 
-    void Update()
+    private void Update()
     {
         HandleShoot();
         HandleMovement();
     }
 
-    void SetStats()
+    private void SetStats()
     {
         MaxHitPoints = enemyStats.hitPoints;
         MoveSpeed = enemyStats.moveSpeed;
@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         currentHitPoints = MaxHitPoints;
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -67,10 +67,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
         float randomOffset = Random.Range(0.2f, 1);
-        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.time), 0);
+        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad), 0);
 
         rb.AddForce(horizontalMovement * randomOffset);
 
@@ -80,11 +80,11 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    void HandleShoot()
+    private void HandleShoot()
     {
-        if(nextTimeToFire <= Time.time)
+        if(nextTimeToFire <= Time.timeSinceLevelLoad)
         {
-            nextTimeToFire = Time.time + 1f / FireRate;
+            nextTimeToFire = Time.timeSinceLevelLoad + 1f / FireRate;
             switch (CurrentEnemyType)
             {
                 case EnemyTypeEnum.eye:
@@ -108,7 +108,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
-    void Die()
+    private void Die()
     {
         float randomNumber = Random.Range(0f, 1f);
         if (randomNumber <= 0.075f)

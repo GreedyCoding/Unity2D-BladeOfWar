@@ -9,18 +9,18 @@ public class PlayerProjectileController : MonoBehaviour
 
     public float ProjectileDamage { get; private set; }
 
-    void Start()
+    private void Start()
     {
         GetComponents();
         SetProjectileDamage();
     }
 
-    void Update()
+    private void Update()
     {
-        rb.AddForce(transform.up * shipController.ProjectileSpeed, ForceMode2D.Force);
+        rb.velocity = transform.up * shipController.ProjectileSpeed;
     }
 
-    void GetComponents()
+    private void GetComponents()
     {
         shipController = GameObject.Find("Player").GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
@@ -33,9 +33,13 @@ public class PlayerProjectileController : MonoBehaviour
             other.GetComponent<EnemyController>().TakeDamage(ProjectileDamage);
             this.gameObject.SetActive(false);          
         }
+        else if (other.gameObject.CompareTag("WallLeft") || other.gameObject.CompareTag("WallRight"))
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
-    void SetProjectileDamage()
+    private void SetProjectileDamage()
     {
         switch (shipController.CurrentGunType)
         {
@@ -46,13 +50,13 @@ public class PlayerProjectileController : MonoBehaviour
                 ProjectileDamage = 6f;
                 break;
             case GunTypeEnum.tripleShot:
-                ProjectileDamage = 7f;
+                ProjectileDamage = 8f;
                 break;
             case GunTypeEnum.quadShot:
                 ProjectileDamage = 7f;
                 break;
             case GunTypeEnum.superTripleShot:
-                ProjectileDamage = 14f;
+                ProjectileDamage = 16f;
                 break;
             case GunTypeEnum.fireShot:
                 ProjectileDamage = 20f;
