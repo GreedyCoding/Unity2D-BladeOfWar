@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New ShipStats", menuName = "ScriptableObjects/ShipStats", order = 1)]
 public class ShipStats : ScriptableObject
 {
-    public float hitPoints;
+    public int hitPoints;
 
     public float moveSpeed;
 

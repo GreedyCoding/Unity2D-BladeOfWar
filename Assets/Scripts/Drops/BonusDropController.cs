@@ -41,13 +41,13 @@ public class BonusDropController : MonoBehaviour
                     playerController.ProvideHealing(1f);
                     break;
                 case BonusDropEnum.doubleShot:
-                    playerController.SetGunType(GunTypeEnum.doubleShot);
+                    playerController.SetGunType(GunTypeEnum.doubleShot, false);
                     break;
                 case BonusDropEnum.tripleShot:
-                    playerController.SetGunType(GunTypeEnum.tripleShot);
+                    playerController.SetGunType(GunTypeEnum.tripleShot, false);
                     break;
                 case BonusDropEnum.quadShot:
-                    playerController.SetGunType(GunTypeEnum.quadShot);
+                    playerController.SetGunType(GunTypeEnum.quadShot, false);
                     break;
             }
             Destroy(gameObject);

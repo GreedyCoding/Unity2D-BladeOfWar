@@ -85,7 +85,6 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnCooldownDecreaseInterval);
         spawnCooldown -= spawnCooldownReduction;
-        Debug.Log("Spawn cooldown decreased to " + spawnCooldown);
         StartCoroutine(DecreaseSpawnCooldown());
     }
 }

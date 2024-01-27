@@ -9,6 +9,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] GameObject bonusDropPrefab;
     [SerializeField] GameObject malusDropPrefab;
 
+    [SerializeField] SpriteRenderer enemySpriteRenderer;
+    [SerializeField] Material damageFlashMaterial;
+    [SerializeField] Material defaultShipMaterial;
+    private float damageFlashDuration = 0.1f;
+
     private Rigidbody2D rb;
 
     public float MaxHitPoints { get; private set; }
@@ -30,6 +35,11 @@ public class EnemyController : MonoBehaviour, IDamageable
     {
         rb = GetComponent<Rigidbody2D>();
         SetStats();
+    }
+
+    private void OnEnable()
+    {
+        enemySpriteRenderer.material = defaultShipMaterial;
     }
 
     private void Update()
@@ -129,5 +139,21 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             Die();
         }
+        else
+        {
+            StartCoroutine(DamageFlash());
+        }
+    }
+
+    private IEnumerator DamageFlash()
+    {
+        enemySpriteRenderer.material = damageFlashMaterial;
+        yield return new WaitForSeconds(damageFlashDuration);
+        enemySpriteRenderer.material = defaultShipMaterial;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        TakeDamage((float)damageAmount);
     }
 }

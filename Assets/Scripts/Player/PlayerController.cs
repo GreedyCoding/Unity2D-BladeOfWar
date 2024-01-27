@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviour, IHealable
     [Header("Animation")]
     [SerializeField] Animator thrusterAnimator;
 
+    [Header("Damage Flash")]
+    [SerializeField] SpriteRenderer shipSpriteRenderer;
+    [SerializeField] Material damageFlashMaterial;
+    [SerializeField] Material defaultShipMaterial;
+    private float damageFlashDuration = 0.1f;
+
     [Header("Ship Stats")]
     [SerializeField] ShipStats shipStats;
 
@@ -27,9 +33,12 @@ public class PlayerController : MonoBehaviour, IHealable
     public GameObject laserShotPrefab;
 
     //Properties
-    public float MaxHitPoints { get; private set; }
+    public int MaxHitPoints { get; private set; }
+    public int CurrentHitPoints { get; private set; }
     public float MoveSpeed { get; private set; }
+    public float CurrentMoveSpeed { get { return rb.velocity.magnitude; } }
     public int MaxBullets { get; private set; }
+    public int CurrentBullets { get; private set; }
     public float FireRate { get; private set; }
     public float ProjectileSpeed { get; private set; }
     public float ReloadRate { get; private set; }
@@ -37,6 +46,8 @@ public class PlayerController : MonoBehaviour, IHealable
 
     //Events
     public event EventHandler OnGunTypeChange;
+    public event EventHandler OnHealthValueChange;
+    public event EventHandler OnBulletValueChange;
  
     //Timers
     private float nextTimeToReload = 0f;
@@ -45,14 +56,11 @@ public class PlayerController : MonoBehaviour, IHealable
     //Debuffs
     private bool mirrorControls = false;
 
-    [Header("Current Stats")]
-    [SerializeField] private int currentBullets;
-    [SerializeField] private float currentHitPoints;
-
     private void Start()
     {
         SetStats();
-        SetGunType(shipStats.gunType);
+        SetGunType(shipStats.gunType, true);
+        shipSpriteRenderer.material = defaultShipMaterial;
     }
 
     private void Update()
@@ -72,15 +80,18 @@ public class PlayerController : MonoBehaviour, IHealable
         ProjectileSpeed = shipStats.projectileSpeed;
         ReloadRate = shipStats.reloadRate;
 
-        currentBullets = MaxBullets;
-        currentHitPoints = MaxHitPoints;
+        CurrentHitPoints = MaxHitPoints;
+        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+
+        CurrentBullets = MaxBullets;
+        OnBulletValueChange?.Invoke(this, EventArgs.Empty);
     }
 
-    public void SetGunType(GunTypeEnum gunType)
+    public void SetGunType(GunTypeEnum gunType, bool initialSet)
     {
-        if(CurrentGunType == gunType)
+        if(CurrentGunType == gunType && !initialSet)
         {
-            MaxBullets += 1;
+            IncreaseBullet();
             return;
         }
         CurrentGunType = gunType;
@@ -108,14 +119,15 @@ public class PlayerController : MonoBehaviour, IHealable
     private void HandleReload()
     {
         //If the magazine is not full and its time to reload, perform reload and reset the reload timer
-        if (currentBullets < MaxBullets && nextTimeToReload <= Time.timeSinceLevelLoad)
+        if (CurrentBullets < MaxBullets && nextTimeToReload <= Time.timeSinceLevelLoad)
         {
             nextTimeToReload = Time.timeSinceLevelLoad + (1f / ReloadRate);
-            currentBullets++;
+            CurrentBullets++;
+            OnBulletValueChange?.Invoke(this, EventArgs.Empty);
         }
 
         //If the magazine is full also reset the reload timer, so the player cant instatly reload after shooting one bullet
-        if (currentBullets == MaxBullets)
+        if (CurrentBullets == MaxBullets)
         {
             nextTimeToReload = Time.timeSinceLevelLoad + (1f / ReloadRate);
         }
@@ -123,10 +135,11 @@ public class PlayerController : MonoBehaviour, IHealable
 
     private void HandleShoot()
     {
-        if (playerInputHandler.shootInput && nextTimeToFire <= Time.timeSinceLevelLoad && currentBullets > 0)
+        if (playerInputHandler.shootInput && nextTimeToFire <= Time.timeSinceLevelLoad && CurrentBullets > 0)
         {
             nextTimeToFire = Time.timeSinceLevelLoad + (1f / FireRate);
-            currentBullets--;
+            CurrentBullets--;
+            OnBulletValueChange?.Invoke(this, EventArgs.Empty);
 
             switch (CurrentGunType)
             {
@@ -194,23 +207,34 @@ public class PlayerController : MonoBehaviour, IHealable
     }
 
     //Interface Implementation
-    public void TakeDamage(float damageAmount)
+    public void TakeDamage(int damageAmount)
     {
-        currentHitPoints -= damageAmount;
-        if (currentHitPoints <= 0)
+        StartCoroutine(DamageFlash());
+        CurrentHitPoints -= damageAmount;
+        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+        if (CurrentHitPoints <= 0)
         {
             Destroy(this.gameObject);
             GameOver();
         }
     }
 
-    public void ProvideHealing(float healAmount)
+    public void ProvideHealing(int healAmount)
     {
-        currentHitPoints += healAmount;
-        if (currentHitPoints > MaxHitPoints)
+        CurrentHitPoints += healAmount;
+        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+        if (CurrentHitPoints > MaxHitPoints)
         {
-            currentHitPoints = MaxHitPoints;
+            CurrentHitPoints = MaxHitPoints;
         }
+    }
+
+    //Flash the ship white when taking damage
+    private IEnumerator DamageFlash()
+    {
+        shipSpriteRenderer.material = damageFlashMaterial;
+        yield return new WaitForSeconds(damageFlashDuration);
+        shipSpriteRenderer.material = defaultShipMaterial;
     }
 
     //Functions to increase stats from Drops or ShopUpgrades
@@ -222,6 +246,7 @@ public class PlayerController : MonoBehaviour, IHealable
     public void IncreaseBullet()
     {
         MaxBullets += 1;
+        OnBulletValueChange?.Invoke(this, EventArgs.Empty);
     }
 
     //Functions to debuff stats from MalusDrops
@@ -249,5 +274,15 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         yield return new WaitForSeconds(5f);
         mirrorControls = false;
+    }
+
+    public void ProvideHealing(float healAmount)
+    {
+        ProvideHealing((int)healAmount);
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        TakeDamage((int)damageAmount);
     }
 }

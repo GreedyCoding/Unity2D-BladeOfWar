@@ -8,6 +8,11 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
     [SerializeField] GameObject enemyBombPrefab;
     [SerializeField] GameObject guidedRocketPrefab;
 
+    [SerializeField] SpriteRenderer enemySpriteRenderer;
+    [SerializeField] Material damageFlashMaterial;
+    [SerializeField] Material defaultShipMaterial;
+    private float damageFlashDuration = 0.1f;
+
     private Rigidbody2D rb;
 
     //Timers
@@ -34,6 +39,11 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
     {
         rb = GetComponent<Rigidbody2D>();
         SetStats();
+    }
+
+    private void OnEnable()
+    {
+        enemySpriteRenderer.material = defaultShipMaterial;
     }
 
     private void FixedUpdate()
@@ -130,6 +140,21 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
         {
             Die();
         }
+        else
+        {
+            StartCoroutine(DamageFlash());
+        }
     }
 
+    private IEnumerator DamageFlash()
+    {
+        enemySpriteRenderer.material = damageFlashMaterial;
+        yield return new WaitForSeconds(damageFlashDuration);
+        enemySpriteRenderer.material = defaultShipMaterial;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        TakeDamage((float)damageAmount);
+    }
 }
