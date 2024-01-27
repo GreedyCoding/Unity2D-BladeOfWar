@@ -37,8 +37,8 @@ public class BonusDropController : MonoBehaviour
                 case BonusDropEnum.extraBullet:
                     playerController.IncreaseBullet();
                     break;
-                case BonusDropEnum.extraLife:
-                    playerController.IncreaseHitpoints();
+                case BonusDropEnum.healHitPoints:
+                    playerController.ProvideHealing(1f);
                     break;
                 case BonusDropEnum.doubleShot:
                     playerController.SetGunType(GunTypeEnum.doubleShot);
@@ -50,7 +50,6 @@ public class BonusDropController : MonoBehaviour
                     playerController.SetGunType(GunTypeEnum.quadShot);
                     break;
             }
-
             Destroy(gameObject);
         }
     }
@@ -68,7 +67,7 @@ public class BonusDropController : MonoBehaviour
         }
         else if (randomNumber <= 3f)
         {
-            bonusDropEnum = BonusDropEnum.extraLife;
+            bonusDropEnum = BonusDropEnum.healHitPoints;
         }
         else if (randomNumber <= 4.5f)
         {
@@ -94,7 +93,7 @@ public class BonusDropController : MonoBehaviour
             case BonusDropEnum.extraBullet:
                 spriteRenderer.sprite = extraBulletSprite;
                 break;
-            case BonusDropEnum.extraLife:
+            case BonusDropEnum.healHitPoints:
                 spriteRenderer.sprite = extraLifeSprite;
                 break;
             case BonusDropEnum.doubleShot:

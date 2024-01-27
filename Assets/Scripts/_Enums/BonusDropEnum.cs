@@ -3,7 +3,7 @@ public enum BonusDropEnum
 {
     extraSpeed,
     extraBullet,
-    extraLife,
+    healHitPoints,
     doubleShot,
     tripleShot,
     quadShot

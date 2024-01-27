@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IHealable
 {
-    //Input Handling and Movement
+    [Header("Movement Handling")]
     [SerializeField] PlayerInputHandler playerInputHandler;
     [SerializeField] Rigidbody2D rb;
 
-    //Shipstats Scriptable Object
+    [Header("Animation")]
+    [SerializeField] Animator thrusterAnimator;
+
+    [Header("Ship Stats")]
     [SerializeField] ShipStats shipStats;
 
-    //Prefabs
+    [Header("Shot Prefabs")]
     public GameObject singleShotPrefab;
     public GameObject doubleShotPrefab;
     public GameObject tripleShotPrefab;
@@ -221,16 +224,11 @@ public class PlayerController : MonoBehaviour, IHealable
         MaxBullets += 1;
     }
 
-    public void IncreaseHitpoints()
-    {
-        MaxHitPoints += 1;
-        currentHitPoints += 1;
-    }
-
     //Functions to debuff stats from MalusDrops
     public void DebuffMovementSpeed()
     {
         MoveSpeed = shipStats.moveSpeed * 0.75f;
+        thrusterAnimator.Play("Thruster Animation Slow");
         StartCoroutine(ResetMovementSpeed());
     }
 
@@ -238,6 +236,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         yield return new WaitForSeconds(5f);
         MoveSpeed = shipStats.moveSpeed;
+        thrusterAnimator.Play("Thruster Animation");
     }
 
     public void DebuffMirrorControls()

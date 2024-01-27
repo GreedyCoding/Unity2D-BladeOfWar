@@ -30,7 +30,7 @@ public class PlayerProjectileController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>().TakeDamage(ProjectileDamage);
+            other.GetComponent<IDamageable>().TakeDamage(ProjectileDamage);
             this.gameObject.SetActive(false);          
         }
         else if (other.gameObject.CompareTag("WallLeft") || other.gameObject.CompareTag("WallRight"))

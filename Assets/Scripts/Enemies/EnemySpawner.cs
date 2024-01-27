@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Collider2D spawnBox;
 
     [SerializeField] GameObject bossPrefab;
+    private bool butterflyBossSpawned = false;
 
     private float nextTimeToSpawn = 0f;
 
@@ -15,11 +16,12 @@ public class EnemySpawner : MonoBehaviour
     private float spawnCooldown;
 
     private float spawnCooldownReduction = 0.1f;
-    private float spawnCooldownDecreaseInterval = 10f;
+    private float spawnCooldownDecreaseInterval = 9f;
 
     private void Start()
     {
         spawnCooldown = initialSpawnCooldown;
+        StartCoroutine(DecreaseSpawnCooldown());
     }
 
     private void FixedUpdate()
@@ -29,11 +31,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (Time.timeSinceLevelLoad % spawnCooldownDecreaseInterval == 0)
-        {
-            spawnCooldown -= spawnCooldownReduction;
-        }
-
         if(nextTimeToSpawn <= Time.timeSinceLevelLoad)
         {
             nextTimeToSpawn = Time.timeSinceLevelLoad + spawnCooldown;
@@ -67,7 +64,11 @@ public class EnemySpawner : MonoBehaviour
             }
             else if(Time.timeSinceLevelLoad > 180f)
             {
-                Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+                if (!butterflyBossSpawned)
+                {
+                    Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+                    butterflyBossSpawned = true;
+                }
             }
         }
     }
@@ -78,5 +79,13 @@ public class EnemySpawner : MonoBehaviour
         var randomX = Random.Range(bounds.min.x, bounds.max.x);
         var randomY = Random.Range(bounds.min.y, bounds.max.y);
         return new Vector2(randomX, randomY);
+    }
+
+    private IEnumerator DecreaseSpawnCooldown()
+    {
+        yield return new WaitForSeconds(spawnCooldownDecreaseInterval);
+        spawnCooldown -= spawnCooldownReduction;
+        Debug.Log("Spawn cooldown decreased to " + spawnCooldown);
+        StartCoroutine(DecreaseSpawnCooldown());
     }
 }
