@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     private float spawnCooldown;
 
     private float spawnCooldownReduction = 0.1f;
-    private float spawnCooldownDecreaseInterval = 10f;
+    private float spawnCooldownDecreaseInterval = 20f;
 
     private void Start()
     {
@@ -37,28 +37,28 @@ public class EnemySpawner : MonoBehaviour
 
             if (Time.timeSinceLevelLoad < 60f)
             {
-                GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                 eyePoolObject.transform.position = GetRandomSpawnPosition();
                 eyePoolObject.SetActive(true);
             }
             else if(Time.timeSinceLevelLoad < 120f)
             {
-                GameObject ufoPoolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
+                GameObject ufoPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 ufoPoolObject.transform.position = GetRandomSpawnPosition();
                 ufoPoolObject.SetActive(true);
                 if(Random.Range(0f, 1f) <= 0.5f)
                 {
-                    GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                    GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                     eyePoolObject.transform.position = GetRandomSpawnPosition();
                     eyePoolObject.SetActive(true);
                 }
             }
             else if(Time.timeSinceLevelLoad < 180f)
             {
-                GameObject eyePoolObject = ObjectPoolEyeEnemies.SharedInstance.GetPooledObject();
+                GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                 eyePoolObject.transform.position = GetRandomSpawnPosition();
                 eyePoolObject.SetActive(true);
-                GameObject ufoPoolObject = ObjectPoolUfoEnemies.SharedInstance.GetPooledObject();
+                GameObject ufoPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 ufoPoolObject.transform.position = GetRandomSpawnPosition();
                 ufoPoolObject.SetActive(true);
             }

@@ -9,6 +9,10 @@ public class BonusDropController : MonoBehaviour
     [SerializeField] Sprite extraSpeedSprite;
     [SerializeField] Sprite extraBulletSprite;
     [SerializeField] Sprite extraLifeSprite;
+    [SerializeField] Sprite greyCoinSprite;
+    [SerializeField] Sprite greenCoinSprite;
+    [SerializeField] Sprite blueCoinSprite;
+    [SerializeField] Sprite goldCoinSprite;
     [SerializeField] Sprite doubleShotSprite;
     [SerializeField] Sprite tripleShotSprite;
     [SerializeField] Sprite quadShotSprite;
@@ -56,28 +60,28 @@ public class BonusDropController : MonoBehaviour
 
     private void SetBonusDropEnum()
     {
-        float randomNumber = Random.Range(0f, 6f);
-        if (randomNumber <= 1f)
+        int random = Random.Range(0, 101);
+        if (random <= 20)
         {
             bonusDropEnum = BonusDropEnum.extraSpeed;
         }
-        else if (randomNumber <= 2f)
+        else if (random <= 40)
         {
             bonusDropEnum = BonusDropEnum.extraBullet;
         }
-        else if (randomNumber <= 3f)
+        else if (random <= 60)
         {
             bonusDropEnum = BonusDropEnum.healHitPoints;
         }
-        else if (randomNumber <= 4.5f)
+        else if (random <= 80)
         {
             bonusDropEnum = BonusDropEnum.doubleShot;
         }
-        else if (randomNumber <= 5.5f)
+        else if (random <= 95)
         {
             bonusDropEnum = BonusDropEnum.tripleShot;
         }
-        else if (randomNumber <= 6f)
+        else if (random <= 100)
         {
             bonusDropEnum = BonusDropEnum.quadShot;
         }

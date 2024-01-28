@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     [SerializeField] GameObject bonusDropPrefab;
     [SerializeField] GameObject malusDropPrefab;
+    [SerializeField] GameObject coinDropPrefab;
 
     [SerializeField] SpriteRenderer enemySpriteRenderer;
     [SerializeField] Material damageFlashMaterial;
@@ -122,11 +123,15 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void Die()
     {
         float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= 0.075f)
+        if (randomNumber <= 0.5f)
         {
             Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
         }
-        else if (randomNumber >=0.975f)
+        else if(randomNumber <= 0.99f)
+        {
+            Instantiate(coinDropPrefab, this.transform.position, Quaternion.identity);
+        }
+        else
         {
             Instantiate(malusDropPrefab, this.transform.position, Quaternion.identity);
         }

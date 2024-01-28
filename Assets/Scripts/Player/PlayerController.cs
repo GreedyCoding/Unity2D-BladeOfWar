@@ -48,13 +48,15 @@ public class PlayerController : MonoBehaviour, IHealable
     public int Money { get; private set; }
     public int MovespeedUpgradeLevel { get; private set; }
     public int BulletUpgradeLevel { get; private set; }
-    public GunTypeEnum GunUpgradeLevel { get; private set; }
+    public int GunUpgradeLevel { get; private set; }
 
 
     //Events
     public event EventHandler OnGunTypeChange;
     public event EventHandler OnHealthValueChange;
     public event EventHandler OnBulletValueChange;
+    public event EventHandler OnMovespeedValueChange;
+    public event EventHandler OnMoneyValueChange;
  
     //Timers
     private float nextTimeToReload = 0f;
@@ -298,6 +300,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         MoveSpeed += 0.5f;
         messagePopupController.PlayMessage("Extra Speed");
+        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void IncreaseBullet()
@@ -307,12 +310,19 @@ public class PlayerController : MonoBehaviour, IHealable
         OnBulletValueChange?.Invoke(this, EventArgs.Empty);
     }
 
+    public void AddMoney(int money)
+    {
+        Money += money;
+        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+    }
+
     //Functions to debuff stats from MalusDrops
     public void DebuffMovementSpeed()
     {
         MoveSpeed = shipStats.moveSpeed * 0.75f;
         messagePopupController.PlayMessage("Engine Failure");
         thrusterAnimator.Play("Thruster Animation Slow");
+        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ResetMovementSpeed());
     }
 
@@ -322,6 +332,7 @@ public class PlayerController : MonoBehaviour, IHealable
         MoveSpeed = shipStats.moveSpeed;
         messagePopupController.PlayMessage("Engine Repaired");
         thrusterAnimator.Play("Thruster Animation");
+        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void DebuffMirrorControls()

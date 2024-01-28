@@ -169,6 +169,7 @@ MonoBehaviour:
   enemyStats: {fileID: 11400000, guid: c0e1ecc898a09fc4bb08bf33fef62012, type: 2}
   bonusDropPrefab: {fileID: 2468590692470977521, guid: eea969b5189ba364ba18bad00d4cd7e1, type: 3}
   malusDropPrefab: {fileID: 2468590692470977521, guid: f74453c9bedc80a4ea125550f8978557, type: 3}
+  coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
   enemySpriteRenderer: {fileID: 789449282127021380}
   damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}

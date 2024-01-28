@@ -1720,7 +1720,7 @@ MonoBehaviour:
   thrusterAnimator: {fileID: 118033906}
   messagePopupController: {fileID: 1686095485}
   shipSpriteRenderer: {fileID: 605273457}
-  damageFlashMaterial: {fileID: 2100000, guid: d2874537ab8b123459fc1d14c6ee4854, type: 2}
+  damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   defaultShipMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   shipStats: {fileID: 11400000, guid: 010053e380f98c5408a68920c06f2ff9, type: 2}
   singleShotPrefab: {fileID: 1718028422146164629, guid: 1e1a928ba686cee48973b6fd4c9f8970, type: 3}

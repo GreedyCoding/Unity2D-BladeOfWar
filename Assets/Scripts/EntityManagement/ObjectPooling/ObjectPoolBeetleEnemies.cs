@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolEyeEnemies : MonoBehaviour
+public class ObjectPoolBeetleEnemies : MonoBehaviour
 {
     //Singleton
-    public static ObjectPoolEyeEnemies SharedInstance;
+    public static ObjectPoolBeetleEnemies SharedInstance;
 
     //List of pooled objects
     public List<GameObject> pooledObjects;

@@ -176,12 +176,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d3db485a9165d42af966d5b77c7743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusDropEnum: 4
   spriteRenderer: {fileID: 2388765649084638043}
   extraSpeedSprite: {fileID: 21300000, guid: ad368746dd7ba244980bd6e3dcd9bb7c, type: 3}
   extraBulletSprite: {fileID: 21300000, guid: 45f42ac4fad39b4448c4bbc506e89865, type: 3}
   extraLifeSprite: {fileID: 21300000, guid: 52a4d86f7263f044189d92253a743465, type: 3}
-  singleShotSprite: {fileID: 21300000, guid: 25f312b8dddb7a3479ee2fc39797c0be, type: 3}
+  greyCoinSprite: {fileID: 21300000, guid: 73b581ee238cc874598e6d89ef2859aa, type: 3}
+  greenCoinSprite: {fileID: 21300000, guid: df9d4d34c7d0ec64ba3f6be428fd282b, type: 3}
+  blueCoinSprite: {fileID: 21300000, guid: 472387d36bf14cb499930083ddfbf4e1, type: 3}
+  goldCoinSprite: {fileID: 21300000, guid: df9d4d34c7d0ec64ba3f6be428fd282b, type: 3}
   doubleShotSprite: {fileID: 21300000, guid: 233617a0910547046b49616d753fe922, type: 3}
   tripleShotSprite: {fileID: 21300000, guid: 433de0f0c40f5294ab7d7c9f581e6e70, type: 3}
   quadShotSprite: {fileID: 21300000, guid: 5b61cc9e72c2aca408ce1168479284a7, type: 3}
