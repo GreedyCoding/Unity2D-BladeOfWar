@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     private float spawnCooldown;
 
     private float spawnCooldownReduction = 0.1f;
-    private float spawnCooldownDecreaseInterval = 9f;
+    private float spawnCooldownDecreaseInterval = 10f;
 
     private void Start()
     {

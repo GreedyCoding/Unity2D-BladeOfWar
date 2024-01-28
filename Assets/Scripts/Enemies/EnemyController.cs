@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         enemySpriteRenderer.material = defaultShipMaterial;
+        SetStats();
     }
 
     private void Update()

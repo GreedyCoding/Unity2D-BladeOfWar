@@ -10,6 +10,6 @@ public class SpeedDisplayController : MonoBehaviour
 
     void Update()
     {
-        speedText.text = (playerController.CurrentMoveSpeed.ToString());
+        speedText.text = (playerController.MoveSpeed.ToString());
     }
 }

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, IHealable
 
     [Header("Animation")]
     [SerializeField] Animator thrusterAnimator;
+    [SerializeField] MessagePopupController messagePopupController;
 
     [Header("Damage Flash")]
     [SerializeField] SpriteRenderer shipSpriteRenderer;
@@ -36,13 +37,19 @@ public class PlayerController : MonoBehaviour, IHealable
     public int MaxHitPoints { get; private set; }
     public int CurrentHitPoints { get; private set; }
     public float MoveSpeed { get; private set; }
-    public float CurrentMoveSpeed { get { return rb.velocity.magnitude; } }
     public int MaxBullets { get; private set; }
     public int CurrentBullets { get; private set; }
     public float FireRate { get; private set; }
     public float ProjectileSpeed { get; private set; }
     public float ReloadRate { get; private set; }
     public GunTypeEnum CurrentGunType { get; private set; }
+
+    //Upgrades and Money
+    public int Money { get; private set; }
+    public int MovespeedUpgradeLevel { get; private set; }
+    public int BulletUpgradeLevel { get; private set; }
+    public GunTypeEnum GunUpgradeLevel { get; private set; }
+
 
     //Events
     public event EventHandler OnGunTypeChange;
@@ -94,8 +101,47 @@ public class PlayerController : MonoBehaviour, IHealable
             IncreaseBullet();
             return;
         }
+
         CurrentGunType = gunType;
         OnGunTypeChange?.Invoke(this, EventArgs.Empty);
+
+        if (initialSet)
+        {
+            messagePopupController.PlayMessage("Stage 1");
+            return;
+        }
+
+        switch (gunType)
+        {
+            case GunTypeEnum.singleShot:
+                messagePopupController.PlayMessage("Single Shot");
+                break;
+            case GunTypeEnum.doubleShot:
+                messagePopupController.PlayMessage("Double Shot");
+                break;
+            case GunTypeEnum.tripleShot:
+                messagePopupController.PlayMessage("Triple Shot");
+                break;
+            case GunTypeEnum.quadShot:
+                messagePopupController.PlayMessage("Quad Shot");
+                break;
+            case GunTypeEnum.superTripleShot:
+                messagePopupController.PlayMessage("Super Triple Shot");
+                break;
+            case GunTypeEnum.fireShot:
+                messagePopupController.PlayMessage("Fire Shot");
+                break;
+            case GunTypeEnum.plasmaShot:
+                messagePopupController.PlayMessage("Plasma Shot");
+                break;
+            case GunTypeEnum.laserShot:
+                messagePopupController.PlayMessage("Laser Shot");
+                break;
+            default:
+                messagePopupController.PlayMessage("Error Happened");
+                break;
+        }
+
     }
 
     //Handlers
@@ -229,6 +275,16 @@ public class PlayerController : MonoBehaviour, IHealable
         }
     }
 
+    public void ProvideHealing(float healAmount)
+    {
+        ProvideHealing((int)healAmount);
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        TakeDamage((int)damageAmount);
+    }
+
     //Flash the ship white when taking damage
     private IEnumerator DamageFlash()
     {
@@ -241,11 +297,13 @@ public class PlayerController : MonoBehaviour, IHealable
     public void IncreaseSpeed()
     {
         MoveSpeed += 0.5f;
+        messagePopupController.PlayMessage("Extra Speed");
     }
 
     public void IncreaseBullet()
     {
         MaxBullets += 1;
+        messagePopupController.PlayMessage("Extra Bullet");
         OnBulletValueChange?.Invoke(this, EventArgs.Empty);
     }
 
@@ -253,6 +311,7 @@ public class PlayerController : MonoBehaviour, IHealable
     public void DebuffMovementSpeed()
     {
         MoveSpeed = shipStats.moveSpeed * 0.75f;
+        messagePopupController.PlayMessage("Engine Failure");
         thrusterAnimator.Play("Thruster Animation Slow");
         StartCoroutine(ResetMovementSpeed());
     }
@@ -261,28 +320,21 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         yield return new WaitForSeconds(5f);
         MoveSpeed = shipStats.moveSpeed;
+        messagePopupController.PlayMessage("Engine Repaired");
         thrusterAnimator.Play("Thruster Animation");
     }
 
     public void DebuffMirrorControls()
     {
         mirrorControls = true;
+        messagePopupController.PlayMessage("Mirror Controls");
         StartCoroutine(ResetMirrorControls());
     }
 
     private IEnumerator ResetMirrorControls()
     {
         yield return new WaitForSeconds(5f);
+        messagePopupController.PlayMessage("Controls Normalized");
         mirrorControls = false;
-    }
-
-    public void ProvideHealing(float healAmount)
-    {
-        ProvideHealing((int)healAmount);
-    }
-
-    public void TakeDamage(float damageAmount)
-    {
-        TakeDamage((int)damageAmount);
     }
 }
