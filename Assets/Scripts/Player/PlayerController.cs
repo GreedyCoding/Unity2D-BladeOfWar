@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,14 +93,7 @@ public class PlayerController : MonoBehaviour, IHealable
         MaxBullets = shipStats.maxBullets;
         FireRate = shipStats.fireRate;
         ProjectileSpeed = shipStats.projectileSpeed;
-        ReloadRate = shipStats.reloadRate;
-
-        /*
-        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
-        PlayerPrefs.SetInt("BulletUpgradeLevel", 0);
-        PlayerPrefs.SetInt("GunUpgradeLevel", 0);
-        PlayerPrefs.SetInt("Money", 0);
-        */
+        ReloadRate = shipStats.reloadRate;        
 
         MovespeedUpgradeLevel = PlayerPrefs.GetInt("MovespeedUpgradeLevel");
         BulletUpgradeLevel = PlayerPrefs.GetInt("BulletUpgradeLevel");
@@ -304,8 +296,7 @@ public class PlayerController : MonoBehaviour, IHealable
         OnHealthValueChange?.Invoke(this, EventArgs.Empty);
         if (CurrentHitPoints <= 0)
         {
-            Destroy(this.gameObject);
-            GameOver();
+            StartCoroutine(GameOver());
         }
     }
 
@@ -372,6 +363,13 @@ public class PlayerController : MonoBehaviour, IHealable
         OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
     }
 
+    public void RemoveMoney(int money)
+    {
+        Money -= money;
+        PlayerPrefs.SetInt("Money", Money);
+        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+    }
+
     public void AddShield()
     {
         hasShield = true;
@@ -419,8 +417,10 @@ public class PlayerController : MonoBehaviour, IHealable
     }
 
     //Game Over
-    private void GameOver()
+    private IEnumerator GameOver()
     {
-        SceneManager.LoadScene("Game Scene");
+        messagePopupController.PlayMessage("Game Over");
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
