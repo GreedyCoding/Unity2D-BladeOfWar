@@ -28,7 +28,7 @@ public class MalusDropController : MonoBehaviour
             switch (malusDropEnum)
             {
                 case MalusDropEnum.singleShot:
-                    playerController.SetGunType(GunTypeEnum.singleShot, false);
+                    playerController.SetGunType(GunTypeEnum.singleShot, false, true);
                     break;
                 case MalusDropEnum.engineMalfunction:
                     playerController.DebuffMovementSpeed();

@@ -15,7 +15,7 @@ public class CoinDropController : MonoBehaviour
 
     private PlayerController playerController;
 
-    private void Start()
+    private void Awake()
     {
         SetBonusDropEnum();
         SetBonusDropSprite();
@@ -51,21 +51,21 @@ public class CoinDropController : MonoBehaviour
     private void SetBonusDropEnum()
     {
         int random = Random.Range(0, 101);
-        if(random <= 50)
+        if(random <= 5)
         {
-            coinDropEnum = CoinDropEnum.greyCoin;
+            coinDropEnum = CoinDropEnum.goldCoin;
         }
-        else if (random <= 85)
-        {
-            coinDropEnum = CoinDropEnum.greenCoin;
-        }
-        else if (random <= 95)
+        else if (random <= 15)
         {
             coinDropEnum = CoinDropEnum.blueCoin;
         }
+        else if (random <= 30)
+        {
+            coinDropEnum = CoinDropEnum.greenCoin;
+        }
         else if (random <= 100)
         {
-            coinDropEnum = CoinDropEnum.goldCoin;
+            coinDropEnum = CoinDropEnum.greyCoin;
         }
     }
 

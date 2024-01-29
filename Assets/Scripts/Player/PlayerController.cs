@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour, IHealable
     [Header("Ship Stats")]
     [SerializeField] ShipStats shipStats;
 
+    [Header("Shield")]
+    [SerializeField] SpriteRenderer shieldSpriteRenderer;
+
     [Header("Shot Prefabs")]
     public GameObject singleShotPrefab;
     public GameObject doubleShotPrefab;
@@ -33,17 +36,18 @@ public class PlayerController : MonoBehaviour, IHealable
     public GameObject plasmaShotPrefab;
     public GameObject laserShotPrefab;
 
-    //Properties
+    //Health
     public int MaxHitPoints { get; private set; }
     public int CurrentHitPoints { get; private set; }
+    //Movespeed
     public float MoveSpeed { get; private set; }
+    //Weapon
     public int MaxBullets { get; private set; }
     public int CurrentBullets { get; private set; }
     public float FireRate { get; private set; }
     public float ProjectileSpeed { get; private set; }
     public float ReloadRate { get; private set; }
     public GunTypeEnum CurrentGunType { get; private set; }
-
     //Upgrades and Money
     public int Money { get; private set; }
     public int MovespeedUpgradeLevel { get; private set; }
@@ -62,13 +66,16 @@ public class PlayerController : MonoBehaviour, IHealable
     private float nextTimeToReload = 0f;
     private float nextTimeToFire = 0f;
 
+    //Buffs
+    private bool hasShield = false;
+
     //Debuffs
     private bool mirrorControls = false;
 
     private void Start()
     {
+        SetGunType(shipStats.gunType, true, false);
         SetStats();
-        SetGunType(shipStats.gunType, true);
         shipSpriteRenderer.material = defaultShipMaterial;
     }
 
@@ -89,18 +96,33 @@ public class PlayerController : MonoBehaviour, IHealable
         ProjectileSpeed = shipStats.projectileSpeed;
         ReloadRate = shipStats.reloadRate;
 
+        /*
+        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
+        PlayerPrefs.SetInt("BulletUpgradeLevel", 0);
+        PlayerPrefs.SetInt("GunUpgradeLevel", 0);
+        PlayerPrefs.SetInt("Money", 0);
+        */
+
+        MovespeedUpgradeLevel = PlayerPrefs.GetInt("MovespeedUpgradeLevel");
+        BulletUpgradeLevel = PlayerPrefs.GetInt("BulletUpgradeLevel");
+        GunUpgradeLevel = PlayerPrefs.GetInt("GunUpgradeLevel");
+        ApplyUpgrades(MovespeedUpgradeLevel, BulletUpgradeLevel, GunUpgradeLevel);
+
         CurrentHitPoints = MaxHitPoints;
         OnHealthValueChange?.Invoke(this, EventArgs.Empty);
 
         CurrentBullets = MaxBullets;
         OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+
+        Money = PlayerPrefs.GetInt("Money");
+        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
     }
 
-    public void SetGunType(GunTypeEnum gunType, bool initialSet)
+    public void SetGunType(GunTypeEnum gunType, bool initialSet, bool sendMessage)
     {
         if(CurrentGunType == gunType && !initialSet)
         {
-            IncreaseBullet();
+            IncreaseBullet(true);
             return;
         }
 
@@ -112,6 +134,8 @@ public class PlayerController : MonoBehaviour, IHealable
             messagePopupController.PlayMessage("Stage 1");
             return;
         }
+
+        if (!sendMessage) return;
 
         switch (gunType)
         {
@@ -143,7 +167,24 @@ public class PlayerController : MonoBehaviour, IHealable
                 messagePopupController.PlayMessage("Error Happened");
                 break;
         }
+    }
 
+    private void ApplyUpgrades(int movespeedUpgradeLevel, int bulletUpgradeLevel, int gunUpgradeLevel)
+    {
+        for (int i = 0; i < movespeedUpgradeLevel; i++)
+        {
+            IncreaseSpeed(false);
+        }
+
+        for (int i = 0; i < bulletUpgradeLevel; i++)
+        {
+            IncreaseBullet(false);
+        }
+
+        for (int i = 0; i < gunUpgradeLevel; i++)
+        {
+            UpgradeGun();
+        }
     }
 
     //Handlers
@@ -248,16 +289,17 @@ public class PlayerController : MonoBehaviour, IHealable
 
     }
 
-    //Game Over
-    private void GameOver()
-    {
-        SceneManager.LoadScene("Game Scene");
-    }
-
     //Interface Implementation
     public void TakeDamage(int damageAmount)
     {
         StartCoroutine(DamageFlash());
+
+        if (hasShield)
+        {
+            RemoveShield();
+            return;
+        }
+
         CurrentHitPoints -= damageAmount;
         OnHealthValueChange?.Invoke(this, EventArgs.Empty);
         if (CurrentHitPoints <= 0)
@@ -270,21 +312,24 @@ public class PlayerController : MonoBehaviour, IHealable
     public void ProvideHealing(int healAmount)
     {
         CurrentHitPoints += healAmount;
-        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+
         if (CurrentHitPoints > MaxHitPoints)
         {
             CurrentHitPoints = MaxHitPoints;
+            AddShield();
         }
-    }
 
-    public void ProvideHealing(float healAmount)
-    {
-        ProvideHealing((int)healAmount);
+        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
     }
 
     public void TakeDamage(float damageAmount)
     {
         TakeDamage((int)damageAmount);
+    }
+
+    public void ProvideHealing(float healAmount)
+    {
+        ProvideHealing((int)healAmount);
     }
 
     //Flash the ship white when taking damage
@@ -296,34 +341,58 @@ public class PlayerController : MonoBehaviour, IHealable
     }
 
     //Functions to increase stats from Drops or ShopUpgrades
-    public void IncreaseSpeed()
+    public void IncreaseSpeed(bool sendMessage)
     {
         MoveSpeed += 0.5f;
-        messagePopupController.PlayMessage("Extra Speed");
         OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
+        
+        if (!sendMessage) return;
+        messagePopupController.PlayMessage("Extra Speed");
     }
 
-    public void IncreaseBullet()
+    public void IncreaseBullet(bool sendMessage)
     {
         MaxBullets += 1;
-        messagePopupController.PlayMessage("Extra Bullet");
         OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+
+        if (!sendMessage) return;
+        messagePopupController.PlayMessage("Extra Bullet");
+    }
+
+    private void UpgradeGun()
+    {
+        //TODO: Make not overflow
+        CurrentGunType++;
     }
 
     public void AddMoney(int money)
     {
         Money += money;
+        PlayerPrefs.SetInt("Money", Money);
         OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void AddShield()
+    {
+        hasShield = true;
+        shieldSpriteRenderer.enabled = true;
+        messagePopupController.PlayMessage("Shield Activated");
+    }
+
+    public void RemoveShield()
+    {
+        hasShield = false;
+        shieldSpriteRenderer.enabled = false;
     }
 
     //Functions to debuff stats from MalusDrops
     public void DebuffMovementSpeed()
     {
         MoveSpeed = shipStats.moveSpeed * 0.75f;
-        messagePopupController.PlayMessage("Engine Failure");
         thrusterAnimator.Play("Thruster Animation Slow");
         OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ResetMovementSpeed());
+        messagePopupController.PlayMessage("Engine Failure");
     }
 
     private IEnumerator ResetMovementSpeed()
@@ -347,5 +416,11 @@ public class PlayerController : MonoBehaviour, IHealable
         yield return new WaitForSeconds(5f);
         messagePopupController.PlayMessage("Controls Normalized");
         mirrorControls = false;
+    }
+
+    //Game Over
+    private void GameOver()
+    {
+        SceneManager.LoadScene("Game Scene");
     }
 }

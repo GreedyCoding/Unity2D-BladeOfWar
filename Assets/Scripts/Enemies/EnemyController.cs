@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     public EnemyTypeEnum CurrentEnemyType { get; private set; }
 
     //Timers
-    private float nextTimeToFire = 0f;
+    private float nextTimeToFire = 2f;
 
     //Current Player Stats
     private float currentHitPoints;
@@ -99,12 +99,12 @@ public class EnemyController : MonoBehaviour, IDamageable
             nextTimeToFire = Time.timeSinceLevelLoad + 1f / FireRate;
             switch (CurrentEnemyType)
             {
-                case EnemyTypeEnum.eye:
+                case EnemyTypeEnum.beetle:
                     GameObject poolObject = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
                     poolObject.transform.position = this.transform.position;
                     poolObject.SetActive(true);
                     break;
-                case EnemyTypeEnum.ufo:
+                case EnemyTypeEnum.dragonfly:
                     GameObject poolObject2 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
                     poolObject2.transform.position = this.transform.position;
                     poolObject2.SetActive(true);
@@ -118,24 +118,6 @@ public class EnemyController : MonoBehaviour, IDamageable
                     break;
             }
         }
-    }
-
-    private void Die()
-    {
-        float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= 0.5f)
-        {
-            Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
-        }
-        else if(randomNumber <= 0.99f)
-        {
-            Instantiate(coinDropPrefab, this.transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(malusDropPrefab, this.transform.position, Quaternion.identity);
-        }
-        this.gameObject.SetActive(false);
     }
 
     public void TakeDamage(float damageAmount)
@@ -161,5 +143,28 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void TakeDamage(int damageAmount)
     {
         TakeDamage((float)damageAmount);
+    }
+
+    private void Die()
+    {
+        RollForLoot();
+        this.gameObject.SetActive(false);
+    }
+
+    private void RollForLoot()
+    {
+        float randomNumber = Random.Range(0f, 1f);
+        if (randomNumber <= 0.1f)
+        {
+            Instantiate(bonusDropPrefab, this.transform.position, Quaternion.identity);
+        }
+        else if (randomNumber <= 0.2f)
+        {
+            Instantiate(coinDropPrefab, this.transform.position, Quaternion.identity);
+        }
+        else if (randomNumber <= 0.3f)
+        {
+            Instantiate(malusDropPrefab, this.transform.position, Quaternion.identity);
+        }
     }
 }

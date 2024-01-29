@@ -1,6 +1,6 @@
 public enum EnemyTypeEnum
 {
-    eye,
-    ufo,
+    beetle,
+    dragonfly,
     butterfly
 }

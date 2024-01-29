@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     private float spawnCooldown;
 
     private float spawnCooldownReduction = 0.1f;
-    private float spawnCooldownDecreaseInterval = 20f;
+    private float spawnCooldownDecreaseInterval = 30f;
 
     private void Start()
     {
@@ -37,30 +37,33 @@ public class EnemySpawner : MonoBehaviour
 
             if (Time.timeSinceLevelLoad < 60f)
             {
-                GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                eyePoolObject.transform.position = GetRandomSpawnPosition();
-                eyePoolObject.SetActive(true);
+                GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
+                beetlePoolObject.transform.position = GetRandomSpawnPosition();
+                beetlePoolObject.SetActive(true);
             }
             else if(Time.timeSinceLevelLoad < 120f)
             {
-                GameObject ufoPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
-                ufoPoolObject.transform.position = GetRandomSpawnPosition();
-                ufoPoolObject.SetActive(true);
+                GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
+                dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
+                dragonflyPoolObject.SetActive(true);
                 if(Random.Range(0f, 1f) <= 0.5f)
                 {
-                    GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                    eyePoolObject.transform.position = GetRandomSpawnPosition();
-                    eyePoolObject.SetActive(true);
+                    GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
+                    beetlePoolObject.transform.position = GetRandomSpawnPosition();
+                    beetlePoolObject.SetActive(true);
                 }
             }
             else if(Time.timeSinceLevelLoad < 180f)
             {
-                GameObject eyePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                eyePoolObject.transform.position = GetRandomSpawnPosition();
-                eyePoolObject.SetActive(true);
-                GameObject ufoPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
-                ufoPoolObject.transform.position = GetRandomSpawnPosition();
-                ufoPoolObject.SetActive(true);
+                GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
+                dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
+                dragonflyPoolObject.SetActive(true);
+                if (Random.Range(0f, 1f) <= 0.75f)
+                {
+                    GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
+                    beetlePoolObject.transform.position = GetRandomSpawnPosition();
+                    beetlePoolObject.SetActive(true);
+                }
             }
             else if(Time.timeSinceLevelLoad > 180f)
             {

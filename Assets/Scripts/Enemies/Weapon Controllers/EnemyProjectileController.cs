@@ -13,12 +13,12 @@ public class EnemyProjectileController : MonoBehaviour
     {
         GetComponents();
         ProjectileDamage = 1f;
-        ProjectileSpeed = 5f;
+        ProjectileSpeed = 7f;
     }
 
     void Update()
     {
-        rb.AddForce(Vector2.down * ProjectileSpeed, ForceMode2D.Force);
+        rb.velocity = (Vector2.down * ProjectileSpeed);
     }
 
     void GetComponents()
