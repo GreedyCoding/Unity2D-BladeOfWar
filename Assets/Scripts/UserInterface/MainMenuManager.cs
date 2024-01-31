@@ -43,16 +43,6 @@ public class MainMenuManager : MonoBehaviour
     private int gunUpgradeFourCost = 5000;
     private int gunUpgradeFiveCost = 10000;
 
-    private void Awake()
-    {
-        /*
-        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
-        PlayerPrefs.SetInt("BulletUpgradeLevel", 0);
-        PlayerPrefs.SetInt("GunUpgradeLevel", 0);
-        PlayerPrefs.SetInt("Money", 700);
-        */
-    }
-
     private void Start()
     {
         bulletUpgradeLevel = PlayerPrefs.GetInt("BulletUpgradeLevel");
@@ -91,6 +81,14 @@ public class MainMenuManager : MonoBehaviour
     {
         shopMenuUI.SetActive(false);
         mainMenuUI.SetActive(true);
+    }
+
+    public void OnResetStatsButtonClick()
+    {
+        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
+        PlayerPrefs.SetInt("BulletUpgradeLevel", 0);
+        PlayerPrefs.SetInt("GunUpgradeLevel", 0);
+        PlayerPrefs.SetInt("Money", 0);
     }
 
     public void OnBulletUpgradeButtonClick()

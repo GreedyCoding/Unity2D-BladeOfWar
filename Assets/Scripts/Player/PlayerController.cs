@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour, IHealable
     [Header("Shield")]
     [SerializeField] SpriteRenderer shieldSpriteRenderer;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource gunAudioSource;
+
     [Header("Shot Prefabs")]
     public GameObject singleShotPrefab;
     public GameObject doubleShotPrefab;
@@ -260,6 +263,9 @@ public class PlayerController : MonoBehaviour, IHealable
         playerProjectile.transform.position = this.transform.position;
         playerProjectile.transform.rotation = this.transform.rotation;
         playerProjectile.SetActive(true);
+
+        gunAudioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+        gunAudioSource.Play();
 
         //Handle children of the different projectiles
         if(CurrentGunType == GunTypeEnum.doubleShot || CurrentGunType == GunTypeEnum.quadShot)
