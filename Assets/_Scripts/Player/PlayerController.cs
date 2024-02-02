@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IHealable
 
     [Header("Animation")]
     [SerializeField] Animator _thrusterAnimator;
-    [SerializeField] MessagePopupController _messagePopupController;
 
     [Header("Damage Flash")]
     [SerializeField] SpriteRenderer _shipSpriteRenderer;
@@ -132,7 +131,7 @@ public class PlayerController : MonoBehaviour, IHealable
 
         if (initialSet)
         {
-            _messagePopupController.PlayMessage("Stage 1");
+            MessagePopupController.Instance.PlayMessage("Stage 1");
             return;
         }
 
@@ -141,31 +140,31 @@ public class PlayerController : MonoBehaviour, IHealable
         switch (gunType)
         {
             case GunTypeEnum.singleShot:
-                _messagePopupController.PlayMessage("Single Shot");
+                MessagePopupController.Instance.PlayMessage("Single Shot");
                 break;
             case GunTypeEnum.doubleShot:
-                _messagePopupController.PlayMessage("Double Shot");
+                MessagePopupController.Instance.PlayMessage("Double Shot");
                 break;
             case GunTypeEnum.tripleShot:
-                _messagePopupController.PlayMessage("Triple Shot");
+                MessagePopupController.Instance.PlayMessage("Triple Shot");
                 break;
             case GunTypeEnum.quadShot:
-                _messagePopupController.PlayMessage("Quad Shot");
+                MessagePopupController.Instance.PlayMessage("Quad Shot");
                 break;
             case GunTypeEnum.superTripleShot:
-                _messagePopupController.PlayMessage("Super Triple Shot");
+                MessagePopupController.Instance.PlayMessage("Super Triple Shot");
                 break;
             case GunTypeEnum.fireShot:
-                _messagePopupController.PlayMessage("Fire Shot");
+                MessagePopupController.Instance.PlayMessage("Fire Shot");
                 break;
             case GunTypeEnum.plasmaShot:
-                _messagePopupController.PlayMessage("Plasma Shot");
+                MessagePopupController.Instance.PlayMessage("Plasma Shot");
                 break;
             case GunTypeEnum.laserShot:
-                _messagePopupController.PlayMessage("Laser Shot");
+                MessagePopupController.Instance.PlayMessage("Laser Shot");
                 break;
             default:
-                _messagePopupController.PlayMessage("Error Happened");
+                MessagePopupController.Instance.PlayMessage("Error Happened");
                 break;
         }
     }
@@ -350,7 +349,7 @@ public class PlayerController : MonoBehaviour, IHealable
         OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
         
         if (!sendMessage) return;
-        _messagePopupController.PlayMessage(Constants.SPEED_UPGRADE_TEXT);
+        MessagePopupController.Instance.PlayMessage(Constants.SPEED_UPGRADE_TEXT);
     }
 
     public void IncreaseBullet(bool sendMessage)
@@ -359,7 +358,7 @@ public class PlayerController : MonoBehaviour, IHealable
         OnBulletValueChange?.Invoke(this, EventArgs.Empty);
 
         if (!sendMessage) return;
-        _messagePopupController.PlayMessage(Constants.BULLET_UPGRADE_TEXT);
+        MessagePopupController.Instance.PlayMessage(Constants.BULLET_UPGRADE_TEXT);
     }
 
     private void UpgradeGun()
@@ -386,7 +385,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         _hasShield = true;
         _shieldSpriteRenderer.enabled = true;
-        _messagePopupController.PlayMessage("Shield Activated");
+        MessagePopupController.Instance.PlayMessage("Shield Activated");
     }
 
     public void RemoveShield()
@@ -402,14 +401,14 @@ public class PlayerController : MonoBehaviour, IHealable
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION_SLOW);
         OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ResetMovementSpeed());
-        _messagePopupController.PlayMessage("Engine Failure");
+        MessagePopupController.Instance.PlayMessage("Engine Failure");
     }
 
     private IEnumerator ResetMovementSpeed()
     {
         yield return new WaitForSeconds(5f);
         MoveSpeed = _shipStats.moveSpeed;
-        _messagePopupController.PlayMessage("Engine Repaired");
+        MessagePopupController.Instance.PlayMessage("Engine Repaired");
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION);
         OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
     }
@@ -417,21 +416,21 @@ public class PlayerController : MonoBehaviour, IHealable
     public void DebuffMirrorControls()
     {
         _mirrorControls = true;
-        _messagePopupController.PlayMessage("Mirror Controls");
+        MessagePopupController.Instance.PlayMessage("Mirror Controls");
         StartCoroutine(ResetMirrorControls());
     }
 
     private IEnumerator ResetMirrorControls()
     {
         yield return new WaitForSeconds(5f);
-        _messagePopupController.PlayMessage("Controls Normalized");
+        MessagePopupController.Instance.PlayMessage("Controls Normalized");
         _mirrorControls = false;
     }
 
     //Game Over
     private IEnumerator GameOver()
     {
-        _messagePopupController.PlayMessage("Game Over");
+        MessagePopupController.Instance.PlayMessage("Game Over");
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(Constants.MAIN_MENU_SCENE);
     }

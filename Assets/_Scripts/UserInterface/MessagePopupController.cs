@@ -6,33 +6,48 @@ using UnityEngine.Rendering;
 
 public class MessagePopupController : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI messageText;
+    public static MessagePopupController Instance;
+
+    [SerializeField] GameObject _messageTextGO;
+    [SerializeField] TextMeshProUGUI _messageText;
 
     private void Awake()
     {
-        gameObject.SetActive(false);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        _messageTextGO.SetActive(false);
     }
 
     public void PlayMessage(string input)
     {
         string message = "> ----------- " + input + " ----------- <";
-        messageText.text = message;
-        gameObject.SetActive(true);
+        _messageText.text = message;
+        _messageTextGO.SetActive(true);
         StartCoroutine(ShowMessage());
     }
 
     private IEnumerator ShowMessage()
     {
-        string message = messageText.text;
+        string message = _messageText.text;
         yield return new WaitForSeconds(0.4f);
-        messageText.text = " ";
+        _messageText.text = " ";
         yield return new WaitForSeconds(0.4f);
-        messageText.text = message;
+        _messageText.text = message;
         yield return new WaitForSeconds(0.4f);
-        messageText.text = " ";
+        _messageText.text = " ";
         yield return new WaitForSeconds(0.4f);
-        messageText.text = message;
+        _messageText.text = message;
         yield return new WaitForSeconds(0.4f);
-        gameObject.SetActive(false);
+        _messageTextGO.SetActive(false);
     }
 }

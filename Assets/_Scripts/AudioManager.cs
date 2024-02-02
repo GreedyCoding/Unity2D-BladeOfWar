@@ -1,16 +1,24 @@
 using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [SerializeField] AudioClip _playerShotSound;
-    [SerializeField] List<AudioClip> _enemyBombSounds;
+    [SerializeField] AudioMixer audioMixer;
 
-    [SerializeField] AudioSource _playerShotSource;
-    [SerializeField] AudioSource _enemyBombSource;
+    [Header("Gameplay Music")]
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioClip beginningMusic;
+    [SerializeField] AudioClip halftimeMusic;
+    [SerializeField] AudioClip bossMusic;
+
+    [Header("Enemy Death SFX")]
+    [SerializeField] List<AudioSource> enemyExplosionSources;
+    [SerializeField] List<AudioClip> enemyExplosionClips;
+
 
     private void Awake()
     {
@@ -24,22 +32,17 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void PlayRandomShortExplosion()
     {
-        _playerShotSource.clip = _playerShotSound;
-    }
-
-    public void PlayPlayerShotSound()
-    {
-        _playerShotSource.pitch = Random.Range(0.85f, 1.15f);
-        _playerShotSource.Play();
-    }
-
-    public void PlayEnemyBombSound()
-    {
-        int randomIndex = Random.Range(0, _enemyBombSounds.Count);
-        _enemyBombSource.clip = _enemyBombSounds[randomIndex];
-        _enemyBombSource.pitch = Random.Range(0.9f, 1.1f);
-        _enemyBombSource.Play();
+        int randomIndex = Random.Range(0, enemyExplosionClips.Count);
+        foreach (var source in enemyExplosionSources)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = enemyExplosionClips[randomIndex];
+                source.Play();
+                return;
+            }
+        }
     }
 }

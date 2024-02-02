@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] GameObject bossPrefab;
     private bool butterflyBossSpawned = false;
+    private bool butterflybossMessage = false;
 
     private float nextTimeToSpawn = 0f;
 
@@ -41,19 +42,19 @@ public class EnemySpawner : MonoBehaviour
                 beetlePoolObject.transform.position = GetRandomSpawnPosition();
                 beetlePoolObject.SetActive(true);
             }
-            else if(Time.timeSinceLevelLoad < 120f)
+            else if (Time.timeSinceLevelLoad < 120f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
                 dragonflyPoolObject.SetActive(true);
-                if(Random.Range(0f, 1f) <= 0.5f)
+                if (Random.Range(0f, 1f) <= 0.5f)
                 {
                     GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                     beetlePoolObject.transform.position = GetRandomSpawnPosition();
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if(Time.timeSinceLevelLoad < 180f)
+            else if (Time.timeSinceLevelLoad < 180f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
@@ -65,7 +66,15 @@ public class EnemySpawner : MonoBehaviour
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if(Time.timeSinceLevelLoad > 180f)
+            else if (Time.timeSinceLevelLoad > 180f)
+            {
+                if (!butterflybossMessage)
+                {
+                    MessagePopupController.Instance.PlayMessage("Boss Incoming!");
+                    butterflybossMessage = true;
+                }
+            }
+            else if (Time.timeSinceLevelLoad > 190)
             {
                 if (!butterflyBossSpawned)
                 {

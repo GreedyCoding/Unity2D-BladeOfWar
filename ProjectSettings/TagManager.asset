@@ -9,7 +9,6 @@ TagManager:
   - Enemy
   - WallLeft
   - WallRight
-  - Drop
   - ItemDrop
   layers:
   - Default

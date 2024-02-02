@@ -155,6 +155,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        AudioManager.Instance.PlayRandomShortExplosion();
         RollForLoot();
         this.gameObject.SetActive(false);
     }
