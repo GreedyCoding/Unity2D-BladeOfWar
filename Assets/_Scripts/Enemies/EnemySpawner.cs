@@ -9,7 +9,6 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] GameObject bossPrefab;
     private bool butterflyBossSpawned = false;
-    private bool butterflybossMessage = false;
 
     private float nextTimeToSpawn = 0f;
 
@@ -36,13 +35,13 @@ public class EnemySpawner : MonoBehaviour
         {
             nextTimeToSpawn = Time.timeSinceLevelLoad + spawnCooldown;
 
-            if (Time.timeSinceLevelLoad < 60f)
+            if (Time.timeSinceLevelLoad < 10f)
             {
                 GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                 beetlePoolObject.transform.position = GetRandomSpawnPosition();
                 beetlePoolObject.SetActive(true);
             }
-            else if (Time.timeSinceLevelLoad < 120f)
+            else if (Time.timeSinceLevelLoad < 20f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
@@ -54,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if (Time.timeSinceLevelLoad < 180f)
+            else if (Time.timeSinceLevelLoad < 30f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
@@ -66,20 +65,13 @@ public class EnemySpawner : MonoBehaviour
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if (Time.timeSinceLevelLoad > 180f)
-            {
-                if (!butterflybossMessage)
-                {
-                    MessagePopupController.Instance.PlayMessage("Boss Incoming!");
-                    butterflybossMessage = true;
-                }
-            }
-            else if (Time.timeSinceLevelLoad > 190)
+            else if (Time.timeSinceLevelLoad > 30f)
             {
                 if (!butterflyBossSpawned)
                 {
-                    Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+                    MessagePopupController.Instance.PlayMessage("Boss Incoming!");
                     butterflyBossSpawned = true;
+                    StartCoroutine(SpawnButterflyBoss());
                 }
             }
         }
@@ -98,5 +90,12 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(spawnCooldownDecreaseInterval);
         spawnCooldown -= spawnCooldownReduction;
         StartCoroutine(DecreaseSpawnCooldown());
+    }
+
+    private IEnumerator SpawnButterflyBoss()
+    {
+        yield return new WaitForSeconds(3f);
+        GameObject boss = Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+        boss.SetActive(true);
     }
 }
