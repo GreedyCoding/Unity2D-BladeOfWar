@@ -13,6 +13,8 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
     [SerializeField] Material defaultShipMaterial;
     private float damageFlashDuration = 0.1f;
 
+    [SerializeField] GameObject coinDropPrefab;
+
     private Rigidbody2D rb;
 
     //Timers
@@ -129,7 +131,15 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        //TODO: Spawn loot from boss
+        for (int i = 0; i < 10; i++)
+        {
+            Vector3 lootPositionOffset = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), 0f);
+            Vector3 lootPosition = this.transform.position + lootPositionOffset;
+            Instantiate(coinDropPrefab, lootPosition, Quaternion.identity);
+        }
+
+        MessagePopupController.Instance.PlayMessage("Phase 1 Complete!");
+
         Destroy(this.gameObject);
     }
 
