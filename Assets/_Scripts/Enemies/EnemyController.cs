@@ -32,8 +32,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     //Current Player Stats
     private float _currentHitPoints;
 
-    //Wall Bounce
+    //Movement
     private float _wallBounceForce = 40f;
+    private float _randomMovementSpeedOffset;
+
 
     private void Start()
     {
@@ -62,6 +64,8 @@ public class EnemyController : MonoBehaviour, IDamageable
         CurrentEnemyType = _enemyStats.enemyType;
 
         _currentHitPoints = MaxHitPoints;
+
+        _randomMovementSpeedOffset = Random.Range(0f, 10f);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -84,10 +88,9 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void HandleMovement()
     {
-        float randomOffset = Random.Range(0.2f, 1);
         Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad), 0);
 
-        _rigidbody.AddForce(horizontalMovement * randomOffset);
+        _rigidbody.AddForce(horizontalMovement * _randomMovementSpeedOffset);
 
         if (_rigidbody.velocity.magnitude > MoveSpeed)
         {

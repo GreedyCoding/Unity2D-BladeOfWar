@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour, IHealable
 
     [Header("Animation")]
     [SerializeField] Animator _thrusterAnimator;
+    [SerializeField] GameObject _deathExplosionOne;
+    [SerializeField] GameObject _deathExplosionTwo;
+    [SerializeField] GameObject _deathExplosionThree;
 
     [Header("Damage Flash")]
     [SerializeField] SpriteRenderer _shipSpriteRenderer;
@@ -281,12 +284,39 @@ public class PlayerController : MonoBehaviour, IHealable
                 child.gameObject.transform.position = new Vector2(child.gameObject.transform.position.x, this.transform.position.y);
             }
         }
-        else if (CurrentGunType == GunTypeEnum.tripleShot)
+        else if (CurrentGunType == GunTypeEnum.tripleShot || CurrentGunType == GunTypeEnum.superTripleShot)
         {
             foreach (Transform child in playerProjectile.transform)
             {
                 child.gameObject.SetActive(true);
                 child.gameObject.transform.position = this.transform.position;
+            }
+        }
+        else if (CurrentGunType == GunTypeEnum.fireShot)
+        {
+            for (int i = 0; i < playerProjectile.transform.childCount; i++)
+            {
+                playerProjectile.transform.GetChild(i).gameObject.SetActive(true);
+                switch (i)
+                {
+                    case 0:
+                        playerProjectile.transform.GetChild(i).gameObject.transform.position = new Vector2(this.transform.position.x, this.transform.position.y);
+                        break;
+                    case 1:
+                        playerProjectile.transform.GetChild(i).gameObject.transform.position = new Vector2(this.transform.position.x - 0.5f, this.transform.position.y - 0.5f);
+                        break;
+                    case 2:
+                        playerProjectile.transform.GetChild(i).gameObject.transform.position = new Vector2(this.transform.position.x + 0.5f, this.transform.position.y - 0.5f);
+                        break;
+                    case 3:
+                        playerProjectile.transform.GetChild(i).gameObject.transform.position = new Vector2(this.transform.position.x - 1f, this.transform.position.y - 1f);
+                        break;
+                    case 4:
+                        playerProjectile.transform.GetChild(i).gameObject.transform.position = new Vector2(this.transform.position.x + 1f, this.transform.position.y - 1f);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -381,6 +411,12 @@ public class PlayerController : MonoBehaviour, IHealable
         OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
     }
 
+    [ContextMenu("AddMoney")]
+    public void AddMoneyContextMenu()
+    {
+        AddMoney(500);
+    }
+
     public void AddShield()
     {
         _hasShield = true;
@@ -431,6 +467,15 @@ public class PlayerController : MonoBehaviour, IHealable
     private IEnumerator GameOver()
     {
         MessagePopupController.Instance.PlayMessage("Game Over");
+
+        MoveSpeed = 0f;
+
+        _deathExplosionOne.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        _deathExplosionTwo.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        _deathExplosionThree.SetActive(true);
+
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(Constants.MAIN_MENU_SCENE);
     }

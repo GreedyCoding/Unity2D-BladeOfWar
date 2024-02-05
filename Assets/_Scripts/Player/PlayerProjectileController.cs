@@ -59,7 +59,7 @@ public class PlayerProjectileController : MonoBehaviour
                 ProjectileDamage = 16f;
                 break;
             case GunTypeEnum.fireShot:
-                ProjectileDamage = 20f;
+                ProjectileDamage = 10f;
                 break;
             case GunTypeEnum.plasmaShot:
                 ProjectileDamage = 32f;
