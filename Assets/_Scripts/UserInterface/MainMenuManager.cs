@@ -83,6 +83,12 @@ public class MainMenuManager : MonoBehaviour
         mainMenuUI.SetActive(true);
     }
 
+    public void OnAddMoneyButtonClick()
+    {
+        int money = PlayerPrefs.GetInt("Money");
+        PlayerPrefs.SetInt("Money", money + 1000);
+    }
+
     public void OnResetStatsButtonClick()
     {
         PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);

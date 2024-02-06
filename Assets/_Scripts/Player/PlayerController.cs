@@ -411,12 +411,6 @@ public class PlayerController : MonoBehaviour, IHealable
         OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
     }
 
-    [ContextMenu("AddMoney")]
-    public void AddMoneyContextMenu()
-    {
-        AddMoney(500);
-    }
-
     public void AddShield()
     {
         _hasShield = true;
