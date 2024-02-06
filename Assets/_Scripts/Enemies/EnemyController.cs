@@ -33,8 +33,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     private float _currentHitPoints;
 
     //Movement
+    private bool _reverseMovement;
     private float _wallBounceForce = 40f;
     private float _randomMovementSpeedOffset;
+    private float _randomSinusOffset;
 
 
     private void Start()
@@ -66,6 +68,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         _currentHitPoints = MaxHitPoints;
 
         _randomMovementSpeedOffset = Random.Range(0f, 10f);
+        _randomSinusOffset = Random.Range(0f, 2f);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -78,17 +81,26 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             if(_rigidbody != null)
                 _rigidbody.AddForce(Vector2.right * _wallBounceForce, ForceMode2D.Impulse);
+
+            _reverseMovement = !_reverseMovement;
         }
         else if (other.gameObject.CompareTag(Constants.WALL_RIGHT_TAG))
         {
             if (_rigidbody != null)
                 _rigidbody.AddForce(Vector2.left * _wallBounceForce, ForceMode2D.Impulse);
+
+            _reverseMovement = !_reverseMovement;
+
         }
     }
 
     private void HandleMovement()
     {
-        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad), 0);
+        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad) * _randomSinusOffset, 0);
+        if(_reverseMovement)
+        {
+            horizontalMovement *= -1;
+        }
 
         _rigidbody.AddForce(horizontalMovement * _randomMovementSpeedOffset);
 
