@@ -134,6 +134,7 @@ MonoBehaviour:
   damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   defaultShipMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
+  _bossDeathEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
 --- !u!1 &9199258422608528692
 GameObject:
   m_ObjectHideFlags: 0

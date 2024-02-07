@@ -1,20 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ButterflyBossController : MonoBehaviour, IDamageable
 {
+    //Enemy Stats
     [SerializeField] EnemyStats enemyStats;
     [SerializeField] GameObject enemyBombPrefab;
     [SerializeField] GameObject guidedRocketPrefab;
 
+    //Rendering
     [SerializeField] SpriteRenderer enemySpriteRenderer;
     [SerializeField] Material damageFlashMaterial;
     [SerializeField] Material defaultShipMaterial;
     private float damageFlashDuration = 0.1f;
 
+    //Loot
     [SerializeField] GameObject coinDropPrefab;
 
+    //Rigidbody
     private Rigidbody2D rb;
 
     //Timers
@@ -30,6 +36,8 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
     public float MoveSpeed { get; private set; }
     public float ProjectileSpeed { get; private set; }
 
+    //Event Scriptable Object
+    [SerializeField] VoidEventChannelSO _bossDeathEventChannel;
 
     //Current Player Stats
     private float currentHitPoints;
@@ -83,7 +91,7 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
 
     private void HandleMovement()
     {
-        float randomOffset = Random.Range(0.2f, 1);
+        float randomOffset = UnityEngine.Random.Range(0.2f, 1);
         Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad), 0);
 
         rb.AddForce(horizontalMovement * randomOffset * 10f);
@@ -133,12 +141,14 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
     {
         for (int i = 0; i < 10; i++)
         {
-            Vector3 lootPositionOffset = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-2.5f, 2.5f), 0f);
+            Vector3 lootPositionOffset = new Vector3(UnityEngine.Random.Range(-2.5f, 2.5f), UnityEngine.Random.Range(-2.5f, 2.5f), 0f);
             Vector3 lootPosition = this.transform.position + lootPositionOffset;
             Instantiate(coinDropPrefab, lootPosition, Quaternion.identity);
         }
 
         MessagePopupController.Instance.PlayMessage("Phase 1 Complete!");
+
+        _bossDeathEventChannel.RaiseEvent();
 
         Destroy(this.gameObject);
     }
