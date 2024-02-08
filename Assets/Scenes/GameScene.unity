@@ -2000,6 +2000,11 @@ MonoBehaviour:
   _shieldSpriteRenderer: {fileID: 1880036002}
   _audioSource: {fileID: 689630146}
   _playerShotSound: {fileID: 8300000, guid: 7f2b5e8c0d014ce40a71df5466da2e11, type: 3}
+  _bulletChangeVoidEventChannelSO: {fileID: 11400000, guid: fad320bc91582464984a7c0b57c18f66, type: 2}
+  _gunChangeEventChannelSO: {fileID: 11400000, guid: d85fcc6d4ecf15b44b51b275d586f3f3, type: 2}
+  _healthChangeEventChannelSO: {fileID: 11400000, guid: ed1a424e1753e574989602099316c8b9, type: 2}
+  _moneyChangeEventChannelSO: {fileID: 11400000, guid: ff754ce5f57f3a24293113b3cb5f7942, type: 2}
+  _movespeedChangeEventChannelSO: {fileID: 11400000, guid: 29fb9f6ac9e87a041b285320f8c24545, type: 2}
   SingleShotPrefab: {fileID: 1718028422146164629, guid: 1e1a928ba686cee48973b6fd4c9f8970, type: 3}
   DoubleShotPrefab: {fileID: 7612861726610763552, guid: 2f49c1854cd84314485f4633055fc839, type: 3}
   TripleShotPrefab: {fileID: 6862538647896216339, guid: 7a293596a9a127543acdf31ee58f549d, type: 3}
@@ -3303,7 +3308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f8aa628e5d344c93941da8a1746ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 689630142}
+  _playerController: {fileID: 689630142}
+  _gunChangeVoidEventChannelSO: {fileID: 11400000, guid: d85fcc6d4ecf15b44b51b275d586f3f3, type: 2}
   pooledObjects: []
 --- !u!4 &1248979466
 Transform:
@@ -4249,6 +4255,14 @@ PrefabInstance:
     - target: {fileID: 2274648369717690550, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 525309703}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5988052633273117142, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_Pivot.x
@@ -5949,7 +5963,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f4d45f3f31cb548992b675b55c7373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 689630142}
+  _bulletChangeVoidEventChannelSO: {fileID: 11400000, guid: fad320bc91582464984a7c0b57c18f66, type: 2}
+  _healthChangeVoidEventChannelSO: {fileID: 11400000, guid: ed1a424e1753e574989602099316c8b9, type: 2}
+  _moneyVoidEventChannelSO: {fileID: 11400000, guid: ff754ce5f57f3a24293113b3cb5f7942, type: 2}
+  _movespeedChangeVoidEventChannelSO: {fileID: 11400000, guid: 29fb9f6ac9e87a041b285320f8c24545, type: 2}
   healthContainerOne: {fileID: 647228422}
   healthContainerTwo: {fileID: 172093302}
   healthContainerThree: {fileID: 1640254174}

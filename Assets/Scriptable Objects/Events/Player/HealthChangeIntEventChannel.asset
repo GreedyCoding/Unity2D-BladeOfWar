@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bdac2dcbe7d82c409261504368b4a01, type: 3}
-  m_Name: BossDeathVoidEventChannelSO
+  m_Script: {fileID: 11500000, guid: 605a65a4035ed25439a794505b6e946e, type: 3}
+  m_Name: HealthChangeIntEventChannel
   m_EditorClassIdentifier: 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameShopMenuController : MonoBehaviour
@@ -17,6 +18,12 @@ public class GameShopMenuController : MonoBehaviour
 
     private void OpenShopMenu()
     {
+        StartCoroutine(OpenShopMenuCoroutine());
+    }
+
+    private IEnumerator OpenShopMenuCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
         _shopMenu.SetActive(true);
     }
 }

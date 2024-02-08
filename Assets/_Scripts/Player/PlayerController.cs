@@ -31,6 +31,13 @@ public class PlayerController : MonoBehaviour, IHealable
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip _playerShotSound;
 
+    [Header("Void Event Channel SO")]
+    [SerializeField] IntToupleEventChannelSO _bulletChangeVoidEventChannelSO;
+    [SerializeField] GunTypeEventChannelSO _gunChangeEventChannelSO;
+    [SerializeField] IntEventChannelSO _healthChangeEventChannelSO;
+    [SerializeField] IntEventChannelSO _moneyChangeEventChannelSO;
+    [SerializeField] FloatEventChannelSO _movespeedChangeEventChannelSO;
+
     [Header("Shot Prefabs")]
     public GameObject SingleShotPrefab;
     public GameObject DoubleShotPrefab;
@@ -61,13 +68,6 @@ public class PlayerController : MonoBehaviour, IHealable
     public int MovespeedUpgradeLevel { get; private set; }
     public int BulletUpgradeLevel { get; private set; }
     public int GunUpgradeLevel { get; private set; }
-
-    //Events
-    public event EventHandler OnGunTypeChange;
-    public event EventHandler OnHealthValueChange;
-    public event EventHandler OnBulletValueChange;
-    public event EventHandler OnMovespeedValueChange;
-    public event EventHandler OnMoneyValueChange;
  
     //Timers
     private float _nextTimeToReload = 0f;
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour, IHealable
     //Stats
     private void SetStats()
     {
+        //Set Standard Stats
         MaxHitPoints = _shipStats.hitPoints;
         MoveSpeed = _shipStats.moveSpeed;
         MaxBullets = _shipStats.maxBullets;
@@ -106,19 +107,23 @@ public class PlayerController : MonoBehaviour, IHealable
         ProjectileSpeed = _shipStats.projectileSpeed;
         ReloadRate = _shipStats.reloadRate;        
 
+        //Get and Apply Upgrades
         MovespeedUpgradeLevel = PlayerPrefs.GetInt(Constants.MOVESPEED_UPGRADE_LEVEL);
         BulletUpgradeLevel = PlayerPrefs.GetInt(Constants.BULLET_UPGRADE_LEVEL);
         GunUpgradeLevel = PlayerPrefs.GetInt(Constants.GUN_UPGRADE_LEVEL);
         ApplyUpgrades(MovespeedUpgradeLevel, BulletUpgradeLevel, GunUpgradeLevel);
 
+        //Fire event to initialize the object pool
+        _gunChangeEventChannelSO.RaiseEvent(CurrentGunType);
+
         CurrentHitPoints = MaxHitPoints;
-        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+        _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
 
         CurrentBullets = MaxBullets;
-        OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+        _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
 
         Money = PlayerPrefs.GetInt(Constants.MONEY_AMOUNT);
-        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+        _moneyChangeEventChannelSO.RaiseEvent(Money);
     }
 
     public void SetGunType(GunTypeEnum gunType, bool initialSet, bool sendMessage)
@@ -130,7 +135,7 @@ public class PlayerController : MonoBehaviour, IHealable
         }
 
         CurrentGunType = gunType;
-        OnGunTypeChange?.Invoke(this, EventArgs.Empty);
+        _gunChangeEventChannelSO.RaiseEvent(CurrentGunType);
 
         if (initialSet)
         {
@@ -215,7 +220,7 @@ public class PlayerController : MonoBehaviour, IHealable
         {
             _nextTimeToReload = Time.timeSinceLevelLoad + (1f / ReloadRate);
             CurrentBullets++;
-            OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+            _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
         }
 
         //If the magazine is full also reset the reload timer, so the player cant instatly reload after shooting one bullet
@@ -231,7 +236,7 @@ public class PlayerController : MonoBehaviour, IHealable
         {
             _nextTimeToFire = Time.timeSinceLevelLoad + (1f / FireRate);
             CurrentBullets--;
-            OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+            _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
 
             switch (CurrentGunType)
             {
@@ -334,7 +339,7 @@ public class PlayerController : MonoBehaviour, IHealable
         }
 
         CurrentHitPoints -= damageAmount;
-        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+        _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
         if (CurrentHitPoints <= 0)
         {
             StartCoroutine(GameOver());
@@ -351,7 +356,7 @@ public class PlayerController : MonoBehaviour, IHealable
             AddShield();
         }
 
-        OnHealthValueChange?.Invoke(this, EventArgs.Empty);
+        _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
     }
 
     public void TakeDamage(float damageAmount)
@@ -373,11 +378,11 @@ public class PlayerController : MonoBehaviour, IHealable
     }
 
     //Functions to increase stats from Drops or ShopUpgrades
-    public void IncreaseSpeed(bool sendMessage)
+    public void IncreaseSpeed(bool sendMessage) 
     {
         MoveSpeed += 0.5f;
-        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
-        
+        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
+
         if (!sendMessage) return;
         MessagePopupController.Instance.PlayMessage(Constants.SPEED_UPGRADE_TEXT);
     }
@@ -385,7 +390,7 @@ public class PlayerController : MonoBehaviour, IHealable
     public void IncreaseBullet(bool sendMessage)
     {
         MaxBullets += 1;
-        OnBulletValueChange?.Invoke(this, EventArgs.Empty);
+        _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
 
         if (!sendMessage) return;
         MessagePopupController.Instance.PlayMessage(Constants.BULLET_UPGRADE_TEXT);
@@ -401,14 +406,14 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         Money += money;
         PlayerPrefs.SetInt(Constants.MONEY_AMOUNT, Money);
-        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+        _moneyChangeEventChannelSO.RaiseEvent(Money);
     }
 
     public void RemoveMoney(int money)
     {
         Money -= money;
         PlayerPrefs.SetInt(Constants.MONEY_AMOUNT, Money);
-        OnMoneyValueChange?.Invoke(this, EventArgs.Empty);
+        _moneyChangeEventChannelSO.RaiseEvent(Money);
     }
 
     public void AddShield()
@@ -429,7 +434,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         MoveSpeed = _shipStats.moveSpeed * 0.75f;
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION_SLOW);
-        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
+        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
         StartCoroutine(ResetMovementSpeed());
         MessagePopupController.Instance.PlayMessage("Engine Failure");
     }
@@ -440,7 +445,7 @@ public class PlayerController : MonoBehaviour, IHealable
         MoveSpeed = _shipStats.moveSpeed;
         MessagePopupController.Instance.PlayMessage("Engine Repaired");
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION);
-        OnMovespeedValueChange?.Invoke(this, EventArgs.Empty);
+        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
     }
 
     public void DebuffMirrorControls()

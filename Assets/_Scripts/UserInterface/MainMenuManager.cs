@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] GameObject mainMenuUI;
     [SerializeField] GameObject shopMenuUI;
+
     [Header("Text Elements")]
     [SerializeField] TextMeshProUGUI moneyText;
     [SerializeField] TextMeshProUGUI bulletPrice;
@@ -24,18 +25,13 @@ public class MainMenuManager : MonoBehaviour
     private int bulletUpgradeLevel;
     private int movespeedUpgradeLevel;
     private int gunUpgradeLevel;
+    private int maxUpgradeLevel = 5;
 
-    private int bulletUpgradeOneCost = 50;
-    private int bulletUpgradeTwoCost = 100;
-    private int bulletUpgradeThreeCost = 250;
-    private int bulletUpgradeFourCost = 500;
-    private int bulletUpgradeFiveCost = 1000;
-
-    private int speedUpgradeOneCost = 50;
-    private int speedUpgradeTwoCost = 100;
-    private int speedUpgradeThreeCost = 250;
-    private int speedUpgradeFourCost = 500;
-    private int speedUpgradeFiveCost = 1000;
+    private int upgradeOneCost = 50;
+    private int upgradeTwoCost = 100;
+    private int upgradeThreeCost = 250;
+    private int upgradeFourCost = 500;
+    private int upgradeFiveCost = 1000;
 
     private int gunUpgradeOneCost = 500;
     private int gunUpgradeTwoCost = 1000;
@@ -91,33 +87,38 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnResetStatsButtonClick()
     {
-        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
         PlayerPrefs.SetInt("BulletUpgradeLevel", 0);
         PlayerPrefs.SetInt("GunUpgradeLevel", 0);
         PlayerPrefs.SetInt("Money", 0);
+        PlayerPrefs.SetInt("MovespeedUpgradeLevel", 0);
+
+        SetUpgradeSprites();
+        UpdateUpgradeSprites();
     }
 
     public void OnBulletUpgradeButtonClick()
     {
+        if(bulletUpgradeLevel >= maxUpgradeLevel) return;
+        
         int currentMoney = PlayerPrefs.GetInt("Money");
         int currentBulletUpgradeLevel = PlayerPrefs.GetInt("BulletUpgradeLevel");
         int upgradeCost;
         switch (currentBulletUpgradeLevel)
         {
             case 0:
-                upgradeCost = bulletUpgradeOneCost;
+                upgradeCost = upgradeOneCost;
                 break;
             case 1:
-                upgradeCost = bulletUpgradeTwoCost;
+                upgradeCost = upgradeTwoCost;
                 break;
             case 2:
-                upgradeCost = bulletUpgradeThreeCost;
+                upgradeCost = upgradeThreeCost;
                 break;
             case 3:
-                upgradeCost = bulletUpgradeFourCost;
+                upgradeCost = upgradeFourCost;
                 break;
             case 4:
-                upgradeCost = bulletUpgradeFiveCost;
+                upgradeCost = upgradeFiveCost;
                 break;
             default:
                 upgradeCost = 0;
@@ -133,25 +134,27 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnMovespeedUpgradeButtonClick()
     {
+        if (movespeedUpgradeLevel >= maxUpgradeLevel) return;
+
         int currentMoney = PlayerPrefs.GetInt("Money");
         int currentSpeedUpgradeLevel = PlayerPrefs.GetInt("MovespeedUpgradeLevel");
         int upgradeCost;
         switch (currentSpeedUpgradeLevel)
         {
             case 0:
-                upgradeCost = speedUpgradeOneCost;
+                upgradeCost = upgradeOneCost;
                 break;
             case 1:
-                upgradeCost = speedUpgradeTwoCost;
+                upgradeCost = upgradeTwoCost;
                 break;
             case 2:
-                upgradeCost = speedUpgradeThreeCost;
+                upgradeCost = upgradeThreeCost;
                 break;
             case 3:
-                upgradeCost = speedUpgradeFourCost;
+                upgradeCost = upgradeFourCost;
                 break;
             case 4:
-                upgradeCost = speedUpgradeFiveCost;
+                upgradeCost = upgradeFiveCost;
                 break;
             default:
                 upgradeCost = 0;
@@ -167,6 +170,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnGunUpgradeButtonClick()
     {
+        if (gunUpgradeLevel >= maxUpgradeLevel) return;
+
         int currentMoney = PlayerPrefs.GetInt("Money");
         int currentGunUpgradeLevel = PlayerPrefs.GetInt("GunUpgradeLevel");
         int upgradeCost;
@@ -241,19 +246,19 @@ public class MainMenuManager : MonoBehaviour
         switch(bulletUpgradeLevel)
         {
             case 0:
-                bulletPrice.text = "$" + bulletUpgradeOneCost.ToString();
+                bulletPrice.text = "$" + upgradeOneCost.ToString();
                 break;
             case 1:
-                bulletPrice.text = "$" + bulletUpgradeTwoCost.ToString();
+                bulletPrice.text = "$" + upgradeTwoCost.ToString();
                 break;
             case 2:
-                bulletPrice.text = "$" + bulletUpgradeThreeCost.ToString();
+                bulletPrice.text = "$" + upgradeThreeCost.ToString();
                 break;
             case 3:
-                bulletPrice.text = "$" + bulletUpgradeFourCost.ToString();
+                bulletPrice.text = "$" + upgradeFourCost.ToString();
                 break;
             case 4:
-                bulletPrice.text = "$" + bulletUpgradeFiveCost.ToString();
+                bulletPrice.text = "$" + upgradeFiveCost.ToString();
                 break;
             default:
                 bulletPrice.text = "MAX";
@@ -263,19 +268,19 @@ public class MainMenuManager : MonoBehaviour
         switch(movespeedUpgradeLevel)
         {
             case 0:
-                speedPrice.text = "$" + speedUpgradeOneCost.ToString();
+                speedPrice.text = "$" + upgradeOneCost.ToString();
                 break;
             case 1:
-                speedPrice.text = "$" + speedUpgradeTwoCost.ToString();
+                speedPrice.text = "$" + upgradeTwoCost.ToString();
                 break;
             case 2:
-                speedPrice.text = "$" + speedUpgradeThreeCost.ToString();
+                speedPrice.text = "$" + upgradeThreeCost.ToString();
                 break;
             case 3:
-                speedPrice.text = "$" + speedUpgradeFourCost.ToString();
+                speedPrice.text = "$" + upgradeFourCost.ToString();
                 break;
             case 4:
-                speedPrice.text = "$" + speedUpgradeFiveCost.ToString();
+                speedPrice.text = "$" + upgradeFiveCost.ToString();
                 break;
             default:
                 speedPrice.text = "MAX";

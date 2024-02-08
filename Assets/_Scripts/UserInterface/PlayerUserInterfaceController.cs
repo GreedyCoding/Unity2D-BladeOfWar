@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerUserInterfaceController : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
+    [Header("Event Channel SO")]
+    [SerializeField] IntToupleEventChannelSO _bulletChangeVoidEventChannelSO;
+    [SerializeField] IntEventChannelSO _healthChangeVoidEventChannelSO;
+    [SerializeField] IntEventChannelSO _moneyVoidEventChannelSO;
+    [SerializeField] FloatEventChannelSO _movespeedChangeVoidEventChannelSO;
 
     [Header("Health UI")]
     [SerializeField] Image healthContainerOne;
@@ -37,23 +41,23 @@ public class PlayerUserInterfaceController : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        playerController.OnHealthValueChange += HandleHealthValueChange;
-        playerController.OnBulletValueChange += HandleBulletValueChange;
-        playerController.OnMovespeedValueChange += HandleMovespeedValueChange;
-        playerController.OnMoneyValueChange += HandleMoneyValueChange;
+        _bulletChangeVoidEventChannelSO.OnEventRaised += HandleBulletValueChange;
+        _healthChangeVoidEventChannelSO.OnEventRaised += HandleHealthValueChange;
+        _moneyVoidEventChannelSO.OnEventRaised += HandleMoneyValueChange;
+        _movespeedChangeVoidEventChannelSO.OnEventRaised += HandleMovespeedValueChange;
     }
 
     private void UnsubscribeFromEvents()
     {
-        playerController.OnHealthValueChange -= HandleHealthValueChange;
-        playerController.OnBulletValueChange -= HandleBulletValueChange;
-        playerController.OnMovespeedValueChange -= HandleMovespeedValueChange;
-        playerController.OnMoneyValueChange -= HandleMoneyValueChange;
+        _bulletChangeVoidEventChannelSO.OnEventRaised -= HandleBulletValueChange;
+        _healthChangeVoidEventChannelSO.OnEventRaised -= HandleHealthValueChange;
+        _moneyVoidEventChannelSO.OnEventRaised -= HandleMoneyValueChange;
+        _movespeedChangeVoidEventChannelSO.OnEventRaised -= HandleMovespeedValueChange;
     }
 
-    private void HandleHealthValueChange(object sender, System.EventArgs e)
+    private void HandleHealthValueChange(int currentHitPoints)
     {
-        switch (playerController.CurrentHitPoints)
+        switch (currentHitPoints)
         {
             case 3:
                 healthContainerOne.sprite = fullHealthContainerSprite;
@@ -78,18 +82,18 @@ public class PlayerUserInterfaceController : MonoBehaviour
         }
     }
 
-    private void HandleBulletValueChange(object sender, System.EventArgs e)
+    private void HandleBulletValueChange(int currentBullets, int maxBullets)
     {
-        ammoText.text = (playerController.CurrentBullets.ToString() + "/" + playerController.MaxBullets.ToString());
+        ammoText.text = (currentBullets.ToString() + "/" + maxBullets.ToString());
     }
 
-    private void HandleMovespeedValueChange(object sender, EventArgs e)
+    private void HandleMovespeedValueChange(float moveSpeed)
     {
-        speedText.text = playerController.MoveSpeed.ToString();
+        speedText.text = moveSpeed.ToString();
     }
 
-    private void HandleMoneyValueChange(object sender, EventArgs e)
+    private void HandleMoneyValueChange(int moneyAmount)
     {
-        moneyText.text = "$" + playerController.Money.ToString();
+        moneyText.text = "$" + moneyAmount.ToString();
     }
 }

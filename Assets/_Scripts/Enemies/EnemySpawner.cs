@@ -35,13 +35,13 @@ public class EnemySpawner : MonoBehaviour
         {
             nextTimeToSpawn = Time.timeSinceLevelLoad + spawnCooldown;
 
-            if (Time.timeSinceLevelLoad < 60f)
+            if (Time.timeSinceLevelLoad < 5f)
             {
                 GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
                 beetlePoolObject.transform.position = GetRandomSpawnPosition();
                 beetlePoolObject.SetActive(true);
             }
-            else if (Time.timeSinceLevelLoad < 120f)
+            else if (Time.timeSinceLevelLoad < 10f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if (Time.timeSinceLevelLoad < 180f)
+            else if (Time.timeSinceLevelLoad < 15f)
             {
                 GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
                 dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
@@ -65,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
                     beetlePoolObject.SetActive(true);
                 }
             }
-            else if (Time.timeSinceLevelLoad > 180f)
+            else if (Time.timeSinceLevelLoad > 15f)
             {
                 if (!butterflyBossSpawned)
                 {

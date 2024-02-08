@@ -9,7 +9,10 @@ public class ObjectPoolPlayerProjectiles : MonoBehaviour
     public static ObjectPoolPlayerProjectiles SharedInstance;
 
     //Reference
-    [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerController _playerController;
+
+    //Event Channel
+    [SerializeField] GunTypeEventChannelSO _gunChangeVoidEventChannelSO;
     
     //List of pooled objects
     public List<GameObject> pooledObjects;
@@ -29,24 +32,24 @@ public class ObjectPoolPlayerProjectiles : MonoBehaviour
 
     void Start()
     {
-        SetObjectAndAmount();
-        SetupPool();
-        playerController.OnGunTypeChange += SetObjectAndAmount;
-        playerController.OnGunTypeChange += SetupPool;
+        InitialPoolSetup();
+        _gunChangeVoidEventChannelSO.OnEventRaised += SetObjectAndAmount;
+        _gunChangeVoidEventChannelSO.OnEventRaised += SetupPool;
     }
 
     void OnDisable()
     {
-        playerController.OnGunTypeChange -= SetObjectAndAmount;
-        playerController.OnGunTypeChange -= SetupPool;
+        _gunChangeVoidEventChannelSO.OnEventRaised -= SetObjectAndAmount;
+        _gunChangeVoidEventChannelSO.OnEventRaised -= SetupPool;
     }
 
-    void SetupPool(object sender, EventArgs e)
+    private void InitialPoolSetup()
     {
-        SetupPool();
+        SetObjectAndAmount(_playerController.CurrentGunType);
+        SetupPool(_playerController.CurrentGunType);
     }
 
-    void SetupPool()
+    void SetupPool(GunTypeEnum enumerator)
     {
         if(pooledObjects.Count > 0)
         {
@@ -66,45 +69,40 @@ public class ObjectPoolPlayerProjectiles : MonoBehaviour
         }
     }
 
-    void SetObjectAndAmount(object sender, EventArgs e)
+    void SetObjectAndAmount(GunTypeEnum enumerator)
     {
-        SetObjectAndAmount();
-    }
-
-    void SetObjectAndAmount()
-    {
-        switch (playerController.CurrentGunType)
+        switch (enumerator)
         {
             case GunTypeEnum.singleShot:
-                objectToPool = playerController.SingleShotPrefab;
+                objectToPool = _playerController.SingleShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.doubleShot:
-                objectToPool = playerController.DoubleShotPrefab;
+                objectToPool = _playerController.DoubleShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.tripleShot:
-                objectToPool = playerController.TripleShotPrefab;
+                objectToPool = _playerController.TripleShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.quadShot:
-                objectToPool = playerController.QuadShotPrefab;
+                objectToPool = _playerController.QuadShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.superTripleShot:
-                objectToPool = playerController.SuperTripleShotPrefab;
+                objectToPool = _playerController.SuperTripleShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.fireShot:
-                objectToPool = playerController.FireShotPrefab;
+                objectToPool = _playerController.FireShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.plasmaShot:
-                objectToPool = playerController.PlasmaShotPrefab;
+                objectToPool = _playerController.PlasmaShotPrefab;
                 amountToPool = 10;
                 break;
             case GunTypeEnum.laserShot:
-                objectToPool = playerController.LaserShotPrefab;
+                objectToPool = _playerController.LaserShotPrefab;
                 amountToPool = 10;
                 break;
         }
