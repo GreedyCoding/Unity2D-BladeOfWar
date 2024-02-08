@@ -6,31 +6,36 @@ using UnityEngine.UI;
 public class PlayerUserInterfaceController : MonoBehaviour
 {
     [Header("Event Channel SO")]
-    [SerializeField] IntToupleEventChannelSO _bulletChangeVoidEventChannelSO;
-    [SerializeField] IntEventChannelSO _healthChangeVoidEventChannelSO;
-    [SerializeField] IntEventChannelSO _moneyVoidEventChannelSO;
-    [SerializeField] FloatEventChannelSO _movespeedChangeVoidEventChannelSO;
+    [SerializeField] IntToupleEventChannelSO _bulletChangeIntToupleEventChannelSO;
+    [SerializeField] IntEventChannelSO _healthChangeIntEventChannelSO;
+    [SerializeField] IntEventChannelSO _moneyChangeIntEventChannelSO;
+    [SerializeField] IntEventChannelSO _stageChangeIntEventChannelSO;
+    [SerializeField] FloatEventChannelSO _movespeedChangeFloatEventChannelSO;
 
     [Header("Health UI")]
-    [SerializeField] Image healthContainerOne;
-    [SerializeField] Image healthContainerTwo;
-    [SerializeField] Image healthContainerThree;
-    [SerializeField] Sprite emptyHealthContainerSprite;
-    private Sprite fullHealthContainerSprite;
+    [SerializeField] Image _healthContainerOne;
+    [SerializeField] Image _healthContainerTwo;
+    [SerializeField] Image _healthContainerThree;
+    [SerializeField] Sprite _emptyHealthContainerSprite;
+
+    private Sprite _fullHealthContainerSprite;
 
     [Header("Ammo UI")]
-    [SerializeField] TextMeshProUGUI ammoText;
+    [SerializeField] TextMeshProUGUI _ammoText;
 
     [Header("Speed UI")]
-    [SerializeField] TextMeshProUGUI speedText;
+    [SerializeField] TextMeshProUGUI _speedText;
 
     [Header("Money UI")]
-    [SerializeField] TextMeshProUGUI moneyText;
+    [SerializeField] TextMeshProUGUI _moneyText;
+
+    [Header("Stage UI")]
+    [SerializeField] TextMeshProUGUI _stageText;
 
 
     private void OnEnable()
     {
-        fullHealthContainerSprite = healthContainerOne.sprite;
+        _fullHealthContainerSprite = _healthContainerOne.sprite;
         SubscribeToEvents();
     }
 
@@ -41,18 +46,20 @@ public class PlayerUserInterfaceController : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        _bulletChangeVoidEventChannelSO.OnEventRaised += HandleBulletValueChange;
-        _healthChangeVoidEventChannelSO.OnEventRaised += HandleHealthValueChange;
-        _moneyVoidEventChannelSO.OnEventRaised += HandleMoneyValueChange;
-        _movespeedChangeVoidEventChannelSO.OnEventRaised += HandleMovespeedValueChange;
+        _bulletChangeIntToupleEventChannelSO.OnEventRaised += HandleBulletValueChange;
+        _healthChangeIntEventChannelSO.OnEventRaised += HandleHealthValueChange;
+        _moneyChangeIntEventChannelSO.OnEventRaised += HandleMoneyValueChange;
+        _stageChangeIntEventChannelSO.OnEventRaised += HandleStageValueChange;
+        _movespeedChangeFloatEventChannelSO.OnEventRaised += HandleMovespeedValueChange;
     }
 
     private void UnsubscribeFromEvents()
     {
-        _bulletChangeVoidEventChannelSO.OnEventRaised -= HandleBulletValueChange;
-        _healthChangeVoidEventChannelSO.OnEventRaised -= HandleHealthValueChange;
-        _moneyVoidEventChannelSO.OnEventRaised -= HandleMoneyValueChange;
-        _movespeedChangeVoidEventChannelSO.OnEventRaised -= HandleMovespeedValueChange;
+        _bulletChangeIntToupleEventChannelSO.OnEventRaised -= HandleBulletValueChange;
+        _healthChangeIntEventChannelSO.OnEventRaised -= HandleHealthValueChange;
+        _moneyChangeIntEventChannelSO.OnEventRaised -= HandleMoneyValueChange;
+        _stageChangeIntEventChannelSO.OnEventRaised -= HandleStageValueChange;
+        _movespeedChangeFloatEventChannelSO.OnEventRaised -= HandleMovespeedValueChange;
     }
 
     private void HandleHealthValueChange(int currentHitPoints)
@@ -60,40 +67,45 @@ public class PlayerUserInterfaceController : MonoBehaviour
         switch (currentHitPoints)
         {
             case 3:
-                healthContainerOne.sprite = fullHealthContainerSprite;
-                healthContainerTwo.sprite = fullHealthContainerSprite;
-                healthContainerThree.sprite = fullHealthContainerSprite;
+                _healthContainerOne.sprite = _fullHealthContainerSprite;
+                _healthContainerTwo.sprite = _fullHealthContainerSprite;
+                _healthContainerThree.sprite = _fullHealthContainerSprite;
                 break;
             case 2:
-                healthContainerOne.sprite = fullHealthContainerSprite;
-                healthContainerTwo.sprite = fullHealthContainerSprite;
-                healthContainerThree.sprite = emptyHealthContainerSprite;
+                _healthContainerOne.sprite = _fullHealthContainerSprite;
+                _healthContainerTwo.sprite = _fullHealthContainerSprite;
+                _healthContainerThree.sprite = _emptyHealthContainerSprite;
                 break;
             case 1:
-                healthContainerOne.sprite = fullHealthContainerSprite;
-                healthContainerTwo.sprite = emptyHealthContainerSprite;
-                healthContainerThree.sprite = emptyHealthContainerSprite;
+                _healthContainerOne.sprite = _fullHealthContainerSprite;
+                _healthContainerTwo.sprite = _emptyHealthContainerSprite;
+                _healthContainerThree.sprite = _emptyHealthContainerSprite;
                 break;
             case 0:
-                healthContainerOne.sprite = emptyHealthContainerSprite;
-                healthContainerTwo.sprite = emptyHealthContainerSprite;
-                healthContainerThree.sprite = emptyHealthContainerSprite;
+                _healthContainerOne.sprite = _emptyHealthContainerSprite;
+                _healthContainerTwo.sprite = _emptyHealthContainerSprite;
+                _healthContainerThree.sprite = _emptyHealthContainerSprite;
                 break;
         }
     }
 
     private void HandleBulletValueChange(int currentBullets, int maxBullets)
     {
-        ammoText.text = (currentBullets.ToString() + "/" + maxBullets.ToString());
+        _ammoText.text = (currentBullets.ToString() + "/" + maxBullets.ToString());
     }
 
     private void HandleMovespeedValueChange(float moveSpeed)
     {
-        speedText.text = moveSpeed.ToString();
+        _speedText.text = moveSpeed.ToString();
     }
 
     private void HandleMoneyValueChange(int moneyAmount)
     {
-        moneyText.text = "$" + moneyAmount.ToString();
+        _moneyText.text = "$" + moneyAmount.ToString();
+    }
+
+    private void HandleStageValueChange(int stageNumber)
+    {
+        _stageText.text = stageNumber.ToString();
     }
 }

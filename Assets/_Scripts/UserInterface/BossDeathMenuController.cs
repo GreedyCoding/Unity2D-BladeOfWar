@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GameShopMenuController : MonoBehaviour
+public class BossDeathMenuController : MonoBehaviour
 {
     [SerializeField] GameObject _shopMenu;
     [SerializeField] VoidEventChannelSO _bossDeathEventChannel;
