@@ -1,85 +1,135 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn Box")]
-    [SerializeField] Collider2D spawnBox;
+    [SerializeField] Collider2D _spawnBox;
 
-    [SerializeField] GameObject bossPrefab;
-    private bool butterflyBossSpawned = false;
+    [Header("Boss Prefabs")]
+    [SerializeField] GameObject _stageOneBossPrefab;
+    [SerializeField] GameObject _stageTwoBossPrefab;
 
-    private float nextTimeToSpawn = 0f;
+    [Header("Event Channels")]
+    [SerializeField]VoidEventChannelSO _bossDeathEventChannel;
+    [SerializeField]IntEventChannelSO _stageChangeIntEventChannel;
 
-    private float initialSpawnCooldown = 3f;
-    private float spawnCooldown;
+    private GameplayTimer _timer;
 
-    private float spawnCooldownReduction = 0.1f;
-    private float spawnCooldownDecreaseInterval = 30f;
+    private bool _bossSpawned = false;
+
+    private float _nextTimeToSpawn = 0f;
+
+    private float _initialSpawnCooldown = 3f;
+    private float _spawnCooldown;
+
+    private float _phaseOneTime = 5f;
+    private float _phaseTwoTime = 10f;
+    private float _phaseThreeTime = 15f;
+
+    private float _spawnCooldownReduction = 0.1f;
+    private float _spawnCooldownDecreaseInterval = 30f;
+
+    private int _stage = 1;
+
+    private void OnEnable()
+    {
+        _bossDeathEventChannel.OnEventRaised += IncreaseStage;
+    }
+
+    private void OnDisable()
+    {
+        _bossDeathEventChannel.OnEventRaised -= IncreaseStage;
+    }
 
     private void Start()
     {
-        spawnCooldown = initialSpawnCooldown;
+        _timer = GameplayTimer.Instance;
+        _timer.StartTimer();
+
+        _spawnCooldown = _initialSpawnCooldown;
         StartCoroutine(DecreaseSpawnCooldown());
+    }
+
+    private void IncreaseStage()
+    {
+        _stage++;
+        _stageChangeIntEventChannel.RaiseEvent(_stage);
     }
 
     private void FixedUpdate()
     {
-        SpawnEnemy();
+        SpawnEnemies();
     }
 
-    private void SpawnEnemy()
+    private void SpawnEnemies()
     {
-        if(nextTimeToSpawn <= Time.timeSinceLevelLoad)
+        if(_nextTimeToSpawn <= _timer.CurrentTime)
         {
-            nextTimeToSpawn = Time.timeSinceLevelLoad + spawnCooldown;
+            _nextTimeToSpawn = _timer.CurrentTime + _spawnCooldown;
 
-            if (Time.timeSinceLevelLoad < 5f)
+            EvaluateAndSpawnEnemy();
+            
+        }
+    }
+
+    private void EvaluateAndSpawnEnemy()
+    {
+        if (_timer.CurrentTime < _phaseOneTime)
+        {
+            GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
+            smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+            smallEnemyPoolObject.SetActive(true);
+        }
+        else if (_timer.CurrentTime < _phaseTwoTime)
+        {
+            GameObject bigEnemyPoolObject = ObjectPoolBigEnemies.SharedInstance.GetPooledObject();
+            bigEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+            bigEnemyPoolObject.SetActive(true);
+            if (Random.Range(0f, 1f) <= 0.5f)
             {
-                GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                beetlePoolObject.transform.position = GetRandomSpawnPosition();
-                beetlePoolObject.SetActive(true);
+                GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
+                smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+                smallEnemyPoolObject.SetActive(true);
             }
-            else if (Time.timeSinceLevelLoad < 10f)
+        }
+        else if (_timer.CurrentTime < _phaseThreeTime)
+        {
+            GameObject bigEnemyPoolObject = ObjectPoolBigEnemies.SharedInstance.GetPooledObject();
+            bigEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+            bigEnemyPoolObject.SetActive(true);
+            if (Random.Range(0f, 1f) <= 0.75f)
             {
-                GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
-                dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
-                dragonflyPoolObject.SetActive(true);
-                if (Random.Range(0f, 1f) <= 0.5f)
-                {
-                    GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                    beetlePoolObject.transform.position = GetRandomSpawnPosition();
-                    beetlePoolObject.SetActive(true);
-                }
+                GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
+                smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+                smallEnemyPoolObject.SetActive(true);
             }
-            else if (Time.timeSinceLevelLoad < 15f)
+        }
+        else if (_timer.CurrentTime > _phaseThreeTime)
+        {
+            if (!_bossSpawned)
             {
-                GameObject dragonflyPoolObject = ObjectPoolDragonflyEnemies.SharedInstance.GetPooledObject();
-                dragonflyPoolObject.transform.position = GetRandomSpawnPosition();
-                dragonflyPoolObject.SetActive(true);
-                if (Random.Range(0f, 1f) <= 0.75f)
-                {
-                    GameObject beetlePoolObject = ObjectPoolBeetleEnemies.SharedInstance.GetPooledObject();
-                    beetlePoolObject.transform.position = GetRandomSpawnPosition();
-                    beetlePoolObject.SetActive(true);
-                }
-            }
-            else if (Time.timeSinceLevelLoad > 15f)
-            {
-                if (!butterflyBossSpawned)
-                {
-                    MessagePopupController.Instance.PlayMessage("Boss Incoming!");
-                    butterflyBossSpawned = true;
-                    StartCoroutine(SpawnButterflyBoss());
-                }
+                MessagePopupController.Instance.PlayMessage("Boss Incoming!");
+                _bossSpawned = true;
+
+                if (_stage == 1)
+                    StartCoroutine(SpawnBoss(_stageOneBossPrefab));
+
+                if (_stage == 2)
+                    StartCoroutine(SpawnBoss(_stageTwoBossPrefab));
+
+                _timer.StopTimer();
+                _timer.ResetTimer();
+                _bossSpawned = false;
             }
         }
     }
 
     private Vector2 GetRandomSpawnPosition()
     {
-        var bounds = spawnBox.bounds;
+        var bounds = _spawnBox.bounds;
         var randomX = Random.Range(bounds.min.x, bounds.max.x);
         var randomY = Random.Range(bounds.min.y, bounds.max.y);
         return new Vector2(randomX, randomY);
@@ -87,15 +137,15 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator DecreaseSpawnCooldown()
     {
-        yield return new WaitForSeconds(spawnCooldownDecreaseInterval);
-        spawnCooldown -= spawnCooldownReduction;
+        yield return new WaitForSeconds(_spawnCooldownDecreaseInterval);
+        _spawnCooldown -= _spawnCooldownReduction;
         StartCoroutine(DecreaseSpawnCooldown());
     }
 
-    private IEnumerator SpawnButterflyBoss()
+    private IEnumerator SpawnBoss(GameObject prefab)
     {
         yield return new WaitForSeconds(3f);
-        GameObject boss = Instantiate(bossPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+        GameObject boss = Instantiate(prefab, GetRandomSpawnPosition(), Quaternion.identity);
         boss.SetActive(true);
     }
 }

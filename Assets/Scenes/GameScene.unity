@@ -153,6 +153,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1950354373}
+  - {fileID: 525309705}
+  - {fileID: 996852395}
   - {fileID: 1406372896}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1060,7 +1062,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1136442302}
-  - {fileID: 525309705}
   - {fileID: 1248979466}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1347,7 +1348,7 @@ GameObject:
   - component: {fileID: 525309704}
   - component: {fileID: 525309706}
   m_Layer: 0
-  m_Name: EnemySpawnBox
+  m_Name: Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1411,7 +1412,7 @@ Transform:
   m_LocalScale: {x: 14, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 405250252}
+  m_Father: {fileID: 24874768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &525309706
 MonoBehaviour:
@@ -1425,8 +1426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f95dcef882de72b4482fa05bc10b20bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnBox: {fileID: 525309704}
-  bossPrefab: {fileID: 2027301579944483559, guid: 4b02d3675f9ab9d45b6565052b5bdc89, type: 3}
+  _spawnBox: {fileID: 525309704}
+  _butterflyBossPrefab: {fileID: 2027301579944483559, guid: 4b02d3675f9ab9d45b6565052b5bdc89, type: 3}
 --- !u!1 &531438325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,6 +2830,52 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &996852394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 996852395}
+  - component: {fileID: 996852396}
+  m_Layer: 0
+  m_Name: Time Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &996852395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996852394}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 24874768}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &996852396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996852394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad30fc90e2ab354b9080e6a14b18e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTime: 0
+  IsPaused: 0
 --- !u!1 &1024937853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3606,7 +3653,7 @@ GameObject:
   - component: {fileID: 1406372896}
   - component: {fileID: 1406372897}
   m_Layer: 0
-  m_Name: User Interface Manager
+  m_Name: UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5963,17 +6010,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f4d45f3f31cb548992b675b55c7373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletChangeVoidEventChannelSO: {fileID: 11400000, guid: fad320bc91582464984a7c0b57c18f66, type: 2}
-  _healthChangeVoidEventChannelSO: {fileID: 11400000, guid: ed1a424e1753e574989602099316c8b9, type: 2}
-  _moneyVoidEventChannelSO: {fileID: 11400000, guid: ff754ce5f57f3a24293113b3cb5f7942, type: 2}
-  _movespeedChangeVoidEventChannelSO: {fileID: 11400000, guid: 29fb9f6ac9e87a041b285320f8c24545, type: 2}
-  healthContainerOne: {fileID: 647228422}
-  healthContainerTwo: {fileID: 172093302}
-  healthContainerThree: {fileID: 1640254174}
-  emptyHealthContainerSprite: {fileID: 21300000, guid: b5d73ecf52401b047a613eaf00d608e7, type: 3}
-  ammoText: {fileID: 291513137}
-  speedText: {fileID: 2121024370}
-  moneyText: {fileID: 462152058}
+  _bulletChangeIntToupleEventChannelSO: {fileID: 11400000, guid: fad320bc91582464984a7c0b57c18f66, type: 2}
+  _healthChangeIntEventChannelSO: {fileID: 11400000, guid: ed1a424e1753e574989602099316c8b9, type: 2}
+  _moneyChangeIntEventChannelSO: {fileID: 11400000, guid: ff754ce5f57f3a24293113b3cb5f7942, type: 2}
+  _stageChangeIntEventChannelSO: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
+  _movespeedChangeFloatEventChannelSO: {fileID: 11400000, guid: 29fb9f6ac9e87a041b285320f8c24545, type: 2}
+  _healthContainerOne: {fileID: 647228422}
+  _healthContainerTwo: {fileID: 172093302}
+  _healthContainerThree: {fileID: 1640254174}
+  _emptyHealthContainerSprite: {fileID: 21300000, guid: b5d73ecf52401b047a613eaf00d608e7, type: 3}
+  _ammoText: {fileID: 291513137}
+  _speedText: {fileID: 2121024370}
+  _moneyText: {fileID: 462152058}
+  _stageText: {fileID: 1940586663}
 --- !u!1 &1989971786 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2274648369717690550, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
