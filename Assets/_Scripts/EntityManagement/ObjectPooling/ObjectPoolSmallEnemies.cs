@@ -8,13 +8,17 @@ public class ObjectPoolSmallEnemies : MonoBehaviour
     public static ObjectPoolSmallEnemies SharedInstance;
 
     //List of pooled objects
-    public List<GameObject> pooledObjects;
+    public List<GameObject> PooledObjects;
 
     //Objects to pool
-    public GameObject objectToPool;
-    public int amountToPool;
+    public int AmountToPool;
+    public GameObject StageOneSmallEnemyPrefab;
+    public GameObject StageTwoSmallEnemyPrefab;
 
-    void Awake()
+    //Event Channel
+    public IntEventChannelSO StageChangeIntEventChannel;
+
+    private void Awake()
     {
         if (SharedInstance == null)
         {
@@ -22,33 +26,71 @@ public class ObjectPoolSmallEnemies : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
-        SetupPool();
+        StageChangeIntEventChannel.OnEventRaised += SetupPool;
+
+        SetupPool(stage: 1);
     }
 
-    void SetupPool()
+    private void OnDestroy()
     {
-        pooledObjects = new List<GameObject>();
+        StageChangeIntEventChannel.OnEventRaised -= SetupPool;
+    }
+
+    private void SetupPool(int stage)
+    {
+        DestroyPooledGameObjects();
+
+        PooledObjects = new List<GameObject>();
+
+        GameObject objectToPool;
+        switch (stage)
+        {
+            case 0:
+                objectToPool = null;
+                break;
+            case 1:
+                objectToPool = StageOneSmallEnemyPrefab;
+                break;
+            case 2:
+                objectToPool = StageTwoSmallEnemyPrefab;
+                break;
+            default:
+                objectToPool = null;
+                break;
+        }
+        if (objectToPool == null) return;
+
         GameObject tempPoolItem;
-        for (int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < AmountToPool; i++)
         {
             tempPoolItem = Instantiate(objectToPool);
             tempPoolItem.SetActive(false);
-            pooledObjects.Add(tempPoolItem);
+            PooledObjects.Add(tempPoolItem);
+        }
+    }
+
+    private void DestroyPooledGameObjects()
+    {
+        if (PooledObjects.Count > 0)
+        {
+            foreach (GameObject pooledObject in PooledObjects)
+            {
+                Destroy(pooledObject);
+            }
         }
     }
 
     public GameObject GetPooledObject()
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
+        for (int i = 0; i < PooledObjects.Count; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!PooledObjects[i].activeInHierarchy)
             {
-                return pooledObjects[i];
+                return PooledObjects[i];
             }
         }
         return null;
     }
-
 }

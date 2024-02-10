@@ -9,9 +9,14 @@ public class OutOfBoundsHandler : MonoBehaviour
     {
         GameObject collisionObject = other.gameObject;
 
-        if(collisionObject.tag == "ProjectilePlayer" || collisionObject.tag == "ProjectileEnemy" || collisionObject.tag == "Enemy")
+        if(collisionObject.CompareTag(Constants.PLAYER_PROJECTILE_TAG) || collisionObject.tag == Constants.ENEMY_PROJECTILE_TAG || collisionObject.tag == Constants.ENEMY_TAG)
         {
             collisionObject.SetActive(false);
-        } 
+        }
+
+        if (collisionObject.CompareTag(Constants.ITEM_DROP_TAG))
+        {
+            Destroy(collisionObject);
+        }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5796952125624681911}
   - component: {fileID: 3787382993850888694}
   m_Layer: 7
-  m_Name: ButterflyBossPrefab
+  m_Name: _ButterflyBossPrefab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

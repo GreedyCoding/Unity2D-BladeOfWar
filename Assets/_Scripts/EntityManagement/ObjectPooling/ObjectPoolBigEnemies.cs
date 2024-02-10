@@ -12,9 +12,12 @@ public class ObjectPoolBigEnemies : MonoBehaviour
 
     //Objects to pool
     public int AmountToPool;
-
     public GameObject StageOneBigEnemyPrefab;
     public GameObject StageTwoBigEnemyPrefab;
+
+    //Event Channel
+    public IntEventChannelSO StageChangeIntEventChannel;
+
 
     private void Awake()
     {
@@ -22,6 +25,13 @@ public class ObjectPoolBigEnemies : MonoBehaviour
         {
             SharedInstance = this;
         }
+
+        StageChangeIntEventChannel.OnEventRaised += SetupPool;
+    }
+
+    private void OnDestroy()
+    {
+        StageChangeIntEventChannel.OnEventRaised -= SetupPool;
     }
 
     private void Start()

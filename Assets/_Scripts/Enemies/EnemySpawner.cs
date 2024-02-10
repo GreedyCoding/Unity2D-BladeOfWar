@@ -25,9 +25,9 @@ public class EnemySpawner : MonoBehaviour
     private float _initialSpawnCooldown = 3f;
     private float _spawnCooldown;
 
-    private float _phaseOneTime = 5f;
-    private float _phaseTwoTime = 10f;
-    private float _phaseThreeTime = 15f;
+    private float _phaseOneTime = 5F;
+    private float _phaseTwoTime = 10F;
+    private float _phaseThreeTime = 15F;
 
     private float _spawnCooldownReduction = 0.1f;
     private float _spawnCooldownDecreaseInterval = 30f;
@@ -123,6 +123,7 @@ public class EnemySpawner : MonoBehaviour
                 _timer.StopTimer();
                 _timer.ResetTimer();
                 _bossSpawned = false;
+                _nextTimeToSpawn = 0f;
             }
         }
     }
