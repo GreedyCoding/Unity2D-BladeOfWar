@@ -53,11 +53,14 @@ public class PlayerController : MonoBehaviour, IHealable
     public int CurrentHitPoints { get; private set; }
 
     //Movespeed
-    public float MoveSpeed { get; private set; }
+    public float MaxMoveSpeed { get; private set; }
+    public float CurrentMoveSpeed { get; private set; }
 
-    //Weapon
+    //Bullets
     public int MaxBullets { get; private set; }
     public int CurrentBullets { get; private set; }
+
+    //Weapon
     public float FireRate { get; private set; }
     public float ProjectileSpeed { get; private set; }
     public float ReloadRate { get; private set; }
@@ -101,7 +104,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         //Set Standard Stats
         MaxHitPoints = _shipStats.hitPoints;
-        MoveSpeed = _shipStats.moveSpeed;
+        MaxMoveSpeed = _shipStats.moveSpeed;
         MaxBullets = _shipStats.maxBullets;
         FireRate = _shipStats.fireRate;
         ProjectileSpeed = _shipStats.projectileSpeed;
@@ -113,16 +116,18 @@ public class PlayerController : MonoBehaviour, IHealable
         GunUpgradeLevel = PlayerPrefs.GetInt(Constants.GUN_UPGRADE_LEVEL);
         ApplyUpgrades(MovespeedUpgradeLevel, BulletUpgradeLevel, GunUpgradeLevel);
 
+        //Set current stats
+        CurrentHitPoints = MaxHitPoints;
+        CurrentBullets = MaxBullets;
+        CurrentMoveSpeed = MaxMoveSpeed;
+        Money = PlayerPrefs.GetInt(Constants.MONEY_AMOUNT);
+
         //Fire event to initialize the object pool
         _gunChangeEventChannelSO.RaiseEvent(CurrentGunType);
 
-        CurrentHitPoints = MaxHitPoints;
+        //Fire Event to update UI
         _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
-
-        CurrentBullets = MaxBullets;
         _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
-
-        Money = PlayerPrefs.GetInt(Constants.MONEY_AMOUNT);
         _moneyChangeEventChannelSO.RaiseEvent(Money);
     }
 
@@ -210,7 +215,7 @@ public class PlayerController : MonoBehaviour, IHealable
         Vector2 movement = new Vector2(horizontalInput, verticalInput);
         movement.Normalize();
 
-        _rigidBody.velocity = movement * MoveSpeed;
+        _rigidBody.velocity = movement * CurrentMoveSpeed;
     }
 
     private void HandleReload()
@@ -380,8 +385,10 @@ public class PlayerController : MonoBehaviour, IHealable
     //Functions to increase stats from Drops or ShopUpgrades
     public void IncreaseSpeed(bool sendMessage) 
     {
-        MoveSpeed += 0.5f;
-        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
+        MaxMoveSpeed += 0.5f;
+        CurrentMoveSpeed = MaxMoveSpeed;
+
+        _movespeedChangeEventChannelSO.RaiseEvent(CurrentMoveSpeed);
 
         if (!sendMessage) return;
         MessagePopupController.Instance.PlayMessage(Constants.SPEED_UPGRADE_TEXT);
@@ -432,20 +439,24 @@ public class PlayerController : MonoBehaviour, IHealable
     //Functions to debuff stats from MalusDrops
     public void DebuffMovementSpeed()
     {
-        MoveSpeed = _shipStats.moveSpeed * 0.75f;
+        CurrentMoveSpeed = MaxMoveSpeed * 0.75f;
+        _movespeedChangeEventChannelSO.RaiseEvent(CurrentMoveSpeed);
+
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION_SLOW);
-        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
-        StartCoroutine(ResetMovementSpeed());
         MessagePopupController.Instance.PlayMessage("Engine Failure");
+
+        StartCoroutine(ResetMovementSpeed());
     }
 
     private IEnumerator ResetMovementSpeed()
     {
         yield return new WaitForSeconds(5f);
-        MoveSpeed = _shipStats.moveSpeed;
-        MessagePopupController.Instance.PlayMessage("Engine Repaired");
+        CurrentMoveSpeed = MaxMoveSpeed;
+        _movespeedChangeEventChannelSO.RaiseEvent(CurrentMoveSpeed);
+
         _thrusterAnimator.Play(Constants.THRUSTER_ANIMATION);
-        _movespeedChangeEventChannelSO.RaiseEvent(MoveSpeed);
+        MessagePopupController.Instance.PlayMessage("Engine Repaired");
+
     }
 
     public void DebuffMirrorControls()
@@ -467,7 +478,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         MessagePopupController.Instance.PlayMessage("Game Over");
 
-        MoveSpeed = 0f;
+        MaxMoveSpeed = 0f;
 
         _deathExplosionOne.SetActive(true);
         yield return new WaitForSeconds(0.2f);
