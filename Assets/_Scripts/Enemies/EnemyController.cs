@@ -137,6 +137,21 @@ public class EnemyController : MonoBehaviour, IDamageable
                     poolObject3.transform.position = this.transform.position;
                     poolObject3.SetActive(true);
                     break;
+                case EnemyTypeEnum.smallShip:
+                    GameObject poolObject4 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject4.transform.position = this.transform.position;
+                    poolObject4.SetActive(true);
+                    break;
+                case EnemyTypeEnum.bigShip:
+                    GameObject poolObject5 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject5.transform.position = this.transform.position;
+                    poolObject5.SetActive(true);
+                    break;
+                case EnemyTypeEnum.baboBoss:
+                    GameObject poolObject6 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
+                    poolObject6.transform.position = this.transform.position;
+                    poolObject6.SetActive(true);
+                    break;
                 default:
                     break;
             }
@@ -181,14 +196,17 @@ public class EnemyController : MonoBehaviour, IDamageable
         if (randomNumber <= 0.1f)
         {
             Instantiate(_bonusDropPrefab, this.transform.position, Quaternion.identity);
+            return;
         }
-        else if (randomNumber <= 0.2f)
+        else if (randomNumber > 0.1f && randomNumber <= 0.2f)
         {
             Instantiate(_coinDropPrefab, this.transform.position, Quaternion.identity);
+            return;
         }
-        else if (randomNumber <= 0.3f)
+        else if (randomNumber > 0.2f && randomNumber <= 0.3f)
         {
             Instantiate(_malusDropPrefab, this.transform.position, Quaternion.identity);
+            return;
         }
     }
 }

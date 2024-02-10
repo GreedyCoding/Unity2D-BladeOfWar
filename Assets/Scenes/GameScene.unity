@@ -1428,7 +1428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnBox: {fileID: 525309704}
   _stageOneBossPrefab: {fileID: 2027301579944483559, guid: 4b02d3675f9ab9d45b6565052b5bdc89, type: 3}
-  _stageTwoBossPrefab: {fileID: 2027301579944483559, guid: 4b02d3675f9ab9d45b6565052b5bdc89, type: 3}
+  _stageTwoBossPrefab: {fileID: 2027301579944483559, guid: db35bdf9845107b47b830c916b23c597, type: 3}
   _bossDeathEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
   _stageChangeIntEventChannel: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
 --- !u!1 &531438325
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   PooledObjects: []
   AmountToPool: 10
   StageOneBigEnemyPrefab: {fileID: 8831260332830400582, guid: 95821f88d0a7d6344bf81473f353df53, type: 3}
-  StageTwoBigEnemyPrefab: {fileID: 8831260332830400582, guid: 95821f88d0a7d6344bf81473f353df53, type: 3}
+  StageTwoBigEnemyPrefab: {fileID: 8831260332830400582, guid: 8e02626bd6e6beb4b85b5a974c6966fa, type: 3}
   StageChangeIntEventChannel: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
 --- !u!114 &1248979469
 MonoBehaviour:
@@ -3421,7 +3421,7 @@ MonoBehaviour:
   PooledObjects: []
   AmountToPool: 10
   StageOneSmallEnemyPrefab: {fileID: 6506483136200042225, guid: 8a58c19438ef3694abbd7fe589708fcb, type: 3}
-  StageTwoSmallEnemyPrefab: {fileID: 6506483136200042225, guid: 8a58c19438ef3694abbd7fe589708fcb, type: 3}
+  StageTwoSmallEnemyPrefab: {fileID: 6506483136200042225, guid: b020f0d8b739d3b4ea33c7002b35c36a, type: 3}
   StageChangeIntEventChannel: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
 --- !u!1 &1344083933
 GameObject:
