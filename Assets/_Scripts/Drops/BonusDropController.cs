@@ -64,26 +64,32 @@ public class BonusDropController : MonoBehaviour
         if (random <= 20)
         {
             bonusDropEnum = BonusDropEnum.extraSpeed;
+            return;
         }
         else if (random <= 40)
         {
             bonusDropEnum = BonusDropEnum.extraBullet;
+            return;
         }
         else if (random <= 60)
         {
             bonusDropEnum = BonusDropEnum.healHitPoints;
+            return;
         }
         else if (random <= 80)
         {
             bonusDropEnum = BonusDropEnum.doubleShot;
+            return;
         }
         else if (random <= 95)
         {
             bonusDropEnum = BonusDropEnum.tripleShot;
+            return;
         }
         else if (random <= 100)
         {
             bonusDropEnum = BonusDropEnum.quadShot;
+            return;
         }
     }
 

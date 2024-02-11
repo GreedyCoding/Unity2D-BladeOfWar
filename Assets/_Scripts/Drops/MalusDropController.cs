@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MalusDropController : MonoBehaviour
@@ -45,7 +46,8 @@ public class MalusDropController : MonoBehaviour
     private void SetMalusDropEnum()
     {
         float randomNumber = Random.Range(0f, 3f);
-        if(randomNumber <= 1f)
+
+        if (randomNumber <= 1f)
         {
             malusDropEnum = MalusDropEnum.singleShot;
         }

@@ -405,7 +405,7 @@ public class PlayerController : MonoBehaviour, IHealable
 
     private void UpgradeGun()
     {
-        //TODO: Make not overflow
+        if (CurrentGunType == GunTypeEnum.laserShot) return;
         CurrentGunType++;
     }
 

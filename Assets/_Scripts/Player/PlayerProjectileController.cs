@@ -37,7 +37,7 @@ public class PlayerProjectileController : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-    }
+     }
 
     private void SetProjectileDamage()
     {

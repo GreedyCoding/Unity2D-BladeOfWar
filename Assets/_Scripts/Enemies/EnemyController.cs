@@ -183,30 +183,38 @@ public class EnemyController : MonoBehaviour, IDamageable
         TakeDamage((float)damageAmount);
     }
 
+    private void RollForLoot()
+    {
+        float bonusDropChance = 0.33f;
+        float coinDropChance = 0.33f;
+        float malusDropChance = 0.33f;
+
+        float bonusDropRange = bonusDropChance;
+        float coinDropRange = coinDropChance + bonusDropChance;
+        float malusDropRange = malusDropChance + bonusDropChance + coinDropChance;
+        
+        float randomNumber = Random.Range(0f, 1f);
+        if (randomNumber <= bonusDropRange)
+        {
+            Instantiate(_bonusDropPrefab, this.transform.position, Quaternion.identity);
+            return;
+        }
+        else if (randomNumber > bonusDropRange && randomNumber <= coinDropRange)
+        {
+            Instantiate(_coinDropPrefab, this.transform.position, Quaternion.identity);
+            return;
+        }
+        else if (randomNumber > coinDropRange && randomNumber <= malusDropRange)
+        {
+            Instantiate(_malusDropPrefab, this.transform.position, Quaternion.identity);
+            return;
+        }
+    }
+
     private void Die()
     {
         AudioManager.Instance.PlayRandomShortExplosion();
         RollForLoot();
         this.gameObject.SetActive(false);
-    }
-
-    private void RollForLoot()
-    {
-        float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= 0.1f)
-        {
-            Instantiate(_bonusDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
-        else if (randomNumber > 0.1f && randomNumber <= 0.2f)
-        {
-            Instantiate(_coinDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
-        else if (randomNumber > 0.2f && randomNumber <= 0.3f)
-        {
-            Instantiate(_malusDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
     }
 }
