@@ -6,10 +6,6 @@ public class EnemyController : MonoBehaviour, IDamageable
 {
     [SerializeField] EnemyStats _enemyStats;
 
-    [SerializeField] GameObject _bonusDropPrefab;
-    [SerializeField] GameObject _malusDropPrefab;
-    [SerializeField] GameObject _coinDropPrefab;
-
     [SerializeField] SpriteRenderer _enemySpriteRenderer;
     [SerializeField] Material _damageFlashMaterial;
     [SerializeField] Material _defaultShipMaterial;
@@ -37,6 +33,8 @@ public class EnemyController : MonoBehaviour, IDamageable
     private float _wallBounceForce = 40f;
     private float _randomMovementSpeedOffset;
     private float _randomSinusOffset;
+
+    private bool _dropLoot;
 
 
     private void Start()
@@ -69,6 +67,8 @@ public class EnemyController : MonoBehaviour, IDamageable
 
         _randomMovementSpeedOffset = Random.Range(0f, 10f);
         _randomSinusOffset = Random.Range(0f, 2f);
+
+        _dropLoot = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -183,38 +183,16 @@ public class EnemyController : MonoBehaviour, IDamageable
         TakeDamage((float)damageAmount);
     }
 
-    private void RollForLoot()
-    {
-        float bonusDropChance = 0.33f;
-        float coinDropChance = 0.33f;
-        float malusDropChance = 0.33f;
-
-        float bonusDropRange = bonusDropChance;
-        float coinDropRange = coinDropChance + bonusDropChance;
-        float malusDropRange = malusDropChance + bonusDropChance + coinDropChance;
-        
-        float randomNumber = Random.Range(0f, 1f);
-        if (randomNumber <= bonusDropRange)
-        {
-            Instantiate(_bonusDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
-        else if (randomNumber > bonusDropRange && randomNumber <= coinDropRange)
-        {
-            Instantiate(_coinDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
-        else if (randomNumber > coinDropRange && randomNumber <= malusDropRange)
-        {
-            Instantiate(_malusDropPrefab, this.transform.position, Quaternion.identity);
-            return;
-        }
-    }
-
     private void Die()
     {
         AudioManager.Instance.PlayRandomShortExplosion();
-        RollForLoot();
+        if (_dropLoot)
+        {
+            EnemyLootDropController.Instance.DropLoot(this.transform.position);
+            //We need to set dropLoot to false here cause a second collision could happen before the gameObject is destroyed
+            //which would trigger a TakeDamage call which could trigger Die() again spawning a second unwanted item
+            _dropLoot = false;
+        }
         this.gameObject.SetActive(false);
     }
 }

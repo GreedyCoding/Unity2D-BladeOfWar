@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CoinDropController : MonoBehaviour
 {
-
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite greyCoinSprite;
     [SerializeField] Sprite greenCoinSprite;
