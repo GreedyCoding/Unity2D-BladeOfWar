@@ -47,13 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c51508a65ccbb41b37228a451a7d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: {fileID: 11400000, guid: 4b404812cf2ed134c8b024780f3bff42, type: 2}
-  enemyBombPrefab: {fileID: 7351444127572641152, guid: 8bf17b7c37ffb0d489361ec779c43878, type: 3}
-  guidedRocketPrefab: {fileID: 2197032004071272943, guid: 3f07aa8c002a3d44086524418cd43514, type: 3}
-  enemySpriteRenderer: {fileID: 5030429205289018013}
-  damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
-  defaultShipMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
+  _enemyStats: {fileID: 11400000, guid: 4b404812cf2ed134c8b024780f3bff42, type: 2}
+  _enemyBombPrefab: {fileID: 7351444127572641152, guid: 8bf17b7c37ffb0d489361ec779c43878, type: 3}
+  _guidedRocketPrefab: {fileID: 2197032004071272943, guid: 3f07aa8c002a3d44086524418cd43514, type: 3}
+  _enemySpriteRenderer: {fileID: 5030429205289018013}
+  _damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
+  _defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  _coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
   _bossDeathEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
 --- !u!50 &7696567314353137261
 Rigidbody2D:

@@ -40,4 +40,14 @@ public class GameplayTimer : MonoBehaviour
     { 
         CurrentTime = 0f; 
     }
+
+    public void FreezeGameTime()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void UnfreezeGameTime()
+    {
+        Time.timeScale = 1f;
+    }
 }

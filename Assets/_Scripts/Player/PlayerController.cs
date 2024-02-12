@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour, IHealable
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip _playerShotSound;
 
+    [Header("Audio")]
+    [SerializeField] GameObject _pauseMenu;
+
     [Header("Void Event Channel SO")]
     [SerializeField] IntToupleEventChannelSO _bulletChangeVoidEventChannelSO;
     [SerializeField] GunTypeEventChannelSO _gunChangeEventChannelSO;
@@ -97,6 +100,7 @@ public class PlayerController : MonoBehaviour, IHealable
         HandleMovement();
         HandleShoot();
         HandleReload();
+        HandlePauseGameInput();
     }
 
     //Stats
@@ -203,8 +207,8 @@ public class PlayerController : MonoBehaviour, IHealable
     //Handlers
     private void HandleMovement()
     {
-        float horizontalInput = _playerInputHandler.movementInput.x;
-        float verticalInput = _playerInputHandler.movementInput.y;
+        float horizontalInput = _playerInputHandler.MovementInput.x;
+        float verticalInput = _playerInputHandler.MovementInput.y;
 
         if (_mirrorControls)
         {
@@ -237,7 +241,7 @@ public class PlayerController : MonoBehaviour, IHealable
 
     private void HandleShoot()
     {
-        if (_playerInputHandler.shootInput && _nextTimeToFire <= Time.timeSinceLevelLoad && CurrentBullets > 0)
+        if (_playerInputHandler.ShootInput && _nextTimeToFire <= Time.timeSinceLevelLoad && CurrentBullets > 0)
         {
             _nextTimeToFire = Time.timeSinceLevelLoad + (1f / FireRate);
             CurrentBullets--;
@@ -272,6 +276,16 @@ public class PlayerController : MonoBehaviour, IHealable
                 default:
                     break;
             }
+        }
+    }
+
+    private void HandlePauseGameInput()
+    {
+        if (_playerInputHandler.EscapeInput)
+        {
+            _pauseMenu.SetActive(true);
+            GameplayTimer.Instance.StopTimer();
+            GameplayTimer.Instance.FreezeGameTime();
         }
     }
 

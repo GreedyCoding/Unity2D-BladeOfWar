@@ -143,7 +143,9 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        if(_dropLoot)
+        _bossDeathEventChannel.RaiseEvent();
+
+        if (_dropLoot)
         {
             for (int i = 0; i < 20; i++)
             {
@@ -160,14 +162,12 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
 
             }
 
-            //We need to set _dropLoot to false here cause a second collision could happen before the gameObject is destroyed
+            //We need to set _dropLoot to false here cause a second collision could happen before the gameObject is deactivated
             //which would trigger a TakeDamage call which could trigger Die() again spawning a second unwanted item
             _dropLoot = false;
         }
 
         MessagePopupController.Instance.PlayMessage("Phase 1 Complete!");
-
-        _bossDeathEventChannel.RaiseEvent();
 
         Destroy(this.gameObject);
     }

@@ -7,17 +7,17 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [SerializeField] AudioMixer audioMixer;
+    [SerializeField] AudioMixer _mainAudioMixer;
 
     [Header("Gameplay Music")]
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioClip beginningMusic;
-    [SerializeField] AudioClip halftimeMusic;
-    [SerializeField] AudioClip bossMusic;
+    [SerializeField] AudioSource _musicSource;
+    [SerializeField] AudioClip _beginningMusic;
+    [SerializeField] AudioClip _halftimeMusic;
+    [SerializeField] AudioClip _bossMusic;
 
     [Header("Enemy Death SFX")]
-    [SerializeField] List<AudioSource> enemyExplosionSources;
-    [SerializeField] List<AudioClip> enemyExplosionClips;
+    [SerializeField] List<AudioSource> _enemyExplosionSources;
+    [SerializeField] List<AudioClip> _enemyExplosionClips;
 
 
     private void Awake()
@@ -34,15 +34,21 @@ public class AudioManager : MonoBehaviour
 
     public void PlayRandomShortExplosion()
     {
-        int randomIndex = Random.Range(0, enemyExplosionClips.Count);
-        foreach (var source in enemyExplosionSources)
+        int randomIndex = Random.Range(0, _enemyExplosionClips.Count);
+        foreach (var source in _enemyExplosionSources)
         {
             if (!source.isPlaying)
             {
-                source.clip = enemyExplosionClips[randomIndex];
+                source.clip = _enemyExplosionClips[randomIndex];
                 source.Play();
                 return;
             }
         }
     }
+
+    public void SetMainMixerVolume(float volume)
+    {
+        _mainAudioMixer.SetFloat("MainMixerVolume", volume);
+    }
+
 }
