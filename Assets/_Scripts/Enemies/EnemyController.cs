@@ -1,29 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamageable
-{
+{ 
+    //Stats
     [SerializeField] EnemyStats _enemyStats;
 
+    //Rendering
     [SerializeField] SpriteRenderer _enemySpriteRenderer;
     [SerializeField] Material _damageFlashMaterial;
     [SerializeField] Material _defaultShipMaterial;
     private float _damageFlashDuration = 0.1f;
 
+    //Audio
     [SerializeField] AudioSource _audioSource;
     [SerializeField] List<AudioClip> _enemyBombSounds;
-
+    
+    //Object Components
     private Rigidbody2D _rigidbody;
-
-    public float MaxHitPoints { get; private set; }
-    public float MoveSpeed { get; private set; }
-    public float FireRate { get; private set; }
-    public float ProjectileSpeed { get; private set; }
-    public EnemyTypeEnum CurrentEnemyType { get; private set; }
-
-    //Timers
-    private float _nextTimeToFire = 2f;
+    private BaseMovementController _movementController;
+    private BaseWeaponController[] _weaponControllers;
 
     //Current Player Stats
     private float _currentHitPoints;
@@ -31,15 +29,24 @@ public class EnemyController : MonoBehaviour, IDamageable
     //Movement
     private bool _reverseMovement;
     private float _wallBounceForce = 40f;
-    private float _randomMovementSpeedOffset;
-    private float _randomSinusOffset;
 
+    //Loot Drop
     private bool _dropLoot;
+
+    //Properties
+    public float MaxHitPoints { get; private set; }
+    public float MoveSpeed { get; private set; }
+    public float FireRate { get; private set; }
+    public float ProjectileSpeed { get; private set; }
+    public EnemyTypeEnum CurrentEnemyType { get; private set; }
 
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _movementController = GetComponent<BaseMovementController>();
+        _weaponControllers = GetComponents<BaseWeaponController>();
+
         SetStats();
     }
 
@@ -51,8 +58,8 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        HandleShoot();
         HandleMovement();
+        HandleShoot();
     }
 
     private void SetStats()
@@ -64,9 +71,6 @@ public class EnemyController : MonoBehaviour, IDamageable
         CurrentEnemyType = _enemyStats.enemyType;
 
         _currentHitPoints = MaxHitPoints;
-
-        _randomMovementSpeedOffset = Random.Range(0f, 10f);
-        _randomSinusOffset = Random.Range(0f, 2f);
 
         _dropLoot = true;
     }
@@ -96,66 +100,23 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void HandleMovement()
     {
-        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad) * _randomSinusOffset, 0);
-        if(_reverseMovement)
-        {
-            horizontalMovement *= -1;
-        }
-
-        _rigidbody.AddForce(horizontalMovement * _randomMovementSpeedOffset);
-
-        if (_rigidbody.velocity.magnitude > MoveSpeed)
-        {
-            _rigidbody.velocity = _rigidbody.velocity.normalized * MoveSpeed;
-        }
+        _movementController.ApplyForceToRigidbody(_rigidbody, MoveSpeed, _reverseMovement);
     }
 
     private void HandleShoot()
     {
-        if(_nextTimeToFire <= Time.timeSinceLevelLoad)
+        if (_weaponControllers.Count() > 0)
         {
-            _nextTimeToFire = Time.timeSinceLevelLoad + 1f / FireRate;
-            
-            int randomAudioIndex = Random.Range(0, _enemyBombSounds.Count);
-            _audioSource.clip = _enemyBombSounds[randomAudioIndex];
-            _audioSource.Play();
-
-            switch (CurrentEnemyType)
+            for (int i = 0; i < _weaponControllers.Count(); i++)
             {
-                case EnemyTypeEnum.beetle:
-                    GameObject poolObject = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject.transform.position = this.transform.position;
-                    poolObject.SetActive(true);
-                    break;
-                case EnemyTypeEnum.dragonfly:
-                    GameObject poolObject2 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject2.transform.position = this.transform.position;
-                    poolObject2.SetActive(true);
-                    break;
-                case EnemyTypeEnum.butterfly:
-                    GameObject poolObject3 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject3.transform.position = this.transform.position;
-                    poolObject3.SetActive(true);
-                    break;
-                case EnemyTypeEnum.smallShip:
-                    GameObject poolObject4 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject4.transform.position = this.transform.position;
-                    poolObject4.SetActive(true);
-                    break;
-                case EnemyTypeEnum.bigShip:
-                    GameObject poolObject5 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject5.transform.position = this.transform.position;
-                    poolObject5.SetActive(true);
-                    break;
-                case EnemyTypeEnum.baboBoss:
-                    GameObject poolObject6 = ObjectPoolEnemyBombs.SharedInstance.GetPooledObject();
-                    poolObject6.transform.position = this.transform.position;
-                    poolObject6.SetActive(true);
-                    break;
-                default:
-                    break;
+                _weaponControllers[i].HandleShooting(this.transform.position, FireRate);
             }
         }
+        else
+        {
+            Debug.LogWarning("There is no WeaponController assigned to this enemy");
+        }
+
     }
 
     public void TakeDamage(float damageAmount)

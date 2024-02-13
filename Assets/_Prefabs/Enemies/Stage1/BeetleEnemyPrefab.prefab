@@ -94,6 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2506587183765884221}
   - component: {fileID: 7303081928211567952}
+  - component: {fileID: -5009581705644605026}
+  - component: {fileID: 7158158026939425806}
   - component: {fileID: 6447669481478143627}
   - component: {fileID: 7057804421959074987}
   - component: {fileID: 3644328466486314111}
@@ -133,9 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyStats: {fileID: 11400000, guid: c0e1ecc898a09fc4bb08bf33fef62012, type: 2}
-  _bonusDropPrefab: {fileID: 2468590692470977521, guid: eea969b5189ba364ba18bad00d4cd7e1, type: 3}
-  _malusDropPrefab: {fileID: 2468590692470977521, guid: f74453c9bedc80a4ea125550f8978557, type: 3}
-  _coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
   _enemySpriteRenderer: {fileID: 789449282127021380}
   _damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   _defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
@@ -151,6 +150,33 @@ MonoBehaviour:
   - {fileID: 8300000, guid: caa039da621f15349be469e5f6aa9236, type: 3}
   - {fileID: 8300000, guid: 11a6764204b05784297170d8bbbb279a, type: 3}
   - {fileID: 8300000, guid: e8e4111269556f548b25d528fdc93083, type: 3}
+--- !u!114 &-5009581705644605026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506483136200042225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d0cd96a00364e458095cce0fbf3500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomMovementSpeedOffset: 0
+  RandomSinusOffset: 0
+--- !u!114 &7158158026939425806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6506483136200042225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99521cdc9f98b649865d88c3ae4d092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialShotDelay: 2.5
 --- !u!58 &6447669481478143627
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -226,7 +252,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: -2.25
   Loop: 0
   Mute: 0
   Spatialize: 0

@@ -105,7 +105,7 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
             _rigidbody.velocity = _rigidbody.velocity.normalized * MoveSpeed;
         }
 
-        if(this.transform.position.y >= 1f && this.transform.position.y <= 2.5f)
+        if (this.transform.position.y >= 1f && this.transform.position.y <= 2.5f)
         {
             _rigidbody.AddForce(Vector2.up * 10f, ForceMode2D.Force);
         }
@@ -127,18 +127,12 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
 
     private void HandleRadialShot()
     {
-        _nextTimeToRadialShot = Time.timeSinceLevelLoad + _radialShotCooldown;
-        for (int i = 0; i < 18; i++)
-        {
-            GameObject radialEnemyBomb = Instantiate(_enemyBombPrefab, this.transform.position, Quaternion.Euler(0, 0, 20 * i));
-            radialEnemyBomb.GetComponent<Rigidbody2D>().AddForce(radialEnemyBomb.transform.up * 150f, ForceMode2D.Force);
-        }
+
     }
 
     private void HandleGuidedRocketShot()
     {
         _nextTimeToGuidedRocket = Time.timeSinceLevelLoad + _guidedRocketCooldown;
-        GameObject guidedRocket = Instantiate(_guidedRocketPrefab, this.transform.position, Quaternion.identity);
     }
 
     private void Die()
@@ -159,7 +153,6 @@ public class ButterflyBossController : MonoBehaviour, IDamageable
                 {
                     coinDropRigidBody.gravityScale = 0.2f;
                 }
-
             }
 
             //We need to set _dropLoot to false here cause a second collision could happen before the gameObject is deactivated
