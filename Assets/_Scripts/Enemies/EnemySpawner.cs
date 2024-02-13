@@ -53,6 +53,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void IncreaseStage()
     {
+        _timer.StopTimer();
+        _timer.ResetTimer();
+        _bossSpawned = false;
+        _nextTimeToSpawn = 0.5f;
+
         _stage++;
         _stageChangeIntEventChannel.RaiseEvent(_stage);
     }
@@ -107,11 +112,6 @@ public class EnemySpawner : MonoBehaviour
 
                 if (_stage == 2)
                     StartCoroutine(SpawnBoss(_stageTwoBossPrefab));
-
-                _timer.StopTimer();
-                _timer.ResetTimer();
-                _bossSpawned = false;
-                _nextTimeToSpawn = 0f;
             }
         }
     }
