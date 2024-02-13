@@ -57,7 +57,7 @@ public class ObjectPoolSmallEnemies : MonoBehaviour
                 objectToPool = StageTwoSmallEnemyPrefab;
                 break;
             default:
-                objectToPool = null;
+                objectToPool = StageOneSmallEnemyPrefab;
                 break;
         }
         if (objectToPool == null) return;

@@ -3238,6 +3238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad30fc90e2ab354b9080e6a14b18e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeInspector: 0
 --- !u!1 &1024937853
 GameObject:
   m_ObjectHideFlags: 0
@@ -7192,6 +7193,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 060fcc31e7c511a44b2871478a792624, type: 3}
   - {fileID: 8300000, guid: da5828407ab79ae4ab2e2f665a0fb511, type: 3}
   - {fileID: 8300000, guid: 304c51db340c8734e962bb3a38b69683, type: 3}
+  _deathSoundEventChannel: {fileID: 11400000, guid: 2ed2695eae326764999d15d5d86c2d34, type: 2}
 --- !u!1 &1952763099
 GameObject:
   m_ObjectHideFlags: 0

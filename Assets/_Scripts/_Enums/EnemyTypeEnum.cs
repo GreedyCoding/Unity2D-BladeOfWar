@@ -2,7 +2,7 @@ public enum EnemyTypeEnum
 {
     beetle,
     dragonfly,
-    butterfly,
+    butterflyBoss,
     smallShip,
     bigShip,
     baboBoss

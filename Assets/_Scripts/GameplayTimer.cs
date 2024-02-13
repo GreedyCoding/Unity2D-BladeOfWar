@@ -7,6 +7,8 @@ public class GameplayTimer : MonoBehaviour
     public float CurrentTime { get; private set; }
     public bool IsPaused { get; private set; }
 
+    public float TimeInspector;
+
     private void Awake()
     {
         if (Instance != null) return;
@@ -24,6 +26,7 @@ public class GameplayTimer : MonoBehaviour
         if (IsPaused) return;
 
         CurrentTime += Time.deltaTime;
+        TimeInspector = CurrentTime;
     }
 
     public void StartTimer()

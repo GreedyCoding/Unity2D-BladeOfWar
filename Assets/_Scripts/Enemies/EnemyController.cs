@@ -14,9 +14,9 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] Material _defaultShipMaterial;
     private float _damageFlashDuration = 0.1f;
 
-    //Audio
-    [SerializeField] AudioSource _audioSource;
-    [SerializeField] List<AudioClip> _enemyBombSounds;
+    //Events
+    [SerializeField] VoidEventChannelSO _deathSoundVoidEventChannel; 
+    [SerializeField] VoidEventChannelSO _bossDeathVoidEventChannel;
     
     //Object Components
     private Rigidbody2D _rigidbody;
@@ -147,13 +147,35 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void Die()
     {
         AudioManager.Instance.PlayRandomShortExplosion();
-        if (_dropLoot)
+
+        if(CurrentEnemyType == EnemyTypeEnum.butterflyBoss || CurrentEnemyType == EnemyTypeEnum.baboBoss) 
         {
-            EnemyLootDropController.Instance.DropLoot(this.transform.position);
-            //We need to set dropLoot to false here cause a second collision could happen before the gameObject is destroyed
-            //which would trigger a TakeDamage call which could trigger Die() again spawning a second unwanted item
-            _dropLoot = false;
+            if (_dropLoot)
+            {
+                _bossDeathVoidEventChannel?.RaiseEvent();
+                _deathSoundVoidEventChannel?.RaiseEvent();
+                EnemyLootDropController.Instance.DropBossMoney(this.transform.position, 20, 2.5f);
+
+                //We need to set dropLoot to false here cause a second collision could happen before the gameObject is destroyed
+                //which would trigger a TakeDamage call which could trigger Die() again spawning a second unwanted item
+                _dropLoot = false;
+
+                Destroy(this.gameObject);
+                return;
+            }
         }
-        this.gameObject.SetActive(false);
+        else
+        {
+            if (_dropLoot)
+            {
+                _deathSoundVoidEventChannel?.RaiseEvent();
+                EnemyLootDropController.Instance.DropLoot(this.transform.position);
+
+                _dropLoot = false;
+
+                this.gameObject.SetActive(false);
+                return;
+            }
+        }
     }
 }

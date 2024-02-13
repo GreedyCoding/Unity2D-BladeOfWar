@@ -19,6 +19,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] List<AudioSource> _enemyExplosionSources;
     [SerializeField] List<AudioClip> _enemyExplosionClips;
 
+    [Header("Events")]
+    [SerializeField] VoidEventChannelSO _deathSoundEventChannel;
 
     private void Awake()
     {
@@ -30,6 +32,16 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private void OnEnable()
+    {
+        _deathSoundEventChannel.OnEventRaised += PlayRandomShortExplosion;
+    }
+
+    private void OnDisable()
+    {
+        _deathSoundEventChannel.OnEventRaised -= PlayRandomShortExplosion;
     }
 
     public void PlayRandomShortExplosion()

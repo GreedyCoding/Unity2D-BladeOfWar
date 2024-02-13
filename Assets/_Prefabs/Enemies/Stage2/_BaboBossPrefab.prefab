@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8526428769177749950}
-  - component: {fileID: 3787382993850888694}
+  - component: {fileID: 6556209124821474701}
+  - component: {fileID: 898936873104562259}
   - component: {fileID: 7696567314353137261}
   - component: {fileID: 5796952125624681911}
   m_Layer: 7
@@ -35,7 +36,7 @@ Transform:
   - {fileID: 7150631264778629487}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3787382993850888694
+--- !u!114 &6556209124821474701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,17 +45,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 2027301579944483559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c51508a65ccbb41b37228a451a7d01, type: 3}
+  m_Script: {fileID: 11500000, guid: 2959dadad24848e42b34b8fca56f410b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyStats: {fileID: 11400000, guid: 4b404812cf2ed134c8b024780f3bff42, type: 2}
-  _enemyBombPrefab: {fileID: 7351444127572641152, guid: 8bf17b7c37ffb0d489361ec779c43878, type: 3}
-  _guidedRocketPrefab: {fileID: 2197032004071272943, guid: 3f07aa8c002a3d44086524418cd43514, type: 3}
   _enemySpriteRenderer: {fileID: 5030429205289018013}
   _damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   _defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _coinDropPrefab: {fileID: 2468590692470977521, guid: 686524979ec79c447aa3df1a7d9c9aa7, type: 3}
-  _bossDeathEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
+  _deathSoundVoidEventChannel: {fileID: 11400000, guid: 2ed2695eae326764999d15d5d86c2d34, type: 2}
+  _bossDeathVoidEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
+--- !u!114 &898936873104562259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027301579944483559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7b899c07470c84093e305d8a8e2d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomMovementSpeedOffset: 0
+  RandomSinusOffset: 0
 --- !u!50 &7696567314353137261
 Rigidbody2D:
   serializedVersion: 4

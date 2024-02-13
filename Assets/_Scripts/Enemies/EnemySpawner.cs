@@ -23,9 +23,9 @@ public class EnemySpawner : MonoBehaviour
     private float _initialSpawnCooldown = 3f;
     private float _spawnCooldown;
 
-    private float _phaseOneTime = 10f;
-    private float _phaseTwoTime = 20f;
-    private float _phaseThreeTime = 30f;
+    private float _phaseOneTime = 1f;
+    private float _phaseTwoTime = 2f;
+    private float _phaseThreeTime = 3f;
 
     private float _spawnCooldownReduction = 0.1f;
     private float _spawnCooldownDecreaseInterval = 30f;
@@ -77,32 +77,22 @@ public class EnemySpawner : MonoBehaviour
     {
         if (_timer.CurrentTime < _phaseOneTime)
         {
-            GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
-            smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
-            smallEnemyPoolObject.SetActive(true);
+            ActivateSmallEnemyFromPool();
         }
         else if (_timer.CurrentTime < _phaseTwoTime)
         {
-            GameObject bigEnemyPoolObject = ObjectPoolBigEnemies.SharedInstance.GetPooledObject();
-            bigEnemyPoolObject.transform.position = GetRandomSpawnPosition();
-            bigEnemyPoolObject.SetActive(true);
+            ActivateBigEnemyFromPool();
             if (Random.Range(0f, 1f) <= 0.5f)
             {
-                GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
-                smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
-                smallEnemyPoolObject.SetActive(true);
+                ActivateSmallEnemyFromPool();
             }
         }
         else if (_timer.CurrentTime < _phaseThreeTime)
         {
-            GameObject bigEnemyPoolObject = ObjectPoolBigEnemies.SharedInstance.GetPooledObject();
-            bigEnemyPoolObject.transform.position = GetRandomSpawnPosition();
-            bigEnemyPoolObject.SetActive(true);
+            ActivateBigEnemyFromPool();
             if (Random.Range(0f, 1f) <= 0.75f)
             {
-                GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
-                smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
-                smallEnemyPoolObject.SetActive(true);
+                ActivateSmallEnemyFromPool();
             }
         }
         else if (_timer.CurrentTime > _phaseThreeTime)
@@ -124,6 +114,20 @@ public class EnemySpawner : MonoBehaviour
                 _nextTimeToSpawn = 0f;
             }
         }
+    }
+
+    private void ActivateSmallEnemyFromPool()
+    {
+        GameObject smallEnemyPoolObject = ObjectPoolSmallEnemies.SharedInstance.GetPooledObject();
+        smallEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+        smallEnemyPoolObject.SetActive(true);
+    }
+
+    private void ActivateBigEnemyFromPool()
+    {
+        GameObject bigEnemyPoolObject = ObjectPoolBigEnemies.SharedInstance.GetPooledObject();
+        bigEnemyPoolObject.transform.position = GetRandomSpawnPosition();
+        bigEnemyPoolObject.SetActive(true);
     }
 
     private Vector2 GetRandomSpawnPosition()

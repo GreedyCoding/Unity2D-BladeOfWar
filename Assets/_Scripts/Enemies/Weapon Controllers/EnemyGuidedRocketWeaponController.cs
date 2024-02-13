@@ -8,17 +8,15 @@ public class EnemyGuidedRocketWeaponController : BaseWeaponController
 
     private float _nextTimeToFire = 2f;
 
-    private GameplayTimer _timer = GameplayTimer.Instance;
-
     public override void HandleShooting(Vector3 position, float fireRate)
     {
-        if (_nextTimeToFire <= _timer.CurrentTime)
+        if (_nextTimeToFire <= Time.timeSinceLevelLoad)
         {
             //Play shot audio
 
-            _nextTimeToFire = _timer.CurrentTime + _shotCooldown;
+            _nextTimeToFire = Time.timeSinceLevelLoad + _shotCooldown;
 
-            GameObject guidedRocket = Instantiate(_enemyGuidedRocketPrefab, this.transform.position, Quaternion.identity);
+            GameObject guidedRocket = Instantiate(_enemyGuidedRocketPrefab, position, Quaternion.identity);
         }
     }
 }
