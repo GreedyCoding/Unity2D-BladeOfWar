@@ -4,8 +4,8 @@ public class NormalEnemyMovementController : BaseMovementController
 {
     private void Start()
     {
-        RandomMovementSpeedOffset = Random.Range(0f, 10f);
-        RandomSinusOffset = Random.Range(0f, 2f);
+        RandomMovementSpeedOffset = Random.Range(2f, 4f);
+        RandomSinusOffset = Random.Range(2f, 4f);
     }
     public override void ApplyForceToRigidbody(Rigidbody2D rigidbody2D, float maxMoveSpeed, bool reverseMovement)
     {

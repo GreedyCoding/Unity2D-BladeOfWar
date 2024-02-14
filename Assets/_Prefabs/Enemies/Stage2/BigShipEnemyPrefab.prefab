@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 852494813475716573}
   - component: {fileID: -5420395979542802230}
+  - component: {fileID: 4313242772686609050}
   - component: {fileID: 7363709161402817976}
   - component: {fileID: 1981801908562557938}
   m_Layer: 7
@@ -137,6 +138,20 @@ MonoBehaviour:
   _defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   _deathSoundVoidEventChannel: {fileID: 11400000, guid: 2ed2695eae326764999d15d5d86c2d34, type: 2}
   _bossDeathVoidEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
+--- !u!114 &4313242772686609050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831260332830400582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d0cd96a00364e458095cce0fbf3500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomMovementSpeedOffset: 0
+  RandomSinusOffset: 0
 --- !u!50 &7363709161402817976
 Rigidbody2D:
   serializedVersion: 4

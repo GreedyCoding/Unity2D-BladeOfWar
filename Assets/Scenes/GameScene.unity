@@ -154,6 +154,7 @@ Transform:
   m_Children:
   - {fileID: 1950354373}
   - {fileID: 525309705}
+  - {fileID: 1248979466}
   - {fileID: 996852395}
   - {fileID: 1406372896}
   - {fileID: 1556700052}
@@ -1178,7 +1179,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1136442302}
-  - {fileID: 1248979466}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &458168523
@@ -4007,11 +4007,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1248979466}
   - component: {fileID: 1248979465}
-  - component: {fileID: 1248979469}
-  - component: {fileID: 1248979468}
   - component: {fileID: 1248979467}
+  - component: {fileID: 1248979468}
+  - component: {fileID: 1248979469}
   m_Layer: 0
-  m_Name: ObjectPoolManager
+  m_Name: Object Pool Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4045,7 +4045,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 405250252}
+  m_Father: {fileID: 24874768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1248979467
 MonoBehaviour:
@@ -4061,7 +4061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pooledObjects: []
   objectToPool: {fileID: 7351444127572641152, guid: 15133f95fdb078c40a92ceaf9cccae67, type: 3}
-  amountToPool: 200
+  amountToPool: 50
 --- !u!114 &1248979468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4075,7 +4075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PooledObjects: []
-  AmountToPool: 10
+  AmountToPool: 25
   StageOneBigEnemyPrefab: {fileID: 8831260332830400582, guid: 95821f88d0a7d6344bf81473f353df53, type: 3}
   StageTwoBigEnemyPrefab: {fileID: 8831260332830400582, guid: 8e02626bd6e6beb4b85b5a974c6966fa, type: 3}
   StageChangeIntEventChannel: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
@@ -4092,7 +4092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PooledObjects: []
-  AmountToPool: 10
+  AmountToPool: 25
   StageOneSmallEnemyPrefab: {fileID: 6506483136200042225, guid: 8a58c19438ef3694abbd7fe589708fcb, type: 3}
   StageTwoSmallEnemyPrefab: {fileID: 6506483136200042225, guid: b020f0d8b739d3b4ea33c7002b35c36a, type: 3}
   StageChangeIntEventChannel: {fileID: 11400000, guid: c4fc23177936b134e9ceb15c305e1d99, type: 2}
