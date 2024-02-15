@@ -20,6 +20,7 @@ public class EnemyLaserWeaponController : BaseWeaponController
 
             _laserChargeupRenderer.enabled = true;
             _laserChargeupAnimator.enabled = true;
+            _laserChargeupAnimator.Play("Base Layer.Laser Chargeup Animation", 0, 0f);
         }
     }
 }
