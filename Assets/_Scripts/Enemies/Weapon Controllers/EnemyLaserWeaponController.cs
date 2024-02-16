@@ -8,13 +8,13 @@ public class EnemyLaserWeaponController : BaseWeaponController
 
     [SerializeField] float _cooldown = 5f;
 
-    private float _nextTimeToFire = 2f;
+    private float _nextTimeToFire = 0f;
 
     private GameplayTimer _timer = GameplayTimer.Instance;
 
     public override void HandleShooting(Vector3 position, float fireRate)
     {
-        if(_nextTimeToFire <= _timer.CurrentTime)
+        if (_nextTimeToFire <= _timer.CurrentTime && this.transform.position.y < 4f)
         {
             _nextTimeToFire = _timer.CurrentTime + _cooldown;
 

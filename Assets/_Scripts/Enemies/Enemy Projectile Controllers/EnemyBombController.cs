@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class EnemyBombController : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class EnemyBombController : MonoBehaviour
         if(other.gameObject.CompareTag(Constants.PLAYER_TAG))
         {
             other.GetComponent<PlayerController>().TakeDamage(ProjectileDamage);
+            Destroy(gameObject);
+        }
+        else if(other.gameObject.CompareTag(Constants.PROJECTILE_DESTROY_BOX))
+        {
             Destroy(gameObject);
         }
     }

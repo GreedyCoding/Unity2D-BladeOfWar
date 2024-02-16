@@ -49,19 +49,14 @@ public class ObjectPoolEnemyProjectiles : MonoBehaviour
         {
             tempPoolItem = Instantiate(_defaultObjectToPool);
             tempPoolItem.SetActive(false);
+            tempPoolItem.transform.parent = this.transform;
             _pooledObjects.Add(tempPoolItem);
         }
     }
 
-    void SetupNewPool(int stage)
+    private void SetupNewPool(int stage)
     {
-        if (_pooledObjects.Count > 0)
-        {
-            foreach (GameObject pooledObject in _pooledObjects)
-            {
-                Destroy(pooledObject);
-            }
-        }
+        DestroyPooledGameObjects();
 
         _pooledObjects = new List<GameObject>();
         GameObject gameObject;
@@ -92,7 +87,19 @@ public class ObjectPoolEnemyProjectiles : MonoBehaviour
         {
             tempPoolItem = Instantiate(_stageTwoObjectToPool);
             tempPoolItem.SetActive(false);
+            tempPoolItem.transform.parent = this.transform;
             _pooledObjects.Add(tempPoolItem);
+        }
+    }
+
+    private void DestroyPooledGameObjects()
+    {
+        if (_pooledObjects.Count > 0)
+        {
+            foreach (GameObject pooledObject in _pooledObjects)
+            {
+                Destroy(pooledObject);
+            }
         }
     }
 

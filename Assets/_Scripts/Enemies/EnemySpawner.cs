@@ -148,7 +148,7 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawnBoss(GameObject prefab)
     {
         yield return new WaitForSeconds(3f);
-        GameObject boss = Instantiate(prefab, GetRandomSpawnPosition(), Quaternion.identity);
+        GameObject boss = Instantiate(prefab, new Vector2(0f, 5.5f), Quaternion.identity);
         boss.SetActive(true);
     }
 }

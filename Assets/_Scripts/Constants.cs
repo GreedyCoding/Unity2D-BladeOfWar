@@ -13,6 +13,7 @@ public static class Constants
     public const string ENEMY_PROJECTILE_TAG = "ProjectileEnemy";
     public const string WALL_LEFT_TAG = "WallLeft";
     public const string WALL_RIGHT_TAG = "WallRight";
+    public const string PROJECTILE_DESTROY_BOX = "ProjectileDestroyBox";
     public const string ITEM_DROP_TAG = "ItemDrop";
 
     // Upgrades and Money

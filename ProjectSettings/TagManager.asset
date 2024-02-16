@@ -10,6 +10,7 @@ TagManager:
   - WallLeft
   - WallRight
   - ItemDrop
+  - ProjectileDestroyBox
   layers:
   - Default
   - TransparentFX

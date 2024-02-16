@@ -10,9 +10,9 @@ public class BossEnemyMovementController : BaseMovementController
     public override void ApplyForceToRigidbody(Rigidbody2D rigidbody2D, float maxMoveSpeed, bool reverseMovement)
     {
         float randomOffset = Random.Range(0.2f, 1);
-        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad), 0);
+        Vector2 horizontalMovement = new Vector2((Mathf.Sin(Time.timeSinceLevelLoad) * RandomSinusOffset) * 2, 0);
 
-        if(reverseMovement)
+        if (reverseMovement)
         {
             horizontalMovement = horizontalMovement * -1f;
         }

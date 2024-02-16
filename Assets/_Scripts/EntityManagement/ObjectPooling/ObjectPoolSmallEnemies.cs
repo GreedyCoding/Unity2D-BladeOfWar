@@ -67,6 +67,7 @@ public class ObjectPoolSmallEnemies : MonoBehaviour
         {
             tempPoolItem = Instantiate(objectToPool);
             tempPoolItem.SetActive(false);
+            tempPoolItem.transform.parent = this.transform;
             PooledObjects.Add(tempPoolItem);
         }
     }

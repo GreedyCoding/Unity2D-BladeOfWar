@@ -65,6 +65,7 @@ public class ObjectPoolPlayerProjectiles : MonoBehaviour
         {
             tempPoolItem = Instantiate(objectToPool);
             tempPoolItem.SetActive(false);
+            tempPoolItem.transform.parent = this.transform;
             pooledObjects.Add(tempPoolItem);
         }
     }

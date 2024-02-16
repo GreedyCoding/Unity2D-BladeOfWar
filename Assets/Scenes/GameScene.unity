@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 24874768}
   m_Layer: 0
-  m_Name: ------ MANAGERS
+  m_Name: _______ MANAGERS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +154,6 @@ Transform:
   m_Children:
   - {fileID: 1950354373}
   - {fileID: 525309705}
-  - {fileID: 1248979466}
   - {fileID: 996852395}
   - {fileID: 1406372896}
   - {fileID: 1556700052}
@@ -823,7 +822,7 @@ GameObject:
   - component: {fileID: 211224922}
   m_Layer: 31
   m_Name: ProjectileDestroyBoxTop
-  m_TagString: Untagged
+  m_TagString: ProjectileDestroyBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1159,7 +1158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405250252}
   m_Layer: 0
-  m_Name: ------ ENVIRONMENT
+  m_Name: _______ ENVIRONMENT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1806,7 +1805,7 @@ GameObject:
   - component: {fileID: 606335081}
   m_Layer: 31
   m_Name: ProjectileDestroyBoxRight
-  m_TagString: Untagged
+  m_TagString: ProjectileDestroyBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2469,7 +2468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705021628}
   m_Layer: 0
-  m_Name: ------ SCENE
+  m_Name: _______ SCENE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3389,7 +3388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1052872774}
   m_Layer: 0
-  m_Name: '------ USER INTERFACE '
+  m_Name: '_______ USER INTERFACE '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4011,7 +4010,7 @@ GameObject:
   - component: {fileID: 1248979469}
   - component: {fileID: 1248979468}
   m_Layer: 0
-  m_Name: Object Pool Manager
+  m_Name: '[______OBJECT POOL______]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4045,7 +4044,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 24874768}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1248979468
 MonoBehaviour:
@@ -4268,7 +4267,7 @@ GameObject:
   - component: {fileID: 1344083935}
   m_Layer: 31
   m_Name: ProjectileDestroyBoxLeft
-  m_TagString: Untagged
+  m_TagString: ProjectileDestroyBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5178,7 +5177,7 @@ GameObject:
   - component: {fileID: 1500889577}
   m_Layer: 31
   m_Name: ProjectileDestroyBoxBottom
-  m_TagString: Untagged
+  m_TagString: ProjectileDestroyBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8040,3 +8039,4 @@ SceneRoots:
   - {fileID: 1052872774}
   - {fileID: 405250252}
   - {fileID: 689630140}
+  - {fileID: 1248979466}
