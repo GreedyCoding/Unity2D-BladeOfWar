@@ -9,12 +9,15 @@ public class EnemyBounceProjectileController : MonoBehaviour
     public float ProjectileDamage { get; private set; }
     public float ProjectileSpeed { get; private set; }
 
-    void Start()
+    private void Awake()
     {
         ProjectileDamage = 1f;
         ProjectileSpeed = 7f;
-
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
         _rigidbody.velocity = (this.transform.up * -1f * ProjectileSpeed);
     }
 

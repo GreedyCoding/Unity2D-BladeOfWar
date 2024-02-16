@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyProjectileWeaponController : BaseWeaponController
+public class EnemyBounceProjectileWeaponController : BaseWeaponController
 {
     private float _nextTimeToFire = 2f;
 
@@ -12,11 +12,17 @@ public class EnemyProjectileWeaponController : BaseWeaponController
         {
             //Play shot audio
 
-            _nextTimeToFire = _timer.CurrentTime + 1 / fireRate;
+            _nextTimeToFire = _timer.CurrentTime + 1f / fireRate;
 
             GameObject poolObject = ObjectPoolEnemyProjectiles.SharedInstance.GetPooledObject();
             poolObject.transform.position = position;
             poolObject.SetActive(true);
+
+            foreach (Transform child in poolObject.transform)
+            {
+                child.position = position;
+                child.gameObject.SetActive(true);
+            }
         }
     }
 }
