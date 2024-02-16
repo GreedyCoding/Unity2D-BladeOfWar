@@ -6,6 +6,11 @@ public static class Constants
     public const string MAIN_MENU_SCENE = "MainMenu";
     public const string GAME_SCENE = "GameScene";
 
+    //
+    public const string MAIN_MIXER_VOLUME = "MainMixerVolume";
+    public const string MUSIC_VOLUME = "MusicVolume";
+    public const string SFX_VOLUME = "SfxVolume";
+
     // Tags
     public const string PLAYER_TAG = "Player";
     public const string ENEMY_TAG = "Enemy";

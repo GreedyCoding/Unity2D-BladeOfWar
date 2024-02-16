@@ -11,13 +11,17 @@ public class AudioManager : MonoBehaviour
 
     [Header("Gameplay Music")]
     [SerializeField] AudioSource _musicSource;
-    [SerializeField] AudioClip _beginningMusic;
-    [SerializeField] AudioClip _halftimeMusic;
-    [SerializeField] AudioClip _bossMusic;
 
     [Header("Enemy Death SFX")]
     [SerializeField] List<AudioSource> _enemyExplosionSources;
     [SerializeField] List<AudioClip> _enemyExplosionClips;
+
+    [Header("Enemy Death SFX")]
+    [SerializeField] List<AudioSource> _enemyAttackSources;
+    [SerializeField] List<AudioClip> _enemyProjectileClips;
+    [SerializeField] AudioClip _enemyRocketClip;
+    [SerializeField] AudioClip _enemyLaserClip;
+
 
     [Header("Events")]
     [SerializeField] VoidEventChannelSO _deathSoundEventChannel;
@@ -44,23 +48,66 @@ public class AudioManager : MonoBehaviour
         _deathSoundEventChannel.OnEventRaised -= PlayRandomShortExplosion;
     }
 
-    public void PlayRandomShortExplosion()
+    private void PlayClipFromListOfSources(List<AudioSource> audioSources, AudioClip audioClip, bool randomizePitch)
     {
-        int randomIndex = Random.Range(0, _enemyExplosionClips.Count);
-        foreach (var source in _enemyExplosionSources)
+        foreach (var source in audioSources)
         {
             if (!source.isPlaying)
             {
-                source.clip = _enemyExplosionClips[randomIndex];
+                source.clip = audioClip;
+
+                if (randomizePitch)
+                {
+                    source.pitch = Random.Range(0.85f, 1.15f);
+                }
+                else
+                {
+                    source.pitch = 1f;
+                }
+
                 source.Play();
                 return;
             }
         }
     }
 
+    public void PlayRandomShortExplosion()
+    {
+        int randomIndex = Random.Range(0, _enemyExplosionClips.Count);
+        PlayClipFromListOfSources(_enemyExplosionSources, _enemyExplosionClips[randomIndex], false);
+    }
+
+
+
+    public void PlayEnemyProjectileSound()
+    {
+        int randomIndex = Random.Range(0, _enemyProjectileClips.Count);
+        PlayClipFromListOfSources(_enemyAttackSources, _enemyProjectileClips[randomIndex], false);
+    }
+
+    public void PlayEnemyRocketSound()
+    {
+        PlayClipFromListOfSources(_enemyAttackSources, _enemyRocketClip, true);
+    }
+
+    public void PlayEnemyLaserSound()
+    {
+        PlayClipFromListOfSources(_enemyAttackSources, _enemyLaserClip, true);
+    }
+
     public void SetMainMixerVolume(float volume)
     {
-        _mainAudioMixer.SetFloat("MainMixerVolume", volume);
+        _mainAudioMixer.SetFloat(Constants.MAIN_MIXER_VOLUME, volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        _mainAudioMixer.SetFloat(Constants.MUSIC_VOLUME, volume);
+    }
+
+    public void SetSfxVolume(float volume)
+    {
+        _mainAudioMixer.SetFloat(Constants.SFX_VOLUME, volume);
     }
 
 }

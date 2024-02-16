@@ -12,7 +12,7 @@ public class EnemyGuidedRocketWeaponController : BaseWeaponController
     {
         if (_nextTimeToFire <= Time.timeSinceLevelLoad)
         {
-            //Play shot audio
+            AudioManager.Instance.PlayEnemyRocketSound();
 
             _nextTimeToFire = Time.timeSinceLevelLoad + _shotCooldown;
 

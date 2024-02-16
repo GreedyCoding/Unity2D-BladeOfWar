@@ -12,7 +12,7 @@ public class EnemyRadialBombWeaponController : BaseWeaponController
     {
         if (_nextTimeToFire <= Time.timeSinceLevelLoad)
         {
-            //Play shot audio
+            AudioManager.Instance.PlayEnemyProjectileSound();
 
             _nextTimeToFire = Time.timeSinceLevelLoad + _shotCooldown;
 

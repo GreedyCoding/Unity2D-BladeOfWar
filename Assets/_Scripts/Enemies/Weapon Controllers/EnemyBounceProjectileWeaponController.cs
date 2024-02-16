@@ -10,7 +10,7 @@ public class EnemyBounceProjectileWeaponController : BaseWeaponController
     {
         if (_nextTimeToFire <= _timer.CurrentTime && this.transform.position.y < 4f)
         {
-            //Play shot audio
+            AudioManager.Instance.PlayEnemyProjectileSound();
 
             _nextTimeToFire = _timer.CurrentTime + 1f / fireRate;
 

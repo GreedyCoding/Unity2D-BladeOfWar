@@ -16,6 +16,8 @@ public class EnemyLaserWeaponController : BaseWeaponController
     {
         if (_nextTimeToFire <= _timer.CurrentTime && this.transform.position.y < 4f)
         {
+            AudioManager.Instance.PlayEnemyLaserSound();
+
             _nextTimeToFire = _timer.CurrentTime + _cooldown;
 
             _laserChargeupRenderer.enabled = true;
