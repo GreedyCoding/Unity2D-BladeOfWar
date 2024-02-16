@@ -9,7 +9,7 @@ public class NormalEnemyMovementController : BaseMovementController
     }
     public override void ApplyForceToRigidbody(Rigidbody2D rigidbody2D, float maxMoveSpeed, bool reverseMovement)
     {
-        Vector2 horizontalMovement = new Vector2(Mathf.Sin(Time.timeSinceLevelLoad) * RandomSinusOffset, 0);
+        Vector2 horizontalMovement = new Vector2((Mathf.Sin(Time.timeSinceLevelLoad) * RandomSinusOffset) * 2, 0);
         if (reverseMovement)
         {
             horizontalMovement *= -1;
