@@ -103,6 +103,18 @@ public class PlayerController : MonoBehaviour, IHealable
         HandlePauseGameInput();
     }
 
+    //Events
+    private void RaisePlayerStatsChangedEvents()
+    {
+        //Fire to initialize the object pool
+        _gunChangeEventChannelSO.RaiseEvent(CurrentGunType);
+
+        //Fire to update UI
+        _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
+        _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
+        _moneyChangeEventChannelSO.RaiseEvent(Money);
+    }
+
     //Stats
     private void SetStats()
     {
@@ -112,7 +124,7 @@ public class PlayerController : MonoBehaviour, IHealable
         MaxBullets = _shipStats.maxBullets;
         FireRate = _shipStats.fireRate;
         ProjectileSpeed = _shipStats.projectileSpeed;
-        ReloadRate = _shipStats.reloadRate;        
+        ReloadRate = _shipStats.reloadRate;
 
         //Get and Apply Upgrades
         MovespeedUpgradeLevel = PlayerPrefs.GetInt(Constants.MOVESPEED_UPGRADE_LEVEL);
@@ -126,13 +138,24 @@ public class PlayerController : MonoBehaviour, IHealable
         CurrentMoveSpeed = MaxMoveSpeed;
         Money = PlayerPrefs.GetInt(Constants.MONEY_AMOUNT);
 
-        //Fire event to initialize the object pool
-        _gunChangeEventChannelSO.RaiseEvent(CurrentGunType);
+        RaisePlayerStatsChangedEvents();
+    }
 
-        //Fire Event to update UI
-        _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
-        _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
-        _moneyChangeEventChannelSO.RaiseEvent(Money);
+    public void SetShopUpgrades()
+    {
+        int lastMovespeedUpgradeLevel = MovespeedUpgradeLevel;
+        int lastBulletUpgradeLevel = BulletUpgradeLevel;
+        int lastGunUpgradeLevel = GunUpgradeLevel;
+
+        int currentMoveSpeedUpgradeLevel = PlayerPrefs.GetInt(Constants.MOVESPEED_UPGRADE_LEVEL);
+        int currentBulletUpgradLevel = PlayerPrefs.GetInt(Constants.BULLET_UPGRADE_LEVEL);
+        int currentGunUpgradeLevel = PlayerPrefs.GetInt(Constants.GUN_UPGRADE_LEVEL);
+
+        ApplyUpgrades(currentMoveSpeedUpgradeLevel - lastMovespeedUpgradeLevel, 
+                      currentBulletUpgradLevel - lastBulletUpgradeLevel,
+                      currentGunUpgradeLevel - lastGunUpgradeLevel);
+
+        RaisePlayerStatsChangedEvents();
     }
 
     public void SetGunType(GunTypeEnum gunType, bool initialSet, bool sendMessage)

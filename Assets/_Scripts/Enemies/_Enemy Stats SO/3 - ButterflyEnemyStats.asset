@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467a53bccc446364ca250d7f4754a0c1, type: 3}
   m_Name: 3 - ButterflyEnemyStats
   m_EditorClassIdentifier: 
-  hitPoints: 300
+  hitPoints: 150
   moveSpeed: 2
   fireRate: 1
   projectileSpeed: 12
