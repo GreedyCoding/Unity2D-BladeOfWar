@@ -2190,7 +2190,7 @@ MonoBehaviour:
   _shieldSpriteRenderer: {fileID: 1880036002}
   _audioSource: {fileID: 689630146}
   _playerShotSound: {fileID: 8300000, guid: 7f2b5e8c0d014ce40a71df5466da2e11, type: 3}
-  _pauseMenu: {fileID: 225770358}
+  _gameUserInterfaceController: {fileID: 1406372897}
   _bulletChangeVoidEventChannelSO: {fileID: 11400000, guid: fad320bc91582464984a7c0b57c18f66, type: 2}
   _gunChangeEventChannelSO: {fileID: 11400000, guid: d85fcc6d4ecf15b44b51b275d586f3f3, type: 2}
   _healthChangeEventChannelSO: {fileID: 11400000, guid: ed1a424e1753e574989602099316c8b9, type: 2}
@@ -3271,7 +3271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad30fc90e2ab354b9080e6a14b18e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeInspector: 0
+  _playerController: {fileID: 689630142}
 --- !u!1 &1024937853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3370,10 +3370,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.19607843}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4322,7 +4322,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.039215688}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 0}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.039215688}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0
@@ -4544,6 +4544,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1335120598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8878328716872007017, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+  m_PrefabInstance: {fileID: 1513782123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1344083933
 GameObject:
   m_ObjectHideFlags: 0
@@ -4948,6 +4953,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shopMenu: {fileID: 1989971786}
   _pauseMenu: {fileID: 225770358}
+  _pauseMenuFirstSelected: {fileID: 1309770733}
+  _shopMenuFirstSelected: {fileID: 1335120598}
+  _playerController: {fileID: 689630142}
   _bossDeathEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
 --- !u!1 &1406634152
 GameObject:
@@ -5552,13 +5560,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1962763179}
     m_Modifications:
+    - target: {fileID: 88765545993063427, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     - target: {fileID: 146264415282750275, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 530
+      value: 1449
       objectReference: {fileID: 0}
     - target: {fileID: 146264415282750275, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -250
+      value: 588.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984280889824383353, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.39215687
       objectReference: {fileID: 0}
     - target: {fileID: 2274648369717690550, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_Name
@@ -5579,6 +5595,26 @@ PrefabInstance:
     - target: {fileID: 2921780168917489416, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_LocalPosition.y
       value: -770
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544129216335210217, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.039215688
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5145933326611397300, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.a
@@ -5756,13 +5792,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6497664798669948912, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     - target: {fileID: 6552224700133965563, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 350
+      value: 1269.0001
       objectReference: {fileID: 0}
     - target: {fileID: 6552224700133965563, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -250
+      value: 588.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659913322208350517, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.a
+      value: 0.39215687
       objectReference: {fileID: 0}
     - target: {fileID: 7237577298829998790, guid: 85513d5670e491445bc6276ebc5a8f22, type: 3}
       propertyPath: m_Color.a
@@ -6077,7 +6121,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.039215688}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 0}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.039215688}
     m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0

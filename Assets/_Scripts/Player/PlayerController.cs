@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour, IHealable
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip _playerShotSound;
 
-    [Header("Audio")]
-    [SerializeField] GameObject _pauseMenu;
+    [Header("UI")]
+    [SerializeField] GameUserInterfaceController _gameUserInterfaceController;  
 
     [Header("Void Event Channel SO")]
     [SerializeField] IntToupleEventChannelSO _bulletChangeVoidEventChannelSO;
@@ -103,7 +103,8 @@ public class PlayerController : MonoBehaviour, IHealable
         HandlePauseGameInput();
     }
 
-    //Events
+    #region Events
+
     private void RaisePlayerStatsChangedEvents()
     {
         //Fire to initialize the object pool
@@ -115,7 +116,10 @@ public class PlayerController : MonoBehaviour, IHealable
         _moneyChangeEventChannelSO.RaiseEvent(Money);
     }
 
-    //Stats
+    #endregion
+
+    #region Stats
+
     private void SetStats()
     {
         //Set Standard Stats
@@ -227,7 +231,9 @@ public class PlayerController : MonoBehaviour, IHealable
         }
     }
 
-    //Handlers
+    #endregion
+
+    #region Handlers
     private void HandleMovement()
     {
         float horizontalInput = _playerInputHandler.MovementInput.x;
@@ -273,28 +279,28 @@ public class PlayerController : MonoBehaviour, IHealable
             switch (CurrentGunType)
             {
                 case GunTypeEnum.singleShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.doubleShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.tripleShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.quadShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.superTripleShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.fireShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.plasmaShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 case GunTypeEnum.laserShot:
-                    InstantiatePlayerProjectile();
+                    HandlePlayerProjectileInstanciation();
                     break;
                 default:
                     break;
@@ -306,13 +312,11 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         if (_playerInputHandler.EscapeInput)
         {
-            _pauseMenu.SetActive(true);
-            GameplayTimer.Instance.StopTimer();
-            GameplayTimer.Instance.FreezeGameTime();
+            _gameUserInterfaceController.OpenPauseMenu();
         }
     }
 
-    private void InstantiatePlayerProjectile()
+    private void HandlePlayerProjectileInstanciation()
     {
         GameObject playerProjectile = ObjectPoolPlayerProjectiles.SharedInstance.GetPooledObject();
         playerProjectile.transform.position = this.transform.position;
@@ -369,7 +373,20 @@ public class PlayerController : MonoBehaviour, IHealable
 
     }
 
-    //Interface Implementation
+    internal void FreezePlayer()
+    {
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    internal void UnfreezePlayer()
+    {
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    #endregion
+
+    #region Interface Implementation
+
     public void TakeDamage(int damageAmount)
     {
         StartCoroutine(DamageFlash());
@@ -411,7 +428,9 @@ public class PlayerController : MonoBehaviour, IHealable
         ProvideHealing((int)healAmount);
     }
 
-    //Flash the ship white when taking damage
+    #endregion
+
+    #region Rendering
     private IEnumerator DamageFlash()
     {
         _shipSpriteRenderer.material = _damageFlashMaterial;
@@ -419,7 +438,9 @@ public class PlayerController : MonoBehaviour, IHealable
         _shipSpriteRenderer.material = _defaultShipMaterial;
     }
 
-    //Functions to increase stats from Drops or ShopUpgrades
+    #endregion
+
+    #region Buffs and Upgrades
     public void IncreaseSpeed(bool sendMessage) 
     {
         MaxMoveSpeed += 0.5f;
@@ -473,7 +494,9 @@ public class PlayerController : MonoBehaviour, IHealable
         _shieldSpriteRenderer.enabled = false;
     }
 
-    //Functions to debuff stats from MalusDrops
+    #endregion
+
+    #region Debuffs
     public void DebuffMovementSpeed()
     {
         CurrentMoveSpeed = MaxMoveSpeed * 0.75f;
@@ -510,7 +533,9 @@ public class PlayerController : MonoBehaviour, IHealable
         _mirrorControls = false;
     }
 
-    //Game Over
+    #endregion
+
+    #region Game Over
     private IEnumerator GameOver()
     {
         MessagePopupController.Instance.PlayMessage("Game Over");
@@ -526,4 +551,6 @@ public class PlayerController : MonoBehaviour, IHealable
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(Constants.MAIN_MENU_SCENE);
     }
+
+    #endregion
 }

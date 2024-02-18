@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MainMenuController : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] GameObject mainMenuUI;
-    [SerializeField] GameObject shopMenuUI;
+    [SerializeField] GameObject _mainMenuUI;
+    [SerializeField] GameObject _shopMenuUI;
+
+    [Header("First Selected Option")]
+    [SerializeField] GameObject _mainMenuFirstSelected;
+    [SerializeField] GameObject _shopMenuFirstSelected;
+
+    public void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirstSelected);
+    }
 
     public void OnPlayButtonClick()
     {
@@ -18,8 +27,10 @@ public class MainMenuController : MonoBehaviour
 
     public void OnShopButtonClick()
     {
-        mainMenuUI.SetActive(false);
-        shopMenuUI.SetActive(true);
+        _mainMenuUI.SetActive(false);
+        _shopMenuUI.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_shopMenuFirstSelected);
     }
 
     public void OnQuitButtonClick()
@@ -33,7 +44,9 @@ public class MainMenuController : MonoBehaviour
 
     public void OnBackButtonClick()
     {
-        shopMenuUI.SetActive(false);
-        mainMenuUI.SetActive(true);
+        _shopMenuUI.SetActive(false);
+        _mainMenuUI.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirstSelected);
     }
 }

@@ -4,10 +4,10 @@ public class GameplayTimer : MonoBehaviour
 {
     public static GameplayTimer Instance;
 
+    [SerializeField] PlayerController _playerController;
+
     public float CurrentTime { get; private set; }
     public bool IsPaused { get; private set; }
-
-    public float TimeInspector;
 
     private void Awake()
     {
@@ -26,12 +26,12 @@ public class GameplayTimer : MonoBehaviour
         if (IsPaused) return;
 
         CurrentTime += Time.deltaTime;
-        TimeInspector = CurrentTime;
     }
 
     public void StartTimer()
     {
         IsPaused = false;
+        _playerController.UnfreezePlayer();
     }
 
     public void StopTimer()
