@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -26,9 +27,9 @@ public class EnemySpawner : MonoBehaviour
     private float _phaseOneTime = 40f;
     private float _phaseTwoTime = 80f;
     private float _phaseThreeTime = 120f;
-
+        
     private float _spawnCooldownReduction = 0.1f;
-    private float _spawnCooldownDecreaseInterval = 30f;
+    private float _spawnCooldownDecreaseInterval = 10f;
 
     private int _stage = 1;
 
@@ -60,6 +61,12 @@ public class EnemySpawner : MonoBehaviour
         _nextTimeToSpawn = 0.5f;
         _spawnCooldown = _initialSpawnCooldown;
 
+        if(_stage == 2)
+        {
+            MessagePopupController.Instance.PlayMessage("Thanks for Playing", 10);
+            return;
+        }
+
         _stage++;
         _stageChangeIntEventChannel.RaiseEvent(_stage);
     }
@@ -76,7 +83,6 @@ public class EnemySpawner : MonoBehaviour
             _nextTimeToSpawn = _timer.CurrentTime + _spawnCooldown;
 
             EvaluateAndSpawnEnemy();
-            
         }
     }
 

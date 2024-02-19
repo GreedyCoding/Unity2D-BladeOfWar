@@ -10,7 +10,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioMixer _mainAudioMixer;
 
     [Header("Gameplay Music")]
-    [SerializeField] AudioSource _musicSource;
+    [SerializeField] AudioSource _gameMusicSource;
+    [SerializeField] AudioClip _gameMusicClipOne;
+    [SerializeField] AudioClip _gameMusicClipTwo;
+    [SerializeField] AudioClip _gameMusicClipThree;
 
     [Header("Enemy Death SFX")]
     [SerializeField] List<AudioSource> _enemyExplosionSources;
@@ -22,9 +25,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip _enemyRocketClip;
     [SerializeField] AudioClip _enemyLaserClip;
 
-
     [Header("Events")]
     [SerializeField] VoidEventChannelSO _deathSoundEventChannel;
+
+    private Queue<AudioClip> _gameMusicClipQueue = new Queue<AudioClip>();
 
     private void Awake()
     {
@@ -47,6 +51,24 @@ public class AudioManager : MonoBehaviour
     {
         _deathSoundEventChannel.OnEventRaised -= PlayRandomShortExplosion;
     }
+
+    
+    private void Start()
+    {
+        _gameMusicClipQueue.Enqueue(_gameMusicClipOne);
+        _gameMusicClipQueue.Enqueue(_gameMusicClipTwo);
+        _gameMusicClipQueue.Enqueue(_gameMusicClipThree);
+    }
+
+    private void Update()
+    {
+        if (_gameMusicSource.isPlaying == false && _gameMusicClipQueue.Count > 0)
+        {
+            _gameMusicSource.clip = _gameMusicClipQueue.Dequeue();
+            _gameMusicSource.Play();
+        }
+    }
+    
 
     private void PlayClipFromListOfSources(List<AudioSource> audioSources, AudioClip audioClip, bool randomizePitch)
     {

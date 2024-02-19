@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour, IHealable
         //Fire to update UI
         _healthChangeEventChannelSO.RaiseEvent(CurrentHitPoints);
         _bulletChangeVoidEventChannelSO.RaiseEvent(CurrentBullets, MaxBullets);
-        _moneyChangeEventChannelSO.RaiseEvent(Money);
+        _moneyChangeEventChannelSO.RaiseEvent(PlayerPrefs.GetInt(Constants.MONEY_AMOUNT));
     }
 
     #endregion

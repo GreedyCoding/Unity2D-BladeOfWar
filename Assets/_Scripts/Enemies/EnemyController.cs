@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] SpriteRenderer _enemySpriteRenderer;
     [SerializeField] Material _damageFlashMaterial;
     [SerializeField] Material _defaultShipMaterial;
+    [SerializeField] GameObject _explosionParticleSystem;
     private float _damageFlashDuration = 0.1f;
 
     //Events
@@ -147,6 +148,7 @@ public class EnemyController : MonoBehaviour, IDamageable
     private void Die()
     {
         AudioManager.Instance.PlayRandomShortExplosion();
+        Instantiate(_explosionParticleSystem, this.transform.position, Quaternion.identity);
 
         if(CurrentEnemyType == EnemyTypeEnum.butterflyBoss || CurrentEnemyType == EnemyTypeEnum.baboBoss) 
         {

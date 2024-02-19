@@ -16,6 +16,6 @@ MonoBehaviour:
   moveSpeed: 5
   maxBullets: 3
   fireRate: 7
-  reloadRate: 1
+  reloadRate: 1.7
   projectileSpeed: 10
   gunType: 0

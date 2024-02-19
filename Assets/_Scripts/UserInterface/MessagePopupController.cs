@@ -28,26 +28,24 @@ public class MessagePopupController : MonoBehaviour
         _messageTextGO.SetActive(false);
     }
 
-    public void PlayMessage(string input)
+    public void PlayMessage(string input, int cycles = 2)
     {
         string message = "> ----------- " + input + " ----------- <";
         _messageText.text = message;
         _messageTextGO.SetActive(true);
-        StartCoroutine(ShowMessage());
+        StartCoroutine(ShowMessage(cycles));
     }
 
-    private IEnumerator ShowMessage()
+    private IEnumerator ShowMessage(int cycles)
     {
         string message = _messageText.text;
-        yield return new WaitForSeconds(0.4f);
-        _messageText.text = " ";
-        yield return new WaitForSeconds(0.4f);
-        _messageText.text = message;
-        yield return new WaitForSeconds(0.4f);
-        _messageText.text = " ";
-        yield return new WaitForSeconds(0.4f);
-        _messageText.text = message;
-        yield return new WaitForSeconds(0.4f);
+        for (int i = 0; i < cycles; i++)
+        {
+            _messageText.text = " ";
+            yield return new WaitForSeconds(0.4f);
+            _messageText.text = message;
+            yield return new WaitForSeconds(0.4f);
+        }
         _messageTextGO.SetActive(false);
     }
 }

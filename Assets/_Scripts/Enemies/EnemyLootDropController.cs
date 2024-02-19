@@ -9,9 +9,9 @@ public class EnemyLootDropController : MonoBehaviour
     [SerializeField] GameObject _malusDropPrefab;
     [SerializeField] GameObject _coinDropPrefab;
 
-    private float _bonusDropChance = 0.33f;
-    private float _coinDropChance = 0.33f;
-    private float _malusDropChance = 0.33f;
+    private float _bonusDropChance = 0.10f;
+    private float _coinDropChance = 0.15f;
+    private float _malusDropChance = 0.05f;
 
     private float _bonusDropRange;
     private float _coinDropRange;

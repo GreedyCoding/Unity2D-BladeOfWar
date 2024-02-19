@@ -54,6 +54,7 @@ MonoBehaviour:
   _enemySpriteRenderer: {fileID: 5030429205289018013}
   _damageFlashMaterial: {fileID: 2100000, guid: b246c4190f4e46ec9352fe15a7b09ce0, type: 2}
   _defaultShipMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  _explosionParticleSystem: {fileID: 901986103259790204, guid: 9b62e3b1ae95bec409945bd9295a151f, type: 3}
   _deathSoundVoidEventChannel: {fileID: 11400000, guid: 2ed2695eae326764999d15d5d86c2d34, type: 2}
   _bossDeathVoidEventChannel: {fileID: 11400000, guid: 08938b20425ee6d49a76a8c9a094aaf6, type: 2}
 --- !u!114 &8976934864115075054

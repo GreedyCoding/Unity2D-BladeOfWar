@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467a53bccc446364ca250d7f4754a0c1, type: 3}
   m_Name: 4 - SmallShipEnemyStats
   m_EditorClassIdentifier: 
-  hitPoints: 20
+  hitPoints: 30
   moveSpeed: 4
   fireRate: 0.2
   projectileSpeed: 5
