@@ -23,9 +23,9 @@ public class EnemySpawner : MonoBehaviour
     private float _initialSpawnCooldown = 3f;
     private float _spawnCooldown;
 
-    private float _phaseOneTime = 20f;
-    private float _phaseTwoTime = 40f;
-    private float _phaseThreeTime = 60f;
+    private float _phaseOneTime = 40f;
+    private float _phaseTwoTime = 80f;
+    private float _phaseThreeTime = 120f;
 
     private float _spawnCooldownReduction = 0.1f;
     private float _spawnCooldownDecreaseInterval = 30f;

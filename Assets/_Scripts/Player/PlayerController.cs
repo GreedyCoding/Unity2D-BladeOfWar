@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour, IHealable
     public int MovespeedUpgradeLevel { get; private set; }
     public int BulletUpgradeLevel { get; private set; }
     public int GunUpgradeLevel { get; private set; }
- 
+    
     //Timers
     private float _nextTimeToReload = 0f;
     private float _nextTimeToFire = 0f;
@@ -540,7 +540,7 @@ public class PlayerController : MonoBehaviour, IHealable
     {
         MessagePopupController.Instance.PlayMessage("Game Over");
 
-        MaxMoveSpeed = 0f;
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
 
         _deathExplosionOne.SetActive(true);
         yield return new WaitForSeconds(0.2f);
