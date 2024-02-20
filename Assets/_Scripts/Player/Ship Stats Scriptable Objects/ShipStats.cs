@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New ShipStats", menuName = "ScriptableObjects/ShipStats", order = 1)]
 public class ShipStats : ScriptableObject
 {
-    public int hitPoints;
+    public int HitPoints;
 
-    public float moveSpeed;
+    public float MoveSpeed;
 
-    public int maxBullets;
-    public float fireRate;
-    public float reloadRate;
-    public float projectileSpeed;
+    public int MaxBullets;
+    public float FireRate;
+    public float ReloadRate;
+    public float ProjectileSpeed;
 
-    public GunTypeEnum gunType;
+    public GunTypeEnum GunType;
 }

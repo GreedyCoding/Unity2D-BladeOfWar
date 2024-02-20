@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBounceProjectileController : MonoBehaviour
 {
-    Rigidbody2D _rigidbody;
+    private Rigidbody2D _rigidbody;
 
     public float ProjectileDamage { get; private set; }
     public float ProjectileSpeed { get; private set; }

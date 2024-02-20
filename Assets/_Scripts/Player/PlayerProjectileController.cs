@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerProjectileController : MonoBehaviour
 {
-    PlayerController shipController;
-    Rigidbody2D rb;
+    PlayerController _playerController;
+    Rigidbody2D _rigidbody;
 
     public float ProjectileDamage { get; private set; }
 
@@ -17,13 +17,13 @@ public class PlayerProjectileController : MonoBehaviour
 
     private void Update()
     {
-        rb.velocity = transform.up * shipController.ProjectileSpeed;
+        _rigidbody.velocity = transform.up * _playerController.ProjectileSpeed;
     }
 
     private void GetComponents()
     {
-        shipController = GameObject.Find(Constants.PLAYER_TAG).GetComponent<PlayerController>();
-        rb = GetComponent<Rigidbody2D>();
+        _playerController = GameObject.Find(Constants.PLAYER_TAG).GetComponent<PlayerController>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -41,7 +41,7 @@ public class PlayerProjectileController : MonoBehaviour
 
     private void SetProjectileDamage()
     {
-        switch (shipController.CurrentGunType)
+        switch (_playerController.CurrentGunType)
         {
             case GunTypeEnum.singleShot:
                 ProjectileDamage = 5f;

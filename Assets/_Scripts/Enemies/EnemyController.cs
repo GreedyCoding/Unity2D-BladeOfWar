@@ -65,11 +65,11 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void SetStats()
     {
-        MaxHitPoints = _enemyStats.hitPoints;
-        MoveSpeed = _enemyStats.moveSpeed;
-        FireRate = _enemyStats.fireRate;
-        ProjectileSpeed = _enemyStats.projectileSpeed;
-        CurrentEnemyType = _enemyStats.enemyType;
+        MaxHitPoints = _enemyStats.HitPoints;
+        MoveSpeed = _enemyStats.MoveSpeed;
+        FireRate = _enemyStats.FireRate;
+        ProjectileSpeed = _enemyStats.ProjectileSpeed;
+        CurrentEnemyType = _enemyStats.EnemyType;
 
         _currentHitPoints = MaxHitPoints;
 

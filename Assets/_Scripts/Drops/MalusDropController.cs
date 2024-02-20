@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class MalusDropController : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite singleShotSprite;
-    [SerializeField] Sprite engineMalfunctionSprite;
-    [SerializeField] Sprite mirrorControlsSprite;
+    [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] Sprite _singleShotSprite;
+    [SerializeField] Sprite _engineMalfunctionSprite;
+    [SerializeField] Sprite _mirrorControlsSprite;
 
-    private MalusDropEnum malusDropEnum;
+    private MalusDropEnum _malusDropEnum;
 
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     private void Start()
     {
@@ -24,18 +24,18 @@ public class MalusDropController : MonoBehaviour
     {
         if (other.CompareTag(Constants.PLAYER_TAG))
         {
-            playerController = other.GetComponent<PlayerController>();
+            _playerController = other.GetComponent<PlayerController>();
 
-            switch (malusDropEnum)
+            switch (_malusDropEnum)
             {
                 case MalusDropEnum.singleShot:
-                    playerController.SetGunType(GunTypeEnum.singleShot, false, true);
+                    _playerController.SetGunType(GunTypeEnum.singleShot, false, true);
                     break;
                 case MalusDropEnum.engineMalfunction:
-                    playerController.DebuffMovementSpeed();
+                    _playerController.DebuffMovementSpeed();
                     break;
                 case MalusDropEnum.mirrorControls:
-                    playerController.DebuffMirrorControls();
+                    _playerController.DebuffMirrorControls();
                     break;
             }
 
@@ -49,30 +49,30 @@ public class MalusDropController : MonoBehaviour
 
         if (randomNumber <= 1f)
         {
-            malusDropEnum = MalusDropEnum.singleShot;
+            _malusDropEnum = MalusDropEnum.singleShot;
         }
         else if(randomNumber <= 2f)
         {
-            malusDropEnum = MalusDropEnum.engineMalfunction;
+            _malusDropEnum = MalusDropEnum.engineMalfunction;
         }
         else if(randomNumber <= 3f)
         {
-            malusDropEnum = MalusDropEnum.mirrorControls;
+            _malusDropEnum = MalusDropEnum.mirrorControls;
         }
     }
 
     private void SetMalusDropSprite()
     {
-        switch (malusDropEnum)
+        switch (_malusDropEnum)
         {
             case MalusDropEnum.singleShot:
-                spriteRenderer.sprite = singleShotSprite;
+                _spriteRenderer.sprite = _singleShotSprite;
                 break;
             case MalusDropEnum.engineMalfunction:
-                spriteRenderer.sprite = engineMalfunctionSprite;
+                _spriteRenderer.sprite = _engineMalfunctionSprite;
                 break;
             case MalusDropEnum.mirrorControls:
-                spriteRenderer.sprite = mirrorControlsSprite;
+                _spriteRenderer.sprite = _mirrorControlsSprite;
                 break;
         }
     }

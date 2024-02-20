@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CoinDropController : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite greyCoinSprite;
-    [SerializeField] Sprite greenCoinSprite;
-    [SerializeField] Sprite blueCoinSprite;
-    [SerializeField] Sprite goldCoinSprite;
+    [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] Sprite _greyCoinSprite;
+    [SerializeField] Sprite _greenCoinSprite;
+    [SerializeField] Sprite _blueCoinSprite;
+    [SerializeField] Sprite _goldCoinSprite;
 
-    private CoinDropEnum coinDropEnum;
+    private CoinDropEnum _coinDropEnum;
 
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     private void Awake()
     {
@@ -24,22 +24,22 @@ public class CoinDropController : MonoBehaviour
     {
         if (other.CompareTag(Constants.PLAYER_TAG))
         {
-            playerController = other.GetComponent<PlayerController>();
+            _playerController = other.GetComponent<PlayerController>();
 
-            switch (coinDropEnum)
+            switch (_coinDropEnum)
             {
 
                 case CoinDropEnum.greyCoin:
-                    playerController.AddMoney(10);
+                    _playerController.AddMoney(10);
                     break;
                 case CoinDropEnum.greenCoin:
-                    playerController.AddMoney(25);
+                    _playerController.AddMoney(25);
                     break;
                 case CoinDropEnum.blueCoin:
-                    playerController.AddMoney(50);
+                    _playerController.AddMoney(50);
                     break;
                 case CoinDropEnum.goldCoin:
-                    playerController.AddMoney(100);
+                    _playerController.AddMoney(100);
                     break;
 
             }
@@ -52,37 +52,37 @@ public class CoinDropController : MonoBehaviour
         int random = Random.Range(0, 101);
         if(random <= 5)
         {
-            coinDropEnum = CoinDropEnum.goldCoin;
+            _coinDropEnum = CoinDropEnum.goldCoin;
         }
         else if (random <= 15)
         {
-            coinDropEnum = CoinDropEnum.blueCoin;
+            _coinDropEnum = CoinDropEnum.blueCoin;
         }
         else if (random <= 30)
         {
-            coinDropEnum = CoinDropEnum.greenCoin;
+            _coinDropEnum = CoinDropEnum.greenCoin;
         }
         else if (random <= 100)
         {
-            coinDropEnum = CoinDropEnum.greyCoin;
+            _coinDropEnum = CoinDropEnum.greyCoin;
         }
     }
 
     private void SetBonusDropSprite()
     {
-        switch (coinDropEnum)
+        switch (_coinDropEnum)
         {
             case CoinDropEnum.greyCoin:
-                spriteRenderer.sprite = greyCoinSprite;
+                _spriteRenderer.sprite = _greyCoinSprite;
                 break;
             case CoinDropEnum.greenCoin:
-                spriteRenderer.sprite = greenCoinSprite;
+                _spriteRenderer.sprite = _greenCoinSprite;
                 break;
             case CoinDropEnum.blueCoin:
-                spriteRenderer.sprite = blueCoinSprite;
+                _spriteRenderer.sprite = _blueCoinSprite;
                 break;
             case CoinDropEnum.goldCoin:
-                spriteRenderer.sprite = goldCoinSprite;
+                _spriteRenderer.sprite = _goldCoinSprite;
                 break;
         }
     }

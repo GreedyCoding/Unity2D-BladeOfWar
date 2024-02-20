@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour, IHealable
 
     private void Start()
     {
-        SetGunType(_shipStats.gunType, true, false);
+        SetGunType(_shipStats.GunType, true, false);
         SetStats();
 
         _shipSpriteRenderer.material = _defaultShipMaterial;
@@ -123,12 +123,12 @@ public class PlayerController : MonoBehaviour, IHealable
     private void SetStats()
     {
         //Set Standard Stats
-        MaxHitPoints = _shipStats.hitPoints;
-        MaxMoveSpeed = _shipStats.moveSpeed;
-        MaxBullets = _shipStats.maxBullets;
-        FireRate = _shipStats.fireRate;
-        ProjectileSpeed = _shipStats.projectileSpeed;
-        ReloadRate = _shipStats.reloadRate;
+        MaxHitPoints = _shipStats.HitPoints;
+        MaxMoveSpeed = _shipStats.MoveSpeed;
+        MaxBullets = _shipStats.MaxBullets;
+        FireRate = _shipStats.FireRate;
+        ProjectileSpeed = _shipStats.ProjectileSpeed;
+        ReloadRate = _shipStats.ReloadRate;
 
         //Get and Apply Upgrades
         MovespeedUpgradeLevel = PlayerPrefs.GetInt(Constants.MOVESPEED_UPGRADE_LEVEL);

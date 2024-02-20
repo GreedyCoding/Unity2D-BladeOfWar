@@ -5,21 +5,21 @@ using UnityEngine;
 public class BonusDropController : MonoBehaviour
 {
 
-    [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite extraSpeedSprite;
-    [SerializeField] Sprite extraBulletSprite;
-    [SerializeField] Sprite extraLifeSprite;
-    [SerializeField] Sprite greyCoinSprite;
-    [SerializeField] Sprite greenCoinSprite;
-    [SerializeField] Sprite blueCoinSprite;
-    [SerializeField] Sprite goldCoinSprite;
-    [SerializeField] Sprite doubleShotSprite;
-    [SerializeField] Sprite tripleShotSprite;
-    [SerializeField] Sprite quadShotSprite;
+    [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] Sprite _extraSpeedSprite;
+    [SerializeField] Sprite _extraBulletSprite;
+    [SerializeField] Sprite _extraLifeSprite;
+    [SerializeField] Sprite _greyCoinSprite;
+    [SerializeField] Sprite _greenCoinSprite;
+    [SerializeField] Sprite _blueCoinSprite;
+    [SerializeField] Sprite _goldCoinSprite;
+    [SerializeField] Sprite _doubleShotSprite;
+    [SerializeField] Sprite _tripleShotSprite;
+    [SerializeField] Sprite _quadShotSprite;
 
-    private BonusDropEnum bonusDropEnum;
+    private BonusDropEnum _bonusDropEnum;
 
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     private void Start()
     {
@@ -31,27 +31,27 @@ public class BonusDropController : MonoBehaviour
     {
         if (other.CompareTag(Constants.PLAYER_TAG))
         {
-            playerController = other.GetComponent<PlayerController>();
+            _playerController = other.GetComponent<PlayerController>();
 
-            switch(bonusDropEnum)
+            switch(_bonusDropEnum)
             {
                 case BonusDropEnum.extraSpeed:
-                    playerController.IncreaseSpeed(true);
+                    _playerController.IncreaseSpeed(true);
                     break;
                 case BonusDropEnum.extraBullet:
-                    playerController.IncreaseBullet(true);
+                    _playerController.IncreaseBullet(true);
                     break;
                 case BonusDropEnum.healHitPoints:
-                    playerController.ProvideHealing(1);
+                    _playerController.ProvideHealing(1);
                     break;
                 case BonusDropEnum.doubleShot:
-                    playerController.SetGunType(GunTypeEnum.doubleShot, false, true);
+                    _playerController.SetGunType(GunTypeEnum.doubleShot, false, true);
                     break;
                 case BonusDropEnum.tripleShot:
-                    playerController.SetGunType(GunTypeEnum.tripleShot, false, true);
+                    _playerController.SetGunType(GunTypeEnum.tripleShot, false, true);
                     break;
                 case BonusDropEnum.quadShot:
-                    playerController.SetGunType(GunTypeEnum.quadShot, false, true);
+                    _playerController.SetGunType(GunTypeEnum.quadShot, false, true);
                     break;
             }
             Destroy(gameObject);
@@ -63,57 +63,57 @@ public class BonusDropController : MonoBehaviour
         int random = Random.Range(0, 101);
         if (random <= 20)
         {
-            bonusDropEnum = BonusDropEnum.extraSpeed;
+            _bonusDropEnum = BonusDropEnum.extraSpeed;
             return;
         }
         else if (random <= 40)
         {
-            bonusDropEnum = BonusDropEnum.extraBullet;
+            _bonusDropEnum = BonusDropEnum.extraBullet;
             return;
         }
         else if (random <= 60)
         {
-            bonusDropEnum = BonusDropEnum.healHitPoints;
+            _bonusDropEnum = BonusDropEnum.healHitPoints;
             return;
         }
         else if (random <= 80)
         {
-            bonusDropEnum = BonusDropEnum.doubleShot;
+            _bonusDropEnum = BonusDropEnum.doubleShot;
             return;
         }
         else if (random <= 95)
         {
-            bonusDropEnum = BonusDropEnum.tripleShot;
+            _bonusDropEnum = BonusDropEnum.tripleShot;
             return;
         }
         else if (random <= 100)
         {
-            bonusDropEnum = BonusDropEnum.quadShot;
+            _bonusDropEnum = BonusDropEnum.quadShot;
             return;
         }
     }
 
     private void SetBonusDropSprite()
     {
-        switch (bonusDropEnum)
+        switch (_bonusDropEnum)
         {
             case BonusDropEnum.extraSpeed:
-                spriteRenderer.sprite = extraSpeedSprite;
+                _spriteRenderer.sprite = _extraSpeedSprite;
                 break;
             case BonusDropEnum.extraBullet:
-                spriteRenderer.sprite = extraBulletSprite;
+                _spriteRenderer.sprite = _extraBulletSprite;
                 break;
             case BonusDropEnum.healHitPoints:
-                spriteRenderer.sprite = extraLifeSprite;
+                _spriteRenderer.sprite = _extraLifeSprite;
                 break;
             case BonusDropEnum.doubleShot:
-                spriteRenderer.sprite = doubleShotSprite;
+                _spriteRenderer.sprite = _doubleShotSprite;
                 break;
             case BonusDropEnum.tripleShot:
-                spriteRenderer.sprite = tripleShotSprite;
+                _spriteRenderer.sprite = _tripleShotSprite;
                 break;
             case BonusDropEnum.quadShot:
-                spriteRenderer.sprite = quadShotSprite;
+                _spriteRenderer.sprite = _quadShotSprite;
                 break;
         }
     }

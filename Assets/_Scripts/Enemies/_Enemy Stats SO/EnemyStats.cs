@@ -5,13 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New EnemyStats", menuName = "ScriptableObjects/EnemyStats", order = 1)]
 public class EnemyStats : ScriptableObject
 {
-    public float hitPoints;
+    public float HitPoints;
 
-    public float moveSpeed;
+    public float MoveSpeed;
 
-    public float fireRate;
-    public float projectileSpeed;
+    public float FireRate;
+    public float ProjectileSpeed;
 
-    public EnemyTypeEnum enemyType;
+    public EnemyTypeEnum EnemyType;
 }
 

@@ -5,16 +5,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyRocketController : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] float moveSpeed = 3f;
-    [SerializeField] float rocketDuration = 6f;
+    [SerializeField] Rigidbody2D _rigidbody;
+    [SerializeField] float _moveSpeed = 3f;
+    [SerializeField] float _rocketDuration = 6f;
 
-    private GameObject player;
+    private GameObject _player;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag(Constants.PLAYER_TAG);
-        StartCoroutine(DestroyAfterTime(rocketDuration));
+        _player = GameObject.FindGameObjectWithTag(Constants.PLAYER_TAG);
+        StartCoroutine(DestroyAfterTime(_rocketDuration));
     }
 
     private void FixedUpdate()
@@ -34,9 +34,9 @@ public class EnemyRocketController : MonoBehaviour
 
     private void FlyInDirectionOfTarget()
     {
-        Quaternion rotationPointingToTarget = Quaternion.LookRotation(Vector3.forward, transform.position - player.transform.position);
+        Quaternion rotationPointingToTarget = Quaternion.LookRotation(Vector3.forward, transform.position - _player.transform.position);
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, rotationPointingToTarget, 0.05f);
-        rb.velocity = -(transform.up * moveSpeed);
+        _rigidbody.velocity = -(transform.up * _moveSpeed);
     }
 
     private IEnumerator DestroyAfterTime(float time)
